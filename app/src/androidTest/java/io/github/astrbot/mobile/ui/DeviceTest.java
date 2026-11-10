@@ -149,5 +149,23 @@ public class DeviceTest {
     } finally {
       image.recycle();
     }
+    // UTP uninstalls the app after testing; copy fixture previews before its external files
+    // disappear.
+    String command =
+        "mkdir -p /sdcard/Download/astrbot-ui-previews && cp '"
+            + new java.io.File(dir, name).getAbsolutePath()
+            + "' '/sdcard/Download/astrbot-ui-previews/"
+            + name
+            + "' && echo copied";
+    try (android.os.ParcelFileDescriptor output =
+            instrumentation.getUiAutomation().executeShellCommand(command);
+        java.io.InputStream input =
+            new android.os.ParcelFileDescriptor.AutoCloseInputStream(output)) {
+      String result =
+          new String(
+              io.github.astrbot.mobile.core.HttpTransport.readLimited(input, 4096),
+              java.nio.charset.StandardCharsets.UTF_8);
+      assertTrue("Failed to retain the test UI preview", result.contains("copied"));
+    }
   }
 }
