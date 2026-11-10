@@ -25,6 +25,8 @@ var UI = (function(){
     var sections=Core.invoke('status.sections',{data:d.data});
     return column(sections.map(function(s){
       var children=[text(s.title,18,'ink',{bold:true})];
+      var rank={'cpu_percent':0,'memory.process':1,'memory.system':2,'memory.process_share':3,'thread_count':4};
+      s.metrics.sort(function(x,y){var a=x.path.join('.'),b=y.path.join('.');return (rank[a]===undefined?100:rank[a])-(rank[b]===undefined?100:rank[b]);});
       s.metrics.forEach(function(m){
         var key=m.path.join('.'),leaf=m.path[m.path.length-1];
         var title=m.label||(d.names||{})[key]||(d.names||{})[leaf]||leaf.replace(/_/g,' ');
@@ -164,3 +166,19 @@ CoreModules['ui.appSettings']=function(a){var d=a.data;
     slot('应用更新','updates'),slot('关于与诊断','about',[UI.nav({title:'截图与录屏',detail:'允许，用于反馈与排查问题',icon:'◎',active:false}),UI.nav({title:'使用指南',detail:'连接、配置与插件说明',icon:'?',active:true,action:{kind:'openUrl',url:'https://z2bguoguo.github.io/AstrBotMobileUI/'}})])
   ]);
 };
+/* Shared UI defaults are also core data: style fixes never belong in the APK bridge. */
+(function(){
+  function prepare(node){
+    if(!node||typeof node!=='object')return node;
+    if(node.type==='button'&&!node.gravity)node.gravity='center';
+    if(node.type==='input'&&node.id!=='editor'){
+      if(!node.background)node.background='surface';
+      if(!node.padding)node.padding=[12,12,12,12];
+      if(node.radius===undefined)node.radius=18;
+      if(node.size===undefined)node.size=15;
+    }
+    (node.children||[]).forEach(prepare);return node;
+  }
+  Object.keys(CoreModules).forEach(function(name){if(name.indexOf('ui.')!==0)return;var original=CoreModules[name];CoreModules[name]=function(a){var result=original(a);return result&&result.type?prepare(result):result;};});
+  UI.prepare=prepare;
+}());
