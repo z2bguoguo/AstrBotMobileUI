@@ -87,7 +87,6 @@ public final class MainActivity extends Activity {
   TextView label(String s, int size, int color) {
     TextView t = new TextView(this);
     t.setText(Appearance.text(s));
-    t.setTooltipText(Appearance.text(s));
     t.setTextSize(size);
     t.setTextColor(Appearance.color(color));
     t.setPadding(0, dp(5), 0, dp(5));
@@ -207,6 +206,7 @@ public final class MainActivity extends Activity {
   void navRow(LinearLayout parent, String title, String detail, String icon, Runnable action) {
     LinearLayout row = new LinearLayout(this);
     row.setGravity(Gravity.CENTER_VERTICAL);
+    row.setDescendantFocusability(android.view.ViewGroup.FOCUS_BLOCK_DESCENDANTS);
     row.setPadding(dp(16), dp(15), dp(16), dp(15));
     row.setMinimumHeight(dp(70));
     if (!icon.isEmpty()) {
@@ -235,8 +235,38 @@ public final class MainActivity extends Activity {
             if (!busy) attempt(action);
             else toast("正在处理，请稍候");
           });
+      // Labels are decorative descendants. A child tooltip/long-click handler otherwise
+      // consumes ACTION_DOWN, leaving only the arrow/gaps able to activate the row.
+      passiveRowChildren(row);
+      row.setFocusable(true);
+      row.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+      row.setContentDescription(
+          Appearance.text(title) + (detail.isEmpty() ? "" : ", " + Appearance.text(detail)));
+      row.setTooltipText(Appearance.text(detail.isEmpty() ? title : detail));
+      row.setAccessibilityDelegate(
+          new View.AccessibilityDelegate() {
+            @Override
+            public void onInitializeAccessibilityNodeInfo(
+                View host, android.view.accessibility.AccessibilityNodeInfo info) {
+              super.onInitializeAccessibilityNodeInfo(host, info);
+              info.setClassName(Button.class.getName());
+            }
+          });
     }
     parent.addView(row, new LinearLayout.LayoutParams(-1, -2));
+  }
+
+  private static void passiveRowChildren(android.view.ViewGroup parent) {
+    for (int i = 0; i < parent.getChildCount(); i++) {
+      View child = parent.getChildAt(i);
+      child.setTooltipText(null);
+      child.setClickable(false);
+      child.setLongClickable(false);
+      child.setFocusable(false);
+      child.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+      if (child instanceof android.view.ViewGroup)
+        passiveRowChildren((android.view.ViewGroup) child);
+    }
   }
 
   void textAction(LinearLayout parent, String title, Runnable action) {

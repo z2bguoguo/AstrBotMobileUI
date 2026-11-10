@@ -67,6 +67,66 @@ public class DeviceTest {
     assertTrue(registered.grantUriPermissions);
   }
 
+  @Test
+  public void navigationRowsRespondAcrossTextIconWhitespaceAndArrow() throws Exception {
+    java.util.concurrent.atomic.AtomicInteger clicks =
+        new java.util.concurrent.atomic.AtomicInteger();
+    java.util.concurrent.atomic.AtomicReference<android.widget.LinearLayout> rowRef =
+        new java.util.concurrent.atomic.AtomicReference<>();
+    try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+      scenario.onActivity(
+          a -> {
+            a.screen("Touch fixture", "", null);
+            android.widget.LinearLayout parent = a.card("", "");
+            a.navRow(
+                parent, "语言 / Language", "Connection and appearance", "◇", clicks::incrementAndGet);
+            rowRef.set((android.widget.LinearLayout) parent.getChildAt(0));
+          });
+      androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+      scenario.onActivity(
+          a -> {
+            android.widget.LinearLayout row = rowRef.get();
+            assertTrue(row.getWidth() > 0);
+            assertTrue(row.getHeight() > 0);
+            android.view.View icon = row.getChildAt(0),
+                text = row.getChildAt(1),
+                arrow = row.getChildAt(2);
+            android.view.ViewGroup labels = (android.view.ViewGroup) text;
+            java.util.List<android.view.View> targets =
+                java.util.List.of(icon, labels.getChildAt(0), labels.getChildAt(1), arrow);
+            for (android.view.View target : targets) {
+              int[] xy = new int[2];
+              target.getLocationInWindow(xy);
+              touch(a, xy[0] + target.getWidth() / 2f, xy[1] + target.getHeight() / 2f);
+            }
+            int[] xy = new int[2];
+            row.getLocationInWindow(xy);
+            touch(a, xy[0] + row.getWidth() / 2f, xy[1] + 2);
+            touch(a, xy[0] + 2, xy[1] + row.getHeight() / 2f);
+            assertEquals(6, clicks.get());
+            assertTrue(row.isFocusable());
+          });
+      androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+      scenario.onActivity(a -> assertEquals(6, clicks.get()));
+    }
+  }
+
+  private static void touch(MainActivity activity, float x, float y) {
+    long time = android.os.SystemClock.uptimeMillis();
+    android.view.MotionEvent down =
+        android.view.MotionEvent.obtain(time, time, android.view.MotionEvent.ACTION_DOWN, x, y, 0);
+    android.view.MotionEvent up =
+        android.view.MotionEvent.obtain(
+            time, time + 20, android.view.MotionEvent.ACTION_UP, x, y, 0);
+    try {
+      activity.dispatchTouchEvent(down);
+      activity.dispatchTouchEvent(up);
+    } finally {
+      down.recycle();
+      up.recycle();
+    }
+  }
+
   private TextView find(View root, String text) {
     if (root instanceof TextView && ((TextView) root).getText().toString().equals(text))
       return (TextView) root;
