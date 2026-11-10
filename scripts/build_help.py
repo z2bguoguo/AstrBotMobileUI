@@ -43,6 +43,8 @@ def generate():
             refs = ['astrbot/core/agent/mcp_client.py#L475']
         if key in ('whitelist','id_whitelist','platform_settings.enable_id_white_list','enable_id_white_list','wl_ignore_admin_on_group','wl_ignore_admin_on_friend'):
             refs = ['astrbot/core/pipeline/whitelist_check/stage.py#L17', 'docs/zh/use/command.md']
+        if key in ('memory','memory.process','memory.system','running','uptime','cpu_percent','thread_count','start_time','platform_count','plugin_count','message_count','plugins','message_time_series'):
+            refs = ['astrbot/dashboard/services/stat_service.py#L309']
         if not refs:
             refs = ['docs/zh/dev/astrbot-config.md', 'astrbot/core/config/default.py']
         default = source['defaults'].get(canonical, source['defaults'].get(key))

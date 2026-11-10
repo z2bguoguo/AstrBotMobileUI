@@ -1016,20 +1016,14 @@
     }
   },
   "memory.process": {
-    "zh": "内存统计对象。旧接口 process 表示进程内存、system 表示系统总内存，单位 MiB；system 不是系统已用量。应用据此换算，不能混同于字节字段。",
-    "en": "Memory statistics. Legacy process is process memory and system is total system memory, in MiB; system is not used RAM. These differ from explicit byte fields.",
-    "example": {
-      "process": 660,
-      "system": 1699
-    }
+    "zh": "AstrBot 进程正在使用的内存。旧状态接口以 MiB 返回，例如 660 表示 660 MiB；应用会换算容量并用系统总量计算进程占比。这不是整个系统已用内存。",
+    "en": "Memory used by the AstrBot process. The legacy status API reports MiB: 660 means 660 MiB. The app formats capacity and computes the process share against system total. This is not total system memory usage.",
+    "example": 660
   },
   "memory.system": {
-    "zh": "内存统计对象。旧接口 process 表示进程内存、system 表示系统总内存，单位 MiB；system 不是系统已用量。应用据此换算，不能混同于字节字段。",
-    "en": "Memory statistics. Legacy process is process memory and system is total system memory, in MiB; system is not used RAM. These differ from explicit byte fields.",
-    "example": {
-      "process": 660,
-      "system": 1699
-    }
+    "zh": "服务器系统的总内存容量。旧状态接口以 MiB 返回，例如 1699 表示 1699 MiB；此值不是系统已用量，也不是进程使用量，不能将其直接显示为内存使用率。",
+    "en": "Total server system memory capacity. The legacy API reports MiB: 1699 means 1699 MiB. This is neither system used memory nor process usage, and is not itself a utilization percentage.",
+    "example": 1699
   },
   "process_memory_bytes": {
     "zh": "明确以字节为单位的内存或磁盘统计；应用换算成易读容量。used 是已用、total 是总量，缺失项不会自动补零。",
@@ -1217,6 +1211,27 @@
     "en": "Legacy path mappings in original:mapped form for messaging adapters and AstrBot using different filesystems. Documented as deprecated since v4.0.0; use only where an older server actually reads this field.",
     "example": [
       "/app/.config/QQ:/shared/QQ"
+    ]
+  },
+  "admins_id": {
+    "zh": "机器人管理员的用户 ID 列表。给机器人发送 /sid 并按输出区分用户 ID 与会话来源；这里只填用户 ID，不填群号或昵称。列表成员可使用管理员命令，应仅添加受信任账号。",
+    "en": "User IDs allowed to administer the bot. Use /sid and distinguish user IDs from session origins; enter user IDs here, not group IDs or nicknames. Members can run admin commands, so include only trusted accounts.",
+    "example": [
+      "123456789"
+    ]
+  },
+  "id_whitelist": {
+    "zh": "允许机器人响应的会话列表。可填写群号或完整来源，例如 aiocqhttp:GroupMessage:123456789；通过 /sid 获取当前平台的格式。当前源码中空列表不启用拦截，管理员与 WebChat 的豁免规则另行判断，不要统一加 group:。",
+    "en": "Sessions allowed to receive bot replies. Match a group ID or full origin such as aiocqhttp:GroupMessage:123456789; obtain the platform format with /sid. An empty list does not filter in this source baseline; admin/WebChat exemptions are checked separately. Do not add group: universally.",
+    "example": [
+      "aiocqhttp:GroupMessage:123456789"
+    ]
+  },
+  "platform_settings.id_whitelist": {
+    "zh": "允许机器人响应的会话列表。可填写群号或完整来源，例如 aiocqhttp:GroupMessage:123456789；通过 /sid 获取当前平台的格式。当前源码中空列表不启用拦截，管理员与 WebChat 的豁免规则另行判断，不要统一加 group:。",
+    "en": "Sessions allowed to receive bot replies. Match a group ID or full origin such as aiocqhttp:GroupMessage:123456789; obtain the platform format with /sid. An empty list does not filter in this source baseline; admin/WebChat exemptions are checked separately. Do not add group: universally.",
+    "example": [
+      "aiocqhttp:GroupMessage:123456789"
     ]
   }
 }
