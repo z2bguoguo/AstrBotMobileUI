@@ -9,8 +9,9 @@ import tempfile
 
 def payload(metadata, assets):
     result = json.loads(Path(metadata).read_text())
-    for name in ("main.js", "locales.json", "fields.json"):
-        result[name] = (Path(assets) / name).read_text(encoding="utf-8")
+    for path in sorted(Path(assets).iterdir()):
+        if path.is_file() and path.suffix in (".js", ".json"):
+            result[path.name] = path.read_text(encoding="utf-8")
     return json.dumps(result, ensure_ascii=False, separators=(",", ":")).encode()
 
 

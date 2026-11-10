@@ -89,22 +89,21 @@ final class SettingsEditor {
   }
 
   private String title(List<String> at, JSONObject meta) {
-    String k = at.get(at.size() - 1);
-    String fallback = Appearance.fieldName(at, NAMES.getOrDefault(k, k.replace('_', ' ')));
-    Object description = translated(meta.opt("description"));
-    if (description instanceof String && !((String) description).isBlank()) {
-      String label = (String) description;
-      // Older server metadata can contain a raw English identifier rather than localized copy.
-      if (Appearance.language().equals("zh")
-          && !label.matches("(?s).*[一-鿿].*")
-          && !fallback.equals(k.replace('_', ' '))) return fallback;
-      return Appearance.text(label);
-    }
-    if (k.matches("[0-9]+"))
-      return Appearance.language().equals("zh")
-          ? "第 " + (Integer.parseInt(k) + 1) + " 项"
-          : "Item " + (Integer.parseInt(k) + 1);
-    return fallback;
+    return CoreRuntime.object(
+            "ui.field",
+            CoreRuntime.args(
+                "data",
+                CoreRuntime.args(
+                    "path",
+                    new JSONArray(at),
+                    "meta",
+                    meta,
+                    "fallback",
+                    NAMES.getOrDefault(
+                        at.get(at.size() - 1), at.get(at.size() - 1).replace('_', ' '))),
+                "language",
+                Appearance.language()))
+        .optString("title");
   }
 
   private String hint(JSONObject meta) {
@@ -120,11 +119,14 @@ final class SettingsEditor {
 
   private void changed() {
     try {
-      int count = model.changes().size();
+      JSONObject view =
+          CoreRuntime.object(
+              "ui.saveState",
+              CoreRuntime.args("count", model.changes().size(), "language", Appearance.language()));
       if (saveButton != null) {
-        saveButton.setEnabled(count > 0);
-        saveButton.setAlpha(count > 0 ? 1f : 0.45f);
-        saveButton.setText(Appearance.text(count == 0 ? "没有待保存的更改" : "保存更改（" + count + "）"));
+        saveButton.setEnabled(view.optBoolean("enabled"));
+        saveButton.setAlpha((float) view.optDouble("alpha", 1));
+        saveButton.setText(view.optString("label"));
       }
     } catch (Exception e) {
       host.error(e);
@@ -225,78 +227,108 @@ final class SettingsEditor {
     if (node instanceof JSONObject) ((JSONObject) node).keys().forEachRemaining(keys::add);
     else if (node instanceof JSONArray)
       for (int i = 0; i < ((JSONArray) node).length(); i++) keys.add(Integer.toString(i));
+    JSONArray items = new JSONArray();
     String needle = query.toLowerCase(Locale.ROOT);
-    int count = 0;
     for (String key : keys) {
       List<String> at = child(key);
       Object value = model.get(at);
       JSONObject meta = FormModel.metadata(metadata, at);
-      String name = title(at, meta), hint = hint(meta);
-      String info = FieldInfo.describe(key, value, meta, hint);
+      JSONObject presentation =
+          CoreRuntime.object(
+              "ui.field",
+              CoreRuntime.args(
+                  "data",
+                  CoreRuntime.args(
+                      "path",
+                      new JSONArray(at),
+                      "meta",
+                      meta,
+                      "value",
+                      value,
+                      "fallback",
+                      NAMES.getOrDefault(key, key.replace('_', ' '))),
+                  "language",
+                  Appearance.language()));
+      String name = presentation.optString("title"), hint = presentation.optString("hint");
       if (!(name + key + hint).toLowerCase(Locale.ROOT).contains(needle)) continue;
-      count++;
-      LinearLayout group = host.group(rows);
-      group.setTooltipText(info);
-      group.setOnLongClickListener(
-          v -> {
-            Appearance.explain(host, name, info);
-            return true;
-          });
-      host.textAction(group, "ⓘ", () -> Appearance.explain(host, name, info));
       boolean locked = path.isEmpty() && readOnly.contains(key);
-      if (value instanceof Boolean) {
-        Switch toggle = new Switch(host);
-        toggle.setText(Appearance.text(name));
-        toggle.setTextSize(16);
-        toggle.setTextColor(MainActivity.INK);
-        toggle.setChecked((Boolean) value);
-        toggle.setEnabled(!locked);
-        toggle.setPadding(host.dp(16), host.dp(18), host.dp(16), host.dp(18));
-        group.addView(toggle);
-        toggle.setOnCheckedChangeListener(
-            (b, checked) -> {
+      items.put(
+          CoreRuntime.args(
+              "title",
+              name,
+              "hint",
+              hint,
+              "summary",
+              presentation.optString("summary") + (locked ? " · 标识不可修改" : ""),
+              "path",
+              new JSONArray(at),
+              "boolean",
+              value instanceof Boolean,
+              "value",
+              value instanceof Boolean ? value : JSONObject.NULL,
+              "locked",
+              locked,
+              "icon",
+              value instanceof JSONObject ? "◈" : value instanceof JSONArray ? "≡" : ""));
+    }
+    if (items.length() == 0) {
+      rows.addView(host.label(query.isEmpty() ? "此处没有可编辑设置" : "没有匹配的设置", 14, MainActivity.MUTED));
+      return;
+    }
+    NativeViews ui =
+        NativeViews.template(
+            host,
+            "fields",
+            CoreRuntime.args("items", items, "array", node instanceof JSONArray),
+            event -> {
               try {
-                model.set(at, checked);
-                changed();
+                JSONArray a = event.getJSONArray("path");
+                List<String> at = new ArrayList<>();
+                for (int i = 0; i < a.length(); i++) at.add(a.getString(i));
+                JSONObject meta = FormModel.metadata(metadata, at);
+                switch (event.optString("kind")) {
+                  case "help":
+                    Appearance.explain(
+                        host,
+                        title(at, meta),
+                        FieldInfo.describe(at.get(at.size() - 1), model.get(at), meta, hint(meta)));
+                    break;
+                  case "edit":
+                    edit(at, meta);
+                    break;
+                  case "toggle":
+                  case "toggleCard":
+                    model.set(
+                        at,
+                        event.has("checked")
+                            ? event.getBoolean("checked")
+                            : !(Boolean) model.get(at));
+                    changed();
+                    if (event.optString("kind").equals("toggleCard")) show();
+                    break;
+                  case "delete":
+                    host.confirm(
+                        "删除列表项",
+                        "删除仅修改当前草稿，保存后生效。",
+                        () -> {
+                          try {
+                            List<String> parent = at.subList(0, at.size() - 1);
+                            ((JSONArray) model.get(parent))
+                                .remove(Integer.parseInt(at.get(at.size() - 1)));
+                            show();
+                          } catch (Exception e) {
+                            host.error(e);
+                          }
+                        });
+                    break;
+                  default:
+                    throw new IllegalArgumentException("Unknown settings event");
+                }
               } catch (Exception e) {
                 host.error(e);
               }
             });
-        if (!hint.isEmpty()) {
-          TextView h = host.label(hint, 12, MainActivity.MUTED);
-          h.setPadding(host.dp(16), 0, host.dp(16), host.dp(12));
-          group.addView(h);
-        }
-      } else {
-        host.navRow(
-            group,
-            name,
-            summary(value, key, meta) + (locked ? " · 标识不可修改" : ""),
-            value instanceof JSONObject ? "◈" : value instanceof JSONArray ? "≡" : "",
-            locked ? null : () -> edit(at, meta));
-        if (!hint.isEmpty()) {
-          TextView h = host.label(hint, 12, MainActivity.MUTED);
-          h.setPadding(host.dp(16), 0, host.dp(16), host.dp(12));
-          group.addView(h);
-        }
-      }
-      if (node instanceof JSONArray) {
-        int index = Integer.parseInt(key);
-        host.textAction(
-            group,
-            "删除此项",
-            () ->
-                host.confirm(
-                    "删除列表项",
-                    "删除仅修改当前草稿，保存后生效。",
-                    () -> {
-                      ((JSONArray) node).remove(index);
-                      show();
-                    }));
-      }
-    }
-    if (count == 0)
-      rows.addView(host.label(query.isEmpty() ? "此处没有可编辑设置" : "没有匹配的设置", 14, MainActivity.MUTED));
+    ui.attach(rows, ui.root, ui.rootNode);
   }
 
   private void edit(List<String> at, JSONObject meta) {

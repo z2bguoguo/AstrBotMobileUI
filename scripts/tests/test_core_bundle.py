@@ -14,10 +14,12 @@ class CoreBundleTest(unittest.TestCase):
             root=Path(folder)
             metadata={'abi':1,'architecture':'a'*64,'version':42}
             (root/'metadata.json').write_text(json.dumps(metadata))
-            for name in ('main.js','locales.json','fields.json'):
+            for name in ('main.js','ui.js','z-extra.js','locales.json','fields.json'):
                 (root/name).write_text('fixture '+name,encoding='utf-8')
             result=json.loads(builder.payload(root/'metadata.json',root))
             self.assertEqual(result['architecture'],metadata['architecture'])
             self.assertEqual(result['version'],42)
             self.assertEqual(result['main.js'],'fixture main.js')
+            self.assertEqual(result['ui.js'],'fixture ui.js')
+            self.assertEqual(result['z-extra.js'],'fixture z-extra.js')
             self.assertEqual(result['locales.json'],'fixture locales.json')

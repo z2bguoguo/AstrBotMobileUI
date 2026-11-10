@@ -30,7 +30,7 @@ public final class SignedCore {
       throw new IOException("Core bundle is older than the APK");
     new JSONObject(payload.getString("locales.json"));
     new JSONObject(payload.getString("fields.json"));
-    CoreRuntime.validate(payload.getString("main.js"));
+    CoreRuntime.validate(CoreSource.script(payload));
     return payload;
   }
 

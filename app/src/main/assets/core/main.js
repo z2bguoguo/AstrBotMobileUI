@@ -1,3 +1,4 @@
+var CoreModules = {};
 /* AstrBot Mobile script core. Pure JSON business logic; no Java or network access. */
 var Core = (function () {
   'use strict';
@@ -94,7 +95,37 @@ var Core = (function () {
     return sections;
   }
 
+  function statusFormat(a){
+    var value=a.value,zh=a.chinese,kind=a.kind;
+    if(value===null||value===undefined)return '—';
+    if(kind==='timestamp'){
+      if(!a.parts)return String(value);
+      var parts=a.parts,pattern=a.pattern||'yyyy-MM-dd HH:mm:ss';
+      function pad(n){return n<10?'0'+n:String(n);}
+      return pattern.replace(/yyyy|MM|dd|HH|mm|ss/g,function(token){return token==='yyyy'?String(parts.year):pad(parts[{MM:'month',dd:'day',HH:'hour',mm:'minute',ss:'second'}[token]]);});
+    }
+    if(typeof value==='boolean')return zh?(value?'是':'否'):(value?'Yes':'No');
+    var exact=value&&value.__astrbot_exact_number__,raw=exact||String(value);
+    if(typeof value!=='number'&&!exact)return raw;
+    var n=Number(raw);if(!isFinite(n))return '—';
+    function grouped(s){var pieces=s.split('.');return pieces[0].replace(/\B(?=(\d{3})+(?!\d))/g,',')+(pieces.length>1?'.'+pieces[1]:'');}
+    function decimal(n,digits){return n.toFixed(digits).replace(/\.?0+$/,'');}
+    if(kind==='percent')return n.toFixed(1)+'%';
+    if(kind==='duration'){
+      if(n<0)return '—';var seconds=Math.floor(n),days=Math.floor(seconds/86400),hours=Math.floor(seconds%86400/3600),minutes=Math.floor(seconds%3600/60),remaining=seconds%60;
+      return (days?days+(zh?' 天 ':'d '):'')+(hours||days?hours+(zh?' 小时 ':'h '):'')+(minutes||hours||days?minutes+(zh?' 分 ':'m '):'')+remaining+(zh?' 秒':'s');
+    }
+    if(kind==='bytes'){
+      if(n<0)return '—';var units=['B','KiB','MiB','GiB','TiB','PiB'],unit=0;
+      while(n>=1024&&unit<units.length-1){n/=1024;unit++;}
+      return grouped(unit?decimal(n,2):n.toFixed(0))+' '+units[unit];
+    }
+    return grouped(exact?raw:decimal(n,3));
+  }
+
   function invoke(name,a){
+    if(name==='status.format')return statusFormat(a);
+    if(CoreModules[name])return CoreModules[name](a);
     if(name==='status.sections')return statusSections(a.data);
     if(name==='ping')return {abi:1};
     if(name==='management.plan')return plan(a);

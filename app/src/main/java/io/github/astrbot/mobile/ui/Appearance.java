@@ -15,7 +15,7 @@ final class Appearance {
   @android.annotation.SuppressLint("StaticFieldLeak") // Application context only.
   private static Context context;
 
-  private static JSONObject locales;
+  private static JSONObject locales, fieldData;
 
   static Context localized(Context base) {
     String preference = base.getSharedPreferences("appearance", 0).getString("language", "system");
@@ -27,10 +27,14 @@ final class Appearance {
 
   static void initialize(Context ctx) {
     context = ctx.getApplicationContext();
+    palette = null;
+    paletteKey = null;
     try {
       locales = new JSONObject(CoreStore.data("locales.json"));
+      fieldData = new JSONObject(CoreStore.data("fields.json"));
     } catch (Exception e) {
       locales = new JSONObject();
+      fieldData = new JSONObject();
     }
   }
 
@@ -45,48 +49,56 @@ final class Appearance {
         : lang;
   }
 
-  static boolean dark() {
+  private static JSONObject palette;
+  private static String paletteKey;
+
+  private static JSONObject palette() {
     String mode = prefs().getString("theme", "system");
-    return mode.equals("dark")
-        || (mode.equals("system")
-            && (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
-                == Configuration.UI_MODE_NIGHT_YES);
+    int accent = prefs().getInt("accent", 0xff526da9);
+    boolean systemDark =
+        (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+            == Configuration.UI_MODE_NIGHT_YES;
+    String key = mode + accent + systemDark;
+    if (palette == null || !key.equals(paletteKey)) {
+      palette =
+          io.github.astrbot.mobile.core.CoreRuntime.object(
+              "ui.theme",
+              io.github.astrbot.mobile.core.CoreRuntime.args(
+                  "mode", mode, "accent", accent, "systemDark", systemDark));
+      paletteKey = key;
+    }
+    return palette;
+  }
+
+  static boolean dark() {
+    return palette().optBoolean("dark");
   }
 
   static int accent() {
-    return prefs().getInt("accent", 0xff526da9);
+    return palette().optInt("accent");
   }
 
   static int ink() {
-    return dark() ? 0xffedf1fa : 0xff252d3e;
+    return palette().optInt("ink");
   }
 
   static int muted() {
-    return dark() ? 0xffb4bfd2 : 0xff667086;
+    return palette().optInt("muted");
   }
 
   static int surface() {
-    return dark() ? 0xff232b3b : 0xeeffffff;
+    return palette().optInt("surface");
   }
 
   static int onAccent() {
-    int c = accent();
-    return (Color.red(c) * 299 + Color.green(c) * 587 + Color.blue(c) * 114) / 1000 > 170
-        ? 0xff172032
-        : Color.WHITE;
+    return palette().optInt("onAccent");
   }
 
   static int[] gradient() {
-    return dark()
-        ? new int[] {0xff111827, 0xff182132, 0xff201e31}
-        : new int[] {mix(accent(), Color.WHITE, .86f), 0xfff1f5fd, 0xffeeeaf6};
-  }
-
-  private static int mix(int a, int b, float ratio) {
-    return Color.rgb(
-        (int) (Color.red(a) * (1 - ratio) + Color.red(b) * ratio),
-        (int) (Color.green(a) * (1 - ratio) + Color.green(b) * ratio),
-        (int) (Color.blue(a) * (1 - ratio) + Color.blue(b) * ratio));
+    JSONArray values = palette().optJSONArray("gradient");
+    int[] result = new int[values.length()];
+    for (int i = 0; i < result.length; i++) result[i] = values.optInt(i);
+    return result;
   }
 
   static int color(int original) {
@@ -149,7 +161,7 @@ final class Appearance {
 
   static JSONObject labels() {
     try {
-      return new JSONObject(CoreStore.data("fields.json")).optJSONObject(language());
+      return fieldData.optJSONObject(language());
     } catch (Exception e) {
       return new JSONObject();
     }
@@ -164,96 +176,88 @@ final class Appearance {
   }
 
   static void settings(MainActivity a, LinearLayout panel) {
-    a.navRow(
-        panel,
-        "Language / 语言",
-        language().equals("zh") ? "简体中文" : "English",
-        "A",
-        () ->
-            new LocalizedDialogBuilder(a)
-                .setTitle("Language / 语言")
-                .setSingleChoiceItems(
-                    new String[] {"跟随系统 / System", "简体中文", "English"},
-                    Arrays.asList("system", "zh", "en")
-                        .indexOf(prefs().getString("language", "system")),
-                    (d, i) -> {
-                      prefs()
-                          .edit()
-                          .putString("language", new String[] {"system", "zh", "en"}[i])
-                          .apply();
-                      d.dismiss();
-                      a.recreate();
-                    })
-                .show());
-    a.navRow(
-        panel,
-        "Theme / 主题",
-        prefs().getString("theme", "system"),
-        "◐",
-        () ->
-            new LocalizedDialogBuilder(a)
-                .setTitle("Theme / 主题")
-                .setSingleChoiceItems(
-                    new String[] {"跟随系统 / System", "浅色 / Light", "深色 / Dark"},
-                    Arrays.asList("system", "light", "dark")
-                        .indexOf(prefs().getString("theme", "system")),
-                    (d, i) -> {
-                      prefs()
-                          .edit()
-                          .putString("theme", new String[] {"system", "light", "dark"}[i])
-                          .apply();
-                      d.dismiss();
-                      a.recreate();
-                    })
-                .show());
-    a.navRow(
-        panel,
-        "Accent / 主题色",
-        String.format(Locale.ROOT, "#%06X", accent() & 0xffffff),
-        "●",
-        () -> {
-          LinearLayout box = a.vertical();
-          box.setPadding(a.dp(20), a.dp(8), a.dp(20), a.dp(8));
-          EditText input =
-              a.input(
-                  box,
-                  "#RRGGBB",
-                  String.format(Locale.ROOT, "#%06X", accent() & 0xffffff),
-                  false,
-                  false);
-          LinearLayout swatches = new LinearLayout(a);
-          box.addView(swatches);
-          for (int color : new int[] {0xff526da9, 0xff8670b7, 0xff3b8574, 0xffb76683, 0xffc17b3f}) {
-            TextView swatch = a.label("●", 28, color);
-            swatch.setPadding(a.dp(10), 0, a.dp(10), 0);
-            swatches.addView(swatch);
-            swatch.setOnClickListener(
-                v -> input.setText(String.format(Locale.ROOT, "#%06X", color & 0xffffff)));
-          }
-          AlertDialog dialog =
-              new LocalizedDialogBuilder(a)
-                  .setTitle("Accent / 主题色")
-                  .setView(box)
-                  .setPositiveButton("应用", null)
-                  .setNegativeButton("取消", null)
-                  .create();
-          dialog.setOnShowListener(
-              d ->
-                  dialog
-                      .getButton(AlertDialog.BUTTON_POSITIVE)
-                      .setOnClickListener(
-                          v -> {
-                            String value = input.getText().toString().trim();
-                            if (!value.matches("#[0-9a-fA-F]{6}")) {
-                              input.setError("#RRGGBB");
-                              return;
-                            }
-                            prefs().edit().putInt("accent", Color.parseColor(value)).apply();
+    NativeViews ui =
+        NativeViews.template(
+            a,
+            "preferences",
+            io.github.astrbot.mobile.core.CoreRuntime.args(
+                "language",
+                language(),
+                "languagePreference",
+                prefs().getString("language", "system"),
+                "theme",
+                prefs().getString("theme", "system"),
+                "accent",
+                String.format(Locale.ROOT, "#%06X", accent() & 0xffffff)),
+            event -> {
+              try {
+                if (event.optString("kind").equals("choice")) {
+                  JSONArray options = event.getJSONArray("options");
+                  String[] labels = new String[options.length()];
+                  for (int i = 0; i < labels.length; i++)
+                    labels[i] = options.getJSONObject(i).getString("label");
+                  new LocalizedDialogBuilder(a)
+                      .setTitle(event.optString("title"))
+                      .setSingleChoiceItems(
+                          labels,
+                          event.optInt("selected", -1),
+                          (dialog, index) -> {
+                            prefs()
+                                .edit()
+                                .putString(
+                                    event.optString("key"),
+                                    options.optJSONObject(index).optString("value"))
+                                .apply();
                             dialog.dismiss();
                             a.recreate();
-                          }));
-          dialog.show();
-        });
+                          })
+                      .show();
+                } else {
+                  NativeViews[] body = new NativeViews[1];
+                  body[0] =
+                      NativeViews.template(
+                          a,
+                          "color",
+                          io.github.astrbot.mobile.core.CoreRuntime.args(
+                              "value",
+                              String.format(Locale.ROOT, "#%06X", accent() & 0xffffff),
+                              "palette",
+                              event.getJSONArray("palette")),
+                          picked ->
+                              ((EditText) body[0].refs.get("accent"))
+                                  .setText(picked.optString("value")));
+                  AlertDialog dialog =
+                      new LocalizedDialogBuilder(a)
+                          .setTitle(event.optString("title"))
+                          .setView(body[0].root)
+                          .setPositiveButton("应用", null)
+                          .setNegativeButton("取消", null)
+                          .create();
+                  dialog.setOnShowListener(
+                      d ->
+                          dialog
+                              .getButton(AlertDialog.BUTTON_POSITIVE)
+                              .setOnClickListener(
+                                  v -> {
+                                    String value = body[0].fields().optString("accent").trim();
+                                    if (!value.matches("#[0-9a-fA-F]{6}")) {
+                                      ((EditText) body[0].refs.get("accent")).setError("#RRGGBB");
+                                      return;
+                                    }
+                                    prefs()
+                                        .edit()
+                                        .putInt("accent", Color.parseColor(value))
+                                        .apply();
+                                    dialog.dismiss();
+                                    a.recreate();
+                                  }));
+                  dialog.show();
+                }
+              } catch (Exception e) {
+                a.error(e);
+              }
+            });
+    ui.attach(panel, ui.root, ui.rootNode);
   }
 
   private Appearance() {}

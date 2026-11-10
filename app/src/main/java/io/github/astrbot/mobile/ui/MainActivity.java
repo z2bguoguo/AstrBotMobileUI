@@ -2,7 +2,6 @@ package io.github.astrbot.mobile.ui;
 
 import android.app.*;
 import android.content.*;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -79,18 +78,14 @@ public final class MainActivity extends Activity {
   }
 
   LinearLayout vertical() {
-    LinearLayout l = new LinearLayout(this);
-    l.setOrientation(LinearLayout.VERTICAL);
-    return l;
+    return (LinearLayout) NativeViews.template(this, "column", new JSONObject(), e -> {}).root;
   }
 
   TextView label(String s, int size, int color) {
-    TextView t = new TextView(this);
-    t.setText(Appearance.text(s));
-    t.setTextSize(size);
-    t.setTextColor(Appearance.color(color));
-    t.setPadding(0, dp(5), 0, dp(5));
-    return t;
+    return (TextView)
+        NativeViews.template(
+                this, "label", CoreRuntime.args("text", s, "size", size, "color", color), e -> {})
+            .root;
   }
 
   GradientDrawable background(int color, int radius) {
@@ -103,10 +98,16 @@ public final class MainActivity extends Activity {
   void screen(String title, String hint, Runnable back) {
     generation++;
     backAction = back;
-    page = vertical();
-    page.setBackground(
-        new GradientDrawable(GradientDrawable.Orientation.TL_BR, Appearance.gradient()));
-    // Target SDK 35 draws edge-to-edge: apply the actual system insets.
+    NativeViews ui =
+        NativeViews.template(
+            this,
+            "screen",
+            CoreRuntime.args("title", title, "hint", hint, "back", back != null),
+            e -> goBack());
+    page = (LinearLayout) ui.refs.get("page");
+    toolbar = (LinearLayout) ui.refs.get("toolbar");
+    content = (LinearLayout) ui.refs.get("content");
+    subtitle = (TextView) ui.refs.get("subtitle");
     page.setOnApplyWindowInsetsListener(
         (v, insets) -> {
           v.setPadding(
@@ -116,165 +117,65 @@ public final class MainActivity extends Activity {
               insets.getSystemWindowInsetBottom());
           return insets;
         });
-    toolbar = vertical();
-    toolbar.setPadding(dp(22), dp(14), dp(22), dp(8));
-    if (back != null) {
-      TextView b = label("‹  返回", 15, INK);
-      b.setBackground(background(0xccffffff, 24));
-      b.setPadding(dp(16), dp(8), dp(16), dp(8));
-      b.setOnClickListener(v -> goBack());
-      toolbar.addView(b);
-    }
-    TextView heading = label(title, 28, INK);
-    heading.setTypeface(null, Typeface.BOLD);
-    toolbar.addView(heading);
-    subtitle = label(hint, 13, MUTED);
-    toolbar.addView(subtitle);
-    page.addView(toolbar);
-    ScrollView scroll = new ScrollView(this);
-    scroll.setFillViewport(true);
-    content = vertical();
-    content.setPadding(dp(18), dp(8), dp(18), dp(32));
-    scroll.addView(content);
-    page.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1));
     setContentView(page);
     page.requestApplyInsets();
   }
 
   LinearLayout card(String title, String desc) {
-    LinearLayout c = vertical();
-    c.setPadding(dp(18), dp(15), dp(18), dp(15));
-    c.setBackground(background(0xcfffffff, 26));
-    c.setElevation(dp(1));
-    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
-    lp.bottomMargin = dp(12);
-    content.addView(c, lp);
-    if (!title.isEmpty()) {
-      TextView t = label(title, 18, INK);
-      t.setTypeface(null, Typeface.BOLD);
-      c.addView(t);
-    }
-    if (!desc.isEmpty()) c.addView(label(desc, 13, MUTED));
-    return c;
+    NativeViews ui =
+        NativeViews.template(this, "card", CoreRuntime.args("title", title, "desc", desc), e -> {});
+    ui.attach(content, ui.root, ui.rootNode);
+    return (LinearLayout) ui.root;
   }
 
   Button button(LinearLayout parent, String title, Runnable action) {
-    Button b = new Button(this);
-    b.setText(Appearance.text(title));
-    b.setTooltipText(Appearance.text(title));
-    b.setTextSize(14);
-    b.setTextColor(ACCENT);
-    b.setAllCaps(false);
-    b.setMinHeight(0);
-    b.setMinWidth(0);
-    b.setBackground(
-        new android.graphics.drawable.RippleDrawable(
-            android.content.res.ColorStateList.valueOf(0x22526da9),
-            background(0xffe8edf8, 24),
-            null));
-    b.setOnClickListener(
-        v -> {
-          if (!busy) attempt(action);
-          else toast("正在处理，请稍候或取消");
-        });
-    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, dp(48));
-    lp.topMargin = dp(8);
-    parent.addView(b, lp);
-    return b;
+    return scriptedButton(parent, title, action, false);
   }
 
   Button primaryButton(LinearLayout parent, String title, Runnable action) {
-    Button b = button(parent, title, action);
-    b.setTextColor(Appearance.onAccent());
-    b.setTypeface(null, Typeface.BOLD);
-    b.setBackground(
-        new android.graphics.drawable.RippleDrawable(
-            android.content.res.ColorStateList.valueOf(0x33ffffff), background(ACCENT, 24), null));
-    return b;
+    return scriptedButton(parent, title, action, true);
   }
 
   LinearLayout group(LinearLayout parent) {
-    LinearLayout g = vertical();
-    g.setBackground(background(0xd9ffffff, 26));
-    g.setPadding(0, dp(4), 0, dp(4));
-    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
-    lp.bottomMargin = dp(10);
-    parent.addView(g, lp);
-    return g;
+    NativeViews ui = NativeViews.template(this, "group", new JSONObject(), e -> {});
+    ui.attach(parent, ui.root, ui.rootNode);
+    return (LinearLayout) ui.root;
   }
 
   void navRow(LinearLayout parent, String title, String detail, String icon, Runnable action) {
-    LinearLayout row = new LinearLayout(this);
-    row.setGravity(Gravity.CENTER_VERTICAL);
-    row.setDescendantFocusability(android.view.ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-    row.setPadding(dp(16), dp(15), dp(16), dp(15));
-    row.setMinimumHeight(dp(70));
-    if (!icon.isEmpty()) {
-      TextView symbol = label(icon, 20, ACCENT);
-      symbol.setGravity(Gravity.CENTER);
-      symbol.setBackground(background(0xffe6ecfa, 16));
-      row.addView(symbol, new LinearLayout.LayoutParams(dp(40), dp(40)));
-    }
-    LinearLayout text = vertical();
-    text.setPadding(icon.isEmpty() ? 0 : dp(13), 0, dp(12), 0);
-    TextView name = label(title, 16, INK);
-    name.setTypeface(null, Typeface.BOLD);
-    text.addView(name);
-    if (!detail.isEmpty()) text.addView(label(detail, 12, MUTED));
-    row.addView(text, new LinearLayout.LayoutParams(0, -2, 1));
-    if (action != null) {
-      TextView arrow = label("›", 25, MUTED);
-      row.addView(arrow);
-      row.setBackground(
-          new android.graphics.drawable.RippleDrawable(
-              android.content.res.ColorStateList.valueOf(0x15526da9),
-              background(Color.TRANSPARENT, 20),
-              null));
-      row.setOnClickListener(
-          v -> {
-            if (!busy) attempt(action);
-            else toast("正在处理，请稍候");
-          });
-      // Labels are decorative descendants. A child tooltip/long-click handler otherwise
-      // consumes ACTION_DOWN, leaving only the arrow/gaps able to activate the row.
-      passiveRowChildren(row);
-      row.setFocusable(true);
-      row.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-      row.setContentDescription(
-          Appearance.text(title) + (detail.isEmpty() ? "" : ", " + Appearance.text(detail)));
-      row.setTooltipText(Appearance.text(detail.isEmpty() ? title : detail));
-      row.setAccessibilityDelegate(
-          new View.AccessibilityDelegate() {
-            @Override
-            public void onInitializeAccessibilityNodeInfo(
-                View host, android.view.accessibility.AccessibilityNodeInfo info) {
-              super.onInitializeAccessibilityNodeInfo(host, info);
-              info.setClassName(Button.class.getName());
-            }
-          });
-    }
-    parent.addView(row, new LinearLayout.LayoutParams(-1, -2));
+    NativeViews ui =
+        NativeViews.template(
+            this,
+            "nav",
+            CoreRuntime.args(
+                "title", title, "detail", detail, "icon", icon, "active", action != null),
+            e -> {
+              if (!busy) attempt(action);
+              else toast("正在处理，请稍候");
+            });
+    ui.attach(parent, ui.root, ui.rootNode);
   }
 
-  private static void passiveRowChildren(android.view.ViewGroup parent) {
-    for (int i = 0; i < parent.getChildCount(); i++) {
-      View child = parent.getChildAt(i);
-      child.setTooltipText(null);
-      child.setClickable(false);
-      child.setLongClickable(false);
-      child.setFocusable(false);
-      child.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-      if (child instanceof android.view.ViewGroup)
-        passiveRowChildren((android.view.ViewGroup) child);
-    }
+  private Button scriptedButton(
+      LinearLayout parent, String title, Runnable action, boolean primary) {
+    NativeViews ui =
+        NativeViews.template(
+            this,
+            "button",
+            CoreRuntime.args("title", title, "primary", primary),
+            e -> {
+              if (!busy) attempt(action);
+              else toast("正在处理，请稍候或取消");
+            });
+    ui.attach(parent, ui.root, ui.rootNode);
+    return (Button) ui.root;
   }
 
   void textAction(LinearLayout parent, String title, Runnable action) {
-    TextView t = label(title, 13, ACCENT);
-    t.setGravity(Gravity.CENTER);
-    t.setPadding(dp(12), dp(12), dp(12), dp(12));
-    t.setOnClickListener(v -> attempt(action));
-    parent.addView(t);
+    NativeViews ui =
+        NativeViews.template(
+            this, "textAction", CoreRuntime.args("title", title), e -> attempt(action));
+    ui.attach(parent, ui.root, ui.rootNode);
   }
 
   void editLongText(
@@ -286,64 +187,39 @@ public final class MainActivity extends Activity {
   }
 
   private void bottomNav(boolean connected, String current) {
-    LinearLayout bar = new LinearLayout(this);
-    bar.setPadding(dp(12), dp(6), dp(12), dp(10));
-    bar.setBackground(background(0xe6f9fbff, 24));
-    String[] titles = connected ? new String[] {"总览", "管理", "工具"} : new String[] {"连接", "预设", "设置"};
     Runnable[] actions =
         connected
             ? new Runnable[] {this::overview, this::workspace, this::advancedTools}
             : new Runnable[] {this::home, this::presets, this::appSettings};
-    for (int i = 0; i < titles.length; i++) {
-      String name = titles[i];
-      Runnable action = actions[i];
-      TextView tab = label(name, 14, current.equals(name) ? ACCENT : MUTED);
-      tab.setGravity(Gravity.CENTER);
-      tab.setPadding(dp(8), dp(14), dp(8), dp(14));
-      if (current.equals(name)) tab.setBackground(background(0xffe3eafb, 22));
-      tab.setOnClickListener(
-          v -> {
-            if (!busy) attempt(action);
-          });
-      bar.addView(tab, new LinearLayout.LayoutParams(0, -2, 1));
-    }
-    page.addView(bar);
+    NativeViews ui =
+        NativeViews.template(
+            this,
+            "bottomNav",
+            CoreRuntime.args("connected", connected, "current", current),
+            e -> {
+              int i = e.optInt("index", -1);
+              if (i >= 0 && i < actions.length && !busy) attempt(actions[i]);
+            });
+    ui.attach(page, ui.root, ui.rootNode);
   }
 
   EditText input(
       LinearLayout parent, String hint, String value, boolean secret, boolean multiline) {
-    TextView caption = label(hint, 13, MUTED);
-    parent.addView(caption);
-    AutoCompleteTextView e = new AutoCompleteTextView(this);
-    e.setTag(caption);
-    e.setText(value);
-    e.setTextColor(INK);
-    e.setHintTextColor(MUTED);
-    e.setTextSize(15);
-    e.setTextColor(INK);
-    e.setSingleLine(!multiline);
-    e.setPadding(dp(14), dp(13), dp(14), dp(13));
-    e.setBackground(background(0xffeef2f9, 16));
-    e.setInputType(
-        secret
-            ? android.text.InputType.TYPE_CLASS_TEXT
-                | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-            : android.text.InputType.TYPE_CLASS_TEXT
-                | (multiline ? android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE : 0));
-    if (secret) e.setTransformationMethod(PasswordTransformationMethod.getInstance());
-    if (multiline) {
-      e.setGravity(Gravity.TOP);
-      e.setMinLines(3);
-      e.setMaxLines(9);
-    }
-    if (autofill && !secret) {
-      e.setThreshold(1);
-      e.setAdapter(
+    NativeViews ui =
+        NativeViews.template(
+            this,
+            "input",
+            CoreRuntime.args(
+                "hint", hint, "value", value, "secret", secret, "multiline", multiline),
+            e -> {});
+    AutoCompleteTextView input = (AutoCompleteTextView) ui.refs.get("input");
+    input.setTag(ui.refs.get("caption"));
+    if (autofill && !secret)
+      input.setAdapter(
           new ArrayAdapter<>(
               this, android.R.layout.simple_dropdown_item_1line, new ArrayList<>(suggestions)));
-    }
-    parent.addView(e, new LinearLayout.LayoutParams(-1, -2));
-    return e;
+    ui.attach(parent, ui.root, ui.rootNode);
+    return input;
   }
 
   void toast(String text) {
@@ -459,17 +335,17 @@ public final class MainActivity extends Activity {
     client = null;
     suggestions.clear();
     screen("AstrBot Mobile", "连接你的机器人工作空间", null);
-    LinearLayout intro = card("随时连接，轻松管理", "在不同实例间切换，让配置、提示词和工具井井有条。");
-    primaryButton(intro, "＋ 添加连接", () -> connectionForm(null));
-    LinearLayout search = card("我的连接", "");
-    EditText f = input(search, "搜索名称、分组或地址", filter, false, false);
-    LinearLayout holder = vertical();
-    content.addView(holder);
+    NativeViews ui =
+        NativeViews.template(
+            this, "home", CoreRuntime.args("filter", filter), e -> connectionForm(null));
+    ui.attach(content, ui.root, ui.rootNode);
+    EditText search = (EditText) ui.refs.get("filter");
+    LinearLayout holder = (LinearLayout) ui.refs.get("connections");
     renderConnections(holder, filter);
-    f.addTextChangedListener(
+    search.addTextChangedListener(
         watcher(
             () -> {
-              filter = f.getText().toString();
+              filter = search.getText().toString();
               renderConnections(holder, filter);
             }));
     bottomNav(false, "连接");
@@ -477,43 +353,25 @@ public final class MainActivity extends Activity {
 
   private void appSettings() {
     screen("应用设置", "管理本机偏好与诊断", this::home);
-    LinearLayout appearance = card("Appearance / 外观", "Language · Theme · Accent / 语言 · 主题 · 配色");
-    Appearance.settings(this, appearance);
-    LinearLayout preferences = card("输入体验", "");
-    Switch assist = new Switch(this);
-    assist.setText(Appearance.text("输入辅助与自动补全"));
-    assist.setTextColor(INK);
-    assist.setTextSize(16);
-    assist.setPadding(dp(4), dp(12), dp(4), dp(12));
-    assist.setChecked(autofill);
-    preferences.addView(assist);
-    assist.setOnCheckedChangeListener(
-        (v, c) -> {
-          autofill = c;
-          try {
-            state.put("autofill", c);
-            persist();
-          } catch (Exception e) {
-            error(e);
-          }
-        });
-    LinearLayout tools = group(content);
-    navRow(tools, "预设库", "复用配置与长文本", "≡", this::presets);
-    navRow(tools, "客户端插件", "管理扩展操作", "◇", this::extensions);
-    LinearLayout updates = card("应用更新", "");
-    if (updater != null) updater.settings(updates);
-    LinearLayout about = card("关于与诊断", "");
-    navRow(about, "截图与录屏", "允许，用于反馈与排查问题", "◎", null);
-    navRow(
-        about,
-        "使用指南",
-        "连接、配置与插件说明",
-        "?",
-        () ->
-            startActivity(
-                new Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://z2bguoguo.github.io/AstrBotMobileUI/"))));
+    NativeViews ui =
+        NativeViews.template(
+            this,
+            "appSettings",
+            CoreRuntime.args("autofill", autofill),
+            event -> {
+              if (event.optString("kind").equals("autofill")) {
+                try {
+                  autofill = event.optBoolean("checked");
+                  state.put("autofill", autofill);
+                  persist();
+                } catch (Exception e) {
+                  error(e);
+                }
+              } else scriptNavigation(event);
+            });
+    ui.attach(content, ui.root, ui.rootNode);
+    Appearance.settings(this, (LinearLayout) ui.refs.get("appearance"));
+    if (updater != null) updater.settings((LinearLayout) ui.refs.get("updates"));
     bottomNav(false, "设置");
   }
 
@@ -541,24 +399,21 @@ public final class MainActivity extends Activity {
 
   private void renderConnections(LinearLayout holder, String text) {
     holder.removeAllViews();
-    String last = "";
-    List<Connection> entries = new ArrayList<>();
-    JSONArray a = list("connections");
-    for (int i = 0; i < a.length(); i++) entries.add(Connection.fromJson(a.optJSONObject(i)));
-    entries.sort(Comparator.comparing((Connection c) -> c.group).thenComparing(c -> c.name));
-    for (Connection c : entries) {
-      if (!(c.name + c.group + c.url)
-          .toLowerCase(Locale.ROOT)
-          .contains(text.toLowerCase(Locale.ROOT))) continue;
-      if (!last.equals(c.group)) {
-        holder.addView(label(c.group, 17, MUTED));
-        last = c.group;
-      }
-      LinearLayout row = group(holder);
-      navRow(row, c.name, c.url, "◉", () -> connect(c));
-      textAction(row, "连接设置", () -> connectionForm(c));
-    }
-    if (entries.isEmpty()) holder.addView(label("还没有连接。添加你的第一台 AstrBot。", 15, MUTED));
+    NativeViews ui =
+        NativeViews.template(
+            this,
+            "connections",
+            CoreRuntime.args("connections", list("connections"), "filter", text),
+            event -> {
+              for (int i = 0; i < list("connections").length(); i++) {
+                Connection c = Connection.fromJson(list("connections").optJSONObject(i));
+                if (!c.id.equals(event.optString("id"))) continue;
+                if (event.optString("kind").equals("connect")) connect(c);
+                else connectionForm(c);
+                break;
+              }
+            });
+    ui.attach(holder, ui.root, ui.rootNode);
   }
 
   private void connectionForm(Connection original) {
@@ -566,109 +421,62 @@ public final class MainActivity extends Activity {
         original == null ? "新建连接" : "连接设置",
         "可填写反向代理子路径，例如 https://bot.example.com/astrbot",
         this::home);
-    Connection c = original == null ? new Connection() : original;
-    LinearLayout form = card("基本信息", "");
-    EditText name = input(form, "名称", c.name, false, false),
-        group = input(form, "分组", c.group, false, false),
-        url = input(form, "服务地址", c.url, false, false);
-    EditText user = input(form, "WebUI 用户名", c.username, false, false),
-        pass = input(form, "WebUI 密码", c.password, true, false),
-        key = input(form, "API Key（可选，填写后优先使用）", c.apiKey, true, false);
-    RadioGroup authentication = new RadioGroup(this);
-    authentication.setOrientation(RadioGroup.HORIZONTAL);
-    RadioButton accountMode = new RadioButton(this);
-    accountMode.setId(View.generateViewId());
-    accountMode.setText(Appearance.text("账户密码"));
-    RadioButton keyMode = new RadioButton(this);
-    keyMode.setId(View.generateViewId());
-    keyMode.setText(io.github.astrbot.mobile.R.string.authentication_key);
-    authentication.addView(accountMode);
-    authentication.addView(keyMode);
-    form.addView(authentication, 0);
-    fieldVisibility(user, c.apiKey.isBlank());
-    fieldVisibility(pass, c.apiKey.isBlank());
-    fieldVisibility(key, !c.apiKey.isBlank());
-    authentication.check(c.apiKey.isBlank() ? accountMode.getId() : keyMode.getId());
-    authentication.setOnCheckedChangeListener(
-        (g, id) -> {
-          boolean account = id == accountMode.getId();
-          fieldVisibility(user, account);
-          fieldVisibility(pass, account);
-          fieldVisibility(key, !account);
-        });
-    Spinner mode = new Spinner(this);
-    mode.setAdapter(
-        new ArrayAdapter<>(
-            this,
-            android.R.layout.simple_spinner_dropdown_item,
-            new String[] {"原文密码（新版默认）", "MD5 密码（部分旧版）"}));
-    mode.setSelection(c.passwordMode.equals("md5") ? 1 : 0);
-    form.addView(mode);
-    form.addView(label("HTTP 会明文传输凭据，建议使用 HTTPS 或可信局域网。API Key 权限不足时可改用 WebUI 账户。", 13, MUTED));
-    primaryButton(
-        form,
-        "保存连接",
-        () -> {
-          try {
-            String normalized = Connection.normalizeUrl(url.getText().toString());
-            Connection n = Connection.fromJson(c.toJson());
-            n.name = name.getText().toString();
-            n.group = group.getText().toString();
-            n.url = normalized;
-            n.username = user.getText().toString();
-            n.password = pass.getText().toString();
-            n.apiKey =
-                authentication.getCheckedRadioButtonId() == keyMode.getId()
-                    ? key.getText().toString()
-                    : "";
-            n.passwordMode = mode.getSelectedItemPosition() == 1 ? "md5" : "plain";
-            JSONArray a = list("connections");
-            boolean found = false;
-            for (int i = 0; i < a.length(); i++)
-              if (a.getJSONObject(i).optString("id").equals(n.id)) {
-                a.put(i, n.toJson());
-                found = true;
-                break;
-              }
-            if (!found) a.put(n.toJson());
-            state.put("connections", a);
-            persist();
-            home();
-          } catch (Exception e) {
-            error(e);
-          }
-        });
-    if (original != null) {
-      button(
-          form,
-          "复制已保存的连接",
-          () -> {
-            try {
-              list("connections").put(c.duplicate().toJson());
-              persist();
-              home();
-            } catch (Exception e) {
-              error(e);
-            }
-          });
-      button(
-          form,
-          "删除连接",
-          () ->
-              confirm(
-                  "删除连接",
-                  c.name + " 的本地密码也会删除。",
-                  () -> {
-                    try {
-                      JSONArray a = list("connections");
-                      for (int i = a.length() - 1; i >= 0; i--)
-                        if (a.getJSONObject(i).optString("id").equals(c.id)) a.remove(i);
-                      persist();
-                      home();
-                    } catch (Exception e) {
-                      error(e);
-                    }
-                  }));
+    try {
+      Connection c = original == null ? new Connection() : original;
+      NativeViews[] holder = new NativeViews[1];
+      holder[0] =
+          NativeViews.template(
+              this,
+              "connection",
+              CoreRuntime.args("connection", c.toJson(), "isNew", original == null),
+              event -> {
+                try {
+                  String kind = event.optString("kind");
+                  if (kind.equals("auth")) {
+                    holder[0].apply(CoreRuntime.object("ui.connectionAuth", event));
+                    return;
+                  }
+                  Runnable commit =
+                      () -> {
+                        try {
+                          JSONObject connection =
+                              kind.equals("save")
+                                  ? CoreRuntime.object(
+                                      "ui.connectionValue",
+                                      CoreRuntime.args(
+                                          "connection", c.toJson(), "fields", holder[0].fields()))
+                                  : c.toJson();
+                          if (kind.equals("save"))
+                            connection.put(
+                                "url", Connection.normalizeUrl(connection.getString("url")));
+                          JSONObject next =
+                              CoreRuntime.object(
+                                  "ui.connectionCommit",
+                                  CoreRuntime.args(
+                                      "state",
+                                      state,
+                                      "connection",
+                                      connection,
+                                      "operation",
+                                      kind,
+                                      "newId",
+                                      java.util.UUID.randomUUID().toString()));
+                          vault.save(next);
+                          state = next;
+                          home();
+                        } catch (Exception e) {
+                          error(e);
+                        }
+                      };
+                  if (kind.equals("delete")) confirm("删除连接", c.name + " 的本地密码也会删除。", commit);
+                  else commit.run();
+                } catch (Exception e) {
+                  error(e);
+                }
+              });
+      holder[0].attach(content, holder[0].root, holder[0].rootNode);
+    } catch (Exception e) {
+      error(e);
     }
   }
 
@@ -732,29 +540,165 @@ public final class MainActivity extends Activity {
 
   private void workspace() {
     screen(selected.name, "已连接 · " + selected.group, this::home);
-    LinearLayout settings = card("配置与运行", "");
-    navRow(settings, "通用设置", "基础配置、管理员与运行选项", "⚙", () -> openConfiguration("system", "通用设置"));
-    navRow(settings, "配置文件", "不同场景使用不同配置", "▤", this::profiles);
-    LinearLayout ai = card("对话与智能", "");
-    navRow(ai, "人格与提示词", "编辑系统提示词与开场对话", "✦", () -> resources(ManagementApi.Resource.PERSONAS));
-    navRow(ai, "模型服务", "查看与编辑模型连接", "◈", () -> resources(ManagementApi.Resource.PROVIDERS));
-    navRow(ai, "MCP 服务", "连接地址、启动参数与环境变量", "⌘", () -> resources(ManagementApi.Resource.MCP));
-    LinearLayout bots = card("平台与扩展", "");
-    navRow(bots, "机器人平台", "编辑平台连接与运行设置", "◉", () -> resources(ManagementApi.Resource.BOTS));
-    navRow(bots, "插件管理", "启停插件、配置与自定义页面", "◇", () -> resources(ManagementApi.Resource.PLUGINS));
+    scriptMenu("workspace");
     bottomNav(true, "管理");
   }
 
   private void advancedTools() {
     screen("工具", "预设、扩展与高级诊断", this::workspace);
-    LinearLayout everyday = group(content);
-    navRow(everyday, "预设与配置传递", "保存常用设置，在实例间复用", "≡", this::presets);
-    navRow(everyday, "客户端插件", "管理客户端扩展", "◇", this::extensions);
-    navRow(everyday, "插件自定义页面", "打开 HTML 配置页面", "▣", this::pluginEntry);
-    LinearLayout advanced = card("高级工具", "用于未适配的功能及开发诊断");
-    navRow(advanced, "接口浏览器", "搜索全部接口操作", "⌘", () -> operations(null));
-    navRow(advanced, "自定义请求", "手动指定接口和参数", "↗", this::manualEndpoint);
+    scriptMenu("advanced");
     bottomNav(true, "工具");
+  }
+
+  private void scriptMenu(String name) {
+    NativeViews ui = NativeViews.template(this, name, new JSONObject(), this::scriptNavigation);
+    ui.attach(content, ui.root, ui.rootNode);
+  }
+
+  private void scriptNavigation(JSONObject event) {
+    if (busy) {
+      toast("正在处理，请稍候");
+      return;
+    }
+    attempt(
+        () -> {
+          switch (event.optString("kind")) {
+            case "settings":
+              openConfiguration(event.optString("id"), "通用设置");
+              break;
+            case "profiles":
+              profiles();
+              break;
+            case "resource":
+              resources(ManagementApi.Resource.valueOf(event.optString("resource")));
+              break;
+            case "presets":
+              presets();
+              break;
+            case "extensions":
+              extensions();
+              break;
+            case "pluginEntry":
+              pluginEntry();
+              break;
+            case "operations":
+              operations(null);
+              break;
+            case "manual":
+              manualEndpoint();
+              break;
+            default:
+              scriptCommand(event);
+              break;
+          }
+        });
+  }
+
+  private void scriptCommand(JSONObject command) {
+    try {
+      switch (command.optString("kind")) {
+        case "screen":
+          screen(command.optString("title"), command.optString("hint"), this::workspace);
+          NativeViews ui = new NativeViews(this, this::scriptNavigation);
+          ui.build(command.getJSONObject("tree"), 0);
+          ui.attach(content, ui.root, ui.rootNode);
+          break;
+        case "request":
+          if (client == null) throw new IllegalStateException("请先连接实例");
+          String path = command.getString("path"), method = command.optString("method", "GET");
+          JSONObject body = command.optJSONObject("body");
+          Runnable run =
+              () ->
+                  async(
+                      () ->
+                          ApiClient.json(
+                              client.request(
+                                  path,
+                                  method,
+                                  body == null
+                                      ? null
+                                      : body.toString().getBytes(StandardCharsets.UTF_8),
+                                  body == null ? null : "application/json")),
+                      result -> {
+                        JSONObject response =
+                            CoreRuntime.object(
+                                command.optString("handler", "ui.response"),
+                                CoreRuntime.args(
+                                    "data",
+                                    result,
+                                    "event",
+                                    command,
+                                    "language",
+                                    Appearance.language()));
+                        scriptCommand(response);
+                      });
+          if (!method.equals("GET") && !method.equals("HEAD"))
+            confirm("执行写入", method + " " + path, run);
+          else run.run();
+          break;
+        case "event":
+          scriptCommand(
+              CoreRuntime.object(
+                  command.getString("handler"),
+                  CoreRuntime.args(
+                      "data",
+                      command,
+                      "state",
+                      state,
+                      "session",
+                      CoreRuntime.args(
+                          "connectionId",
+                          selected == null ? "" : selected.id,
+                          "modern",
+                          client != null && client.modern),
+                      "language",
+                      Appearance.language())));
+          break;
+        case "preferences":
+          String namespace = command.optString("namespace");
+          if (!namespace.equals("appearance") && !namespace.equals("updates"))
+            throw new SecurityException("Unsupported preference namespace");
+          android.content.SharedPreferences.Editor preferences =
+              getSharedPreferences(namespace, 0).edit();
+          JSONObject values = command.getJSONObject("values");
+          for (Iterator<String> it = values.keys(); it.hasNext(); ) {
+            String key = it.next();
+            Object value = values.get(key);
+            if (value instanceof Boolean) preferences.putBoolean(key, (Boolean) value);
+            else if (value instanceof Number) preferences.putInt(key, ((Number) value).intValue());
+            else if (value instanceof String) preferences.putString(key, (String) value);
+            else throw new IllegalArgumentException("Preference must be scalar");
+          }
+          preferences.apply();
+          if (command.optBoolean("reload")) recreate();
+          break;
+        case "saveState":
+          JSONObject next = command.getJSONObject("state");
+          for (String key : new String[] {"connections", "presets", "extensions"})
+            if (next.optJSONArray(key) == null)
+              throw new IllegalArgumentException("Incomplete encrypted state");
+          vault.save(next);
+          state = next;
+          if (command.optJSONObject("next") != null) scriptCommand(command.getJSONObject("next"));
+          break;
+        case "openPlugin":
+          openPluginPage(command.getString("plugin"), command.getString("view"));
+          break;
+        case "openUrl":
+          Uri uri = Uri.parse(command.getString("url"));
+          if (!"https".equals(uri.getScheme()) && !"http".equals(uri.getScheme()))
+            throw new SecurityException("Only HTTP(S) links are supported");
+          startActivity(new Intent(Intent.ACTION_VIEW, uri));
+          break;
+        case "toast":
+          toast(command.optString("text"));
+          break;
+        default:
+          throw new IllegalArgumentException("Unsupported script command");
+      }
+    } catch (Exception e) {
+      error(e);
+    }
   }
 
   private void overview() {
@@ -1271,98 +1215,72 @@ public final class MainActivity extends Activity {
 
   void fullEditor(String title, EditText target, boolean json) {
     Dialog dialog = new Dialog(this);
-    LinearLayout panel = vertical();
-    panel.setPadding(dp(14), dp(14), dp(14), dp(14));
-    panel.setBackgroundColor(0xfff5f6fc);
-    panel.addView(label(title, 22, INK));
-    EditText search = input(panel, "查找", "", false, false),
-        replace = input(panel, "替换为", "", false, false);
-    EditText editor = new EditText(this);
-    editor.setText(target.getText());
-    editor.setTypeface(Typeface.MONOSPACE);
-    editor.setTextSize(15);
-    editor.setGravity(Gravity.TOP);
-    editor.setInputType(
-        android.text.InputType.TYPE_CLASS_TEXT
-            | android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
-            | android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-    editor.setHorizontallyScrolling(false);
-    panel.addView(editor, new LinearLayout.LayoutParams(-1, 0, 1));
     String original = target.getText().toString();
-    TextView count = label("", 12, MUTED);
-    panel.addView(count);
+    NativeViews[] views = new NativeViews[1];
+    views[0] =
+        NativeViews.template(
+            this,
+            "editor",
+            CoreRuntime.args("title", title, "value", original, "json", json),
+            event -> {
+              try {
+                EditText editor = (EditText) views[0].refs.get("editor");
+                event.put("cursor", editor.getSelectionEnd());
+                event.put("original", original);
+                JSONObject result = CoreRuntime.object("ui.editorAction", event);
+                switch (result.optString("kind")) {
+                  case "selection":
+                    if (result.optInt("start", -1) >= 0) {
+                      editor.requestFocus();
+                      editor.setSelection(result.getInt("start"), result.getInt("end"));
+                    }
+                    break;
+                  case "text":
+                    editor.setText(result.optString("text"));
+                    break;
+                  case "formatJson":
+                    Object value = new JSONTokener(editor.getText().toString()).nextValue();
+                    if (!(value instanceof JSONObject) && !(value instanceof JSONArray))
+                      throw new IllegalArgumentException("需要 JSON 对象或数组");
+                    editor.setText(Helpers.pretty(value));
+                    break;
+                  case "apply":
+                    target.setText(result.optString("text"));
+                    dialog.dismiss();
+                    break;
+                  case "dismiss":
+                    dialog.dismiss();
+                    break;
+                  default:
+                    throw new IllegalArgumentException("Unknown editor event");
+                }
+              } catch (Exception e) {
+                error(e);
+              }
+            });
+    EditText editor = (EditText) views[0].refs.get("editor");
+    TextView count = (TextView) views[0].refs.get("count");
     Runnable update =
         () ->
             count.setText(
-                getString(
-                    io.github.astrbot.mobile.R.string.editor_count,
-                    editor.length(),
-                    editor.getText().toString().split("\n", -1).length,
-                    original.equals(editor.getText().toString()) ? "未修改" : "已修改"));
+                CoreRuntime.text(
+                    "ui.editorCount",
+                    CoreRuntime.args(
+                        "value",
+                        editor.getText().toString(),
+                        "original",
+                        original,
+                        "language",
+                        Appearance.language())));
     editor.addTextChangedListener(watcher(update));
     update.run();
-    LinearLayout actions = new LinearLayout(this);
-    panel.addView(actions);
-    smallButton(
-        actions,
-        "查找",
-        () -> {
-          String q = search.getText().toString();
-          if (q.isEmpty()) return;
-          String text = editor.getText().toString();
-          int at = text.indexOf(q, editor.getSelectionEnd());
-          if (at < 0) at = text.indexOf(q);
-          if (at >= 0) {
-            editor.requestFocus();
-            editor.setSelection(at, at + q.length());
-          }
-        });
-    smallButton(
-        actions,
-        "替换全部",
-        () -> {
-          String q = search.getText().toString();
-          if (!q.isEmpty())
-            editor.setText(editor.getText().toString().replace(q, replace.getText().toString()));
-        });
-    if (json)
-      smallButton(
-          actions,
-          "格式化",
-          () -> {
-            try {
-              Object obj = new JSONTokener(editor.getText().toString()).nextValue();
-              if (!(obj instanceof JSONObject) && !(obj instanceof JSONArray))
-                throw new IllegalArgumentException("需要 JSON 对象或数组");
-              editor.setText(Helpers.pretty(obj));
-            } catch (Exception e) {
-              error(e);
-            }
-          });
-    smallButton(actions, "撤销", () -> editor.setText(original));
-    button(
-        panel,
-        "保存到当前表单",
-        () -> {
-          target.setText(editor.getText());
-          dialog.dismiss();
-        });
-    button(panel, "放弃修改", () -> dialog.dismiss());
-    dialog.setContentView(panel);
+    dialog.setContentView(views[0].root);
     dialog.setOnCancelListener(
         d -> {
           if (!original.equals(editor.getText().toString())) toast("未保存的修改已放弃");
         });
     dialog.show();
     if (dialog.getWindow() != null) dialog.getWindow().setLayout(-1, -1);
-  }
-
-  private void smallButton(LinearLayout row, String text, Runnable action) {
-    Button b = new Button(this);
-    b.setText(Appearance.text(text));
-    b.setTextSize(11);
-    b.setOnClickListener(v -> attempt(action));
-    row.addView(b, new LinearLayout.LayoutParams(0, dp(50), 1));
   }
 
   private void execute(Endpoint e) {

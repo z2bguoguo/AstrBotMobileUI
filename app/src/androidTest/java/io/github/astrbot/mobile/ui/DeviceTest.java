@@ -195,6 +195,31 @@ public class DeviceTest {
     }
   }
 
+  @Test
+  public void scriptEditorRendersNativeInputsWithoutTranslatingPromptValues() throws Exception {
+    try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+      scenario.onActivity(
+          a -> {
+            a.screen("Script editor fixture", "", null);
+            java.util.concurrent.atomic.AtomicReference<JSONObject> event =
+                new java.util.concurrent.atomic.AtomicReference<>();
+            NativeViews ui =
+                NativeViews.template(
+                    a,
+                    "editor",
+                    io.github.astrbot.mobile.core.CoreRuntime.args(
+                        "title", "提示词", "value", "Save\n用户的中文提示词", "json", false),
+                    event::set);
+            ui.attach(a.content, ui.root, ui.rootNode);
+            android.widget.EditText editor = (android.widget.EditText) ui.refs.get("editor");
+            assertEquals("Save\n用户的中文提示词", editor.getText().toString());
+            find(ui.root, "保存到当前表单").performClick();
+            assertEquals("apply", event.get().optString("kind"));
+            assertEquals("Save\n用户的中文提示词", event.get().optJSONObject("fields").optString("editor"));
+          });
+    }
+  }
+
   private int progressCount(View view) {
     if (view instanceof android.widget.ProgressBar) return 1;
     int total = 0;

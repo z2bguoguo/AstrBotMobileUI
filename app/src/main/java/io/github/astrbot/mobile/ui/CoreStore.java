@@ -57,8 +57,9 @@ public final class CoreStore {
             .put("architecture", BuildConfig.ARCHITECTURE)
             .put("version", BuildConfig.CORE_VERSION)
             .put("abi", 1);
-    for (String file : new String[] {"main.js", "locales.json", "fields.json"})
-      payload.put(file, read(context.getAssets().open("core/" + file)));
+    for (String file : context.getAssets().list("core"))
+      if (file.endsWith(".js") || file.endsWith(".json"))
+        payload.put(file, read(context.getAssets().open("core/" + file)));
     return payload;
   }
 
@@ -83,7 +84,7 @@ public final class CoreStore {
   }
 
   private static void activate(JSONObject payload) throws Exception {
-    CoreRuntime.configure(payload.getString("main.js"));
+    CoreRuntime.configure(CoreSource.script(payload));
     active = payload;
   }
 

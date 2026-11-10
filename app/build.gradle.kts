@@ -11,8 +11,8 @@ android {
         applicationId = "io.github.astrbot.mobile"
         minSdk = 26
         targetSdk = 35
-        versionCode = (System.getenv("BUILD_NUMBER") ?: "3").toInt()
-        versionName = System.getenv("VERSION_NAME") ?: "0.2.0-dev"
+        versionCode = (System.getenv("BUILD_NUMBER") ?: "4").toInt()
+        versionName = System.getenv("VERSION_NAME") ?: "0.3.0-dev"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -69,13 +69,13 @@ android {
     buildFeatures { buildConfig = true }
     defaultConfig {
         buildConfigField("String", "ARCHITECTURE", "\"$architectureId\"")
-        buildConfigField("long", "CORE_VERSION", "${System.getenv("BUILD_NUMBER") ?: "3"}L")
+        buildConfigField("long", "CORE_VERSION", "${System.getenv("BUILD_NUMBER") ?: "4"}L")
     }
 }
 tasks.register("writeCoreMetadata") {
     doLast {
         val target = layout.buildDirectory.file("core/metadata.json").get().asFile
         target.parentFile.mkdirs()
-        target.writeText("""{"abi":1,"architecture":"$architectureId","version":${System.getenv("BUILD_NUMBER") ?: "3"}}""")
+        target.writeText("""{"abi":1,"architecture":"$architectureId","version":${System.getenv("BUILD_NUMBER") ?: "4"}}""")
     }
 }

@@ -73,8 +73,17 @@ public final class CoreRuntime {
       try (InputStream in =
           CoreRuntime.class.getClassLoader().getResourceAsStream("core/main.js")) {
         if (in == null) throw new IOException("Script core not initialized");
-        configure(
-            new String(HttpTransport.readLimited(in, 8 * 1024 * 1024), StandardCharsets.UTF_8));
+        String script =
+            new String(HttpTransport.readLimited(in, 8 * 1024 * 1024), StandardCharsets.UTF_8);
+        try (InputStream ui =
+            CoreRuntime.class.getClassLoader().getResourceAsStream("core/ui.js")) {
+          if (ui != null)
+            script +=
+                "\n;\n"
+                    + new String(
+                        HttpTransport.readLimited(ui, 4 * 1024 * 1024), StandardCharsets.UTF_8);
+        }
+        configure(script);
       } catch (IOException e) {
         throw new IllegalStateException(e);
       }
