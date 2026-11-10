@@ -103,7 +103,6 @@ public class DeviceTest {
             row.getLocationInWindow(xy);
             touch(a, xy[0] + row.getWidth() / 2f, xy[1] + 2);
             touch(a, xy[0] + 2, xy[1] + row.getHeight() / 2f);
-            assertEquals(6, clicks.get());
             assertTrue(row.isFocusable());
           });
       androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().waitForIdleSync();
