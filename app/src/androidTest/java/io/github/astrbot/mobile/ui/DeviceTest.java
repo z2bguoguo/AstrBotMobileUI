@@ -110,6 +110,94 @@ public class DeviceTest {
     }
   }
 
+  @Test
+  public void scriptHelpButtonsAreLeftOfTitlesAndKeepIndependentTouchActions() throws Exception {
+    java.util.List<String> events = new java.util.ArrayList<>();
+    java.util.List<View> buttons = new java.util.ArrayList<>();
+    try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+      scenario.onActivity(
+          a -> {
+            try {
+              a.screen("设置帮助", "", null);
+              org.json.JSONArray items = new org.json.JSONArray();
+              items.put(
+                  new JSONObject(
+                      "{\"title\":\"配置格式版本\",\"path\":[\"config_version\"],\"summary\":\"2\"}"));
+              items.put(
+                  new JSONObject(
+                      "{\"title\":\"启用\",\"path\":[\"enable\"],\"boolean\":true,\"value\":false}"));
+              NativeViews ui =
+                  NativeViews.template(
+                      a,
+                      "fields",
+                      io.github.astrbot.mobile.core.CoreRuntime.args("items", items),
+                      event -> events.add(event.optString("kind")));
+              ui.attach(a.content, ui.root, ui.rootNode);
+              ViewGroup root = (ViewGroup) ui.root;
+              for (int i = 0; i < 2; i++) {
+                ViewGroup card = (ViewGroup) root.getChildAt(i),
+                    row = (ViewGroup) card.getChildAt(0);
+                assertEquals("ⓘ", ((TextView) row.getChildAt(0)).getText().toString());
+                buttons.add(row.getChildAt(0));
+              }
+            } catch (Exception e) {
+              throw new AssertionError(e);
+            }
+          });
+      androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+      scenario.onActivity(
+          a -> {
+            for (View button : buttons) {
+              int[] xy = new int[2];
+              button.getLocationInWindow(xy);
+              assertTrue(button.getWidth() >= 44 * a.getResources().getDisplayMetrics().density);
+              touch(a, xy[0] + button.getWidth() / 2f, xy[1] + button.getHeight() / 2f);
+            }
+            assertEquals(java.util.List.of("help", "help"), events);
+          });
+      capture("settings-help-left.png");
+    }
+  }
+
+  @Test
+  public void firstSwatchStaysBlueAfterChangingThemeAccent() throws Exception {
+    Context context = ApplicationProvider.getApplicationContext();
+    int original = context.getSharedPreferences("appearance", 0).getInt("accent", 0xff526da9);
+    try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+      scenario.onActivity(
+          a -> {
+            try {
+              for (int accent : new int[] {0xffaa2244, 0xff118855}) {
+                context
+                    .getSharedPreferences("appearance", 0)
+                    .edit()
+                    .putInt("accent", accent)
+                    .commit();
+                NativeViews ui =
+                    NativeViews.template(
+                        a,
+                        "color",
+                        io.github.astrbot.mobile.core.CoreRuntime.args(
+                            "value",
+                            String.format("#%06X", accent & 0xffffff),
+                            "palette",
+                            new org.json.JSONArray().put("#526DA9").put("#118855")),
+                        event -> {});
+                ViewGroup row = (ViewGroup) ((ViewGroup) ui.root).getChildAt(1);
+                View swatch = ((ViewGroup) row.getChildAt(0)).getChildAt(0);
+                android.graphics.drawable.GradientDrawable background =
+                    (android.graphics.drawable.GradientDrawable) swatch.getBackground();
+                assertEquals(0xff526da9, background.getColor().getDefaultColor());
+              }
+            } catch (Exception e) {
+              throw new AssertionError(e);
+            }
+          });
+    } finally {
+      context.getSharedPreferences("appearance", 0).edit().putInt("accent", original).commit();
+    }
+  }
+
   private static void touch(MainActivity activity, float x, float y) {
     long time = android.os.SystemClock.uptimeMillis();
     android.view.MotionEvent down =

@@ -139,7 +139,7 @@ var Core = (function () {
     if(name==='helpers.redact')return redact(a.value);
     if(name==='helpers.suggestions'){var out=a.current||[];suggestions(a.value,out,a.depth);return out;}
     if(name==='helpers.warnings'){var out=[],k=a.name.toLowerCase();if(/group|umo|session/.test(k)&&/^[0-9]+$/.test(a.value))out.push('部分接口需要平台前缀、group: 或完整 UMO；请以本服务器字段说明为准');if(/url/.test(k)&&a.value.trim()&&!/^https?:\/\/.+/.test(a.value))out.push('此字段可能需要完整 http(s) 地址');return out;}
-    if(name==='form.metadata')return metadata(a.root,a.path);
+    if(name==='form.metadata'||name==='form.metadata.raw')return metadata(a.root,a.path);
     if(name==='form.default')return defaults(a.meta);
     if(name==='form.diff'){var out=[];diff(a.before,a.after,'',out);return out;}
     if(name==='endpoint.resolve'){

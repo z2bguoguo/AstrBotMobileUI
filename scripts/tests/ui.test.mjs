@@ -48,3 +48,19 @@ test('long-text actions preserve original data and leave exact JSON parsing to n
  assert.equal(call('ui.editorAction',{kind:'apply',fields,original:'old'}).text,fields.editor);
  assert.ok(call('ui.editorCount',{value:fields.editor,original:'old',language:'zh'}).includes('2 行'));
 });
+test('help is left of both switch titles and ordinary entry titles',()=>{
+ for(const boolean of [true,false]){
+  const tree=call('ui.fields',{data:{items:[{title:'Setting',path:['setting'],boolean,value:false,summary:'Value'}]}});
+  const helpRow=walk(tree).find(n=>n.type==='row'&&n.children?.[0]?.action?.kind==='help');
+  assert.ok(helpRow);assert.equal(helpRow.children[0].width,44);assert.ok(helpRow.children[1].type=== (boolean?'switch':'row'));
+  assert.ok(!helpRow.atomic);
+ }
+});
+test('palette uses fixed literal backgrounds and keeps a 48dp independent touch target',()=>{
+ const palette=['#526DA9','#aa2244','#118855'];
+ for(const value of ['#526DA9','#118855']){
+  const tree=call('ui.color',{data:{value,palette}}),swatches=walk(tree).filter(n=>n.action?.value);
+  assert.deepEqual(swatches.map(n=>n.action.value),palette);
+  for(let i=0;i<swatches.length;i++){assert.equal(swatches[i].children[0].background,palette[i]);assert.equal(swatches[i].width,48);assert.equal(swatches[i].height,48);assert.equal(swatches[i].atomic,true);}
+ }
+});

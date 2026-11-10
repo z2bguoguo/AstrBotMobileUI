@@ -43,3 +43,7 @@ if errors:
     print('\n'.join(errors), file=sys.stderr)
     sys.exit(1)
 print(f'Repository checks passed: {len(spec["paths"])} contract paths, {len(legacy)} legacy operations')
+
+# Coverage and generated-data drift are release-blocking checks.
+from build_help import build
+build(check=True)

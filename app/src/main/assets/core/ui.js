@@ -43,10 +43,10 @@ var UI = (function(){
       var help=button('ⓘ',{kind:'help',path:item.path},false);merge(help,{width:44,height:48,margin:[0,0,0,0],background:'transparent'});
       var children=[];
       if(item.boolean){
-        children.push(row([{type:'switch',text:item.title,checked:item.value,enabled:!item.locked,action:item.locked?undefined:{kind:'toggle',path:item.path},color:'ink',size:16,width:0,weight:1,padding:[16,12,8,12],minHeight:60},help]));
+        children.push(row([help,{type:'switch',text:item.title,checked:item.value,enabled:!item.locked,action:item.locked?undefined:{kind:'toggle',path:item.path},color:'ink',size:16,width:0,weight:1,padding:[16,12,8,12],minHeight:60}]));
       }else {
         var entry=nav({title:item.title,detail:item.summary,icon:item.icon,active:!item.locked,action:{kind:'edit',path:item.path}});entry.width=0;entry.weight=1;
-        children.push(row([entry,help]));
+        children.push(row([help,entry]));
       }
       if(item.hint)children.push(text(item.hint,12,'muted',{padding:[16,0,16,12]}));
       if(d.array)children.push(button('删除此项',{kind:'delete',path:item.path},false));
@@ -60,11 +60,12 @@ var UI = (function(){
     var fallback=names[full]||names[k]||d.fallback||k.replace(/_/g,' '),desc=translated(meta.description);
     var title=typeof desc==='string'&&desc.trim()?desc:fallback;
     if(env.language==='zh'&&!/[一-鿿]/.test(title)&&/[一-鿿]/.test(fallback))title=fallback;
+    if(env.language==='en'&&/[一-鿿]/.test(title)&&!/[一-鿿]/.test(fallback))title=fallback;
     if(/^[0-9]+$/.test(k))title=env.language==='zh'?'第 '+(Number(k)+1)+' 项':'Item '+(Number(k)+1);
     var value=d.value;if(value&&value.__astrbot_exact_number__)value=value.__astrbot_exact_number__;var secret=meta.obvious_hint||/password|passwd|secret|token|api.?key|authorization/i.test(k);
     var summary=value===null?'未设置':typeof value==='object'?(Array.isArray(value)?value.length+' 项':Object.keys(value).length+' 项设置'):secret&&String(value)?'••••••••':String(value===undefined?'':value).replace(/\n/g,' ');
     if(!summary)summary='未填写';if(summary.length>64)summary=summary.slice(0,64)+'…';
-    return {title:title,hint:translated(meta.hint)||'',summary:summary};
+    return {title:title,hint:translated(meta.mobile_summary||meta.hint)||'',summary:summary};
   }
   function render(name,a){var d=a.data||{};
     if(name==='label')return text(d.text,d.size,d.color);
@@ -141,7 +142,7 @@ CoreModules['ui.preferences']=function(a){var d=a.data;
     UI.nav({title:'Accent / 主题色',detail:d.accent,icon:'●',active:true,action:{kind:'color',title:'Accent / 主题色',palette:['#526DA9','#8670B7','#3B8574','#B76683','#C17B3F']}})
   ]);
 };
-CoreModules['ui.color']=function(a){var d=a.data;return UI.column([{type:'input',id:'accent',value:d.value},UI.row(d.palette.map(function(hex){return UI.text('●',28,hex,{padding:[10,0,10,0],width:'wrap',action:{value:hex}});}))],{padding:[20,8,20,8]});};
+CoreModules['ui.color']=function(a){var d=a.data;return UI.column([{type:'input',id:'accent',value:d.value},UI.row(d.palette.map(function(hex){return UI.column([UI.text('',14,'transparent',{background:hex,width:32,height:32,radius:16})],{width:48,height:48,padding:[8,8,8,8],description:hex,action:{value:hex},atomic:true});}))],{padding:[20,8,20,8]});};
 CoreModules['ui.response']=function(a){return {kind:'screen',title:'服务器结果',tree:UI.column([UI.text(JSON.stringify(Core.invoke('helpers.redact',{value:a.data}),null,2),13,'ink',{monospace:true,selectable:true})])};};
 CoreModules['ui.editor']=function(a){var d=a.data;
   function small(title,kind){var node=UI.button(title,{kind:kind},false);node.width=0;node.weight=1;node.size=12;return node;}

@@ -41,3 +41,7 @@ field_data=json.loads(field_file.read_text())
 for language in ('zh','en'):
     field_data[language]['_names']={key:value[language] for key,value in field_names.items()}
 field_file.write_text(json.dumps(field_data,ensure_ascii=False,separators=(',',':'))+'\n')
+
+# Keep reviewed field help intact and reproducible when translations regenerate.
+from build_help import build
+build()

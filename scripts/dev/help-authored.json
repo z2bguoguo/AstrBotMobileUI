@@ -1,0 +1,1190 @@
+{
+  "config_version": {
+    "zh": "配置文件的内部格式版本，供服务器迁移配置使用；不要手动递增或降低它。",
+    "en": "Internal configuration format used by server migrations. Do not increment or downgrade it manually.",
+    "example": 2
+  },
+  "platform": {
+    "zh": "管理消息适配器与消息处理规则。连接地址、机器人账号属于适配器；白名单、限流和分段回复属于处理规则。先展开子项再修改，保留其他平台的配置。",
+    "en": "Configure messaging adapters and message handling. Adapter addresses/accounts are separate from allowlists, rate limits and segmented replies. Edit individual children without replacing other adapters.",
+    "example": {
+      "enable": true
+    }
+  },
+  "platform_settings": {
+    "zh": "管理消息适配器与消息处理规则。连接地址、机器人账号属于适配器；白名单、限流和分段回复属于处理规则。先展开子项再修改，保留其他平台的配置。",
+    "en": "Configure messaging adapters and message handling. Adapter addresses/accounts are separate from allowlists, rate limits and segmented replies. Edit individual children without replacing other adapters.",
+    "example": {
+      "enable": true
+    }
+  },
+  "provider_sources": {
+    "zh": "管理模型服务来源或已配置的模型实例。来源保存服务商地址与认证，模型实例引用来源并选择模型；标识被其他配置引用时不能随意改名。",
+    "en": "Manage provider sources or configured model instances. Sources define endpoint/authentication; model instances reference a source and model. Renaming an ID can break references.",
+    "example": {
+      "id": "my-model",
+      "enable": true
+    }
+  },
+  "provider": {
+    "zh": "管理模型服务来源或已配置的模型实例。来源保存服务商地址与认证，模型实例引用来源并选择模型；标识被其他配置引用时不能随意改名。",
+    "en": "Manage provider sources or configured model instances. Sources define endpoint/authentication; model instances reference a source and model. Renaming an ID can break references.",
+    "example": {
+      "id": "my-model",
+      "enable": true
+    }
+  },
+  "provider_settings": {
+    "zh": "管理默认模型、调用流程及通用行为。展开查看每个子项；改变默认模型前，确认其已创建、启用且具备需要的能力。",
+    "en": "Configure default model, request flow and general behavior. Expand the children; verify the chosen model exists, is enabled and supports the required capabilities.",
+    "example": {
+      "enable": true
+    }
+  },
+  "general": {
+    "zh": "管理默认模型、调用流程及通用行为。展开查看每个子项；改变默认模型前，确认其已创建、启用且具备需要的能力。",
+    "en": "Configure default model, request flow and general behavior. Expand the children; verify the chosen model exists, is enabled and supports the required capabilities.",
+    "example": {
+      "enable": true
+    }
+  },
+  "provider_stt_settings": {
+    "zh": "配置语音识别：选择已配置的语音转文字服务，将收到的语音转成文本后交给后续流程；启用前验证服务可用。",
+    "en": "Configure speech recognition. Incoming audio is transcribed before later processing. Select a configured STT service and verify it before enabling.",
+    "example": {
+      "enable": true
+    }
+  },
+  "provider_tts_settings": {
+    "zh": "配置回复的语音合成及默认 TTS 服务；服务端需要可用的音色、凭据和消息平台语音发送能力。",
+    "en": "Configure reply speech synthesis and default TTS service. The server needs a usable voice, credentials and platform audio support.",
+    "example": {
+      "enable": true
+    }
+  },
+  "provider_ltm_settings": {
+    "zh": "管理群聊上下文感知、历史记录和主动回复。开启历史采集会保存更多聊天内容，应按需要限制数量。",
+    "en": "Manage group context, history and proactive replies. History collection retains more conversation content; set an appropriate limit.",
+    "example": {
+      "group_icl_enable": true
+    }
+  },
+  "ltm": {
+    "zh": "管理群聊上下文感知、历史记录和主动回复。开启历史采集会保存更多聊天内容，应按需要限制数量。",
+    "en": "Manage group context, history and proactive replies. History collection retains more conversation content; set an appropriate limit.",
+    "example": {
+      "group_icl_enable": true
+    }
+  },
+  "dashboard": {
+    "zh": "配置 AstrBot 自身的 Web 管理服务。监听地址、端口、证书等改变后可能需要服务重启，并可能使当前手机连接失效。",
+    "en": "Configure the AstrBot web management server. Binding, port or certificate changes may need a restart and can invalidate this phone connection.",
+    "example": {
+      "host": "0.0.0.0",
+      "port": 6185
+    }
+  },
+  "platform_specific": {
+    "zh": "按消息平台分别配置专用行为；仅对应适配器读取这些选项，不会自动将一种平台的设置应用到另一种平台。",
+    "en": "Configure platform-specific behavior. Each adapter reads its own options; one platform setting does not automatically apply to others.",
+    "example": {
+      "telegram": {
+        "pre_ack_emoji": {
+          "enable": true
+        }
+      }
+    }
+  },
+  "persona": {
+    "zh": "选择已创建的人格标识，用其系统提示词和预置对话约束模型回复。填写人格 ID 而不是整段提示词，编辑提示词请进入人格详情。",
+    "en": "Select an existing persona by ID to apply its system prompt and preset dialogs. Enter the persona ID, not the prompt text; edit prompts in persona details.",
+    "example": "helpful_assistant"
+  },
+  "agent.config.persona.persona_id": {
+    "zh": "选择已创建的人格标识，用其系统提示词和预置对话约束模型回复。填写人格 ID 而不是整段提示词，编辑提示词请进入人格详情。",
+    "en": "Select an existing persona by ID to apply its system prompt and preset dialogs. Enter the persona ID, not the prompt text; edit prompts in persona details.",
+    "example": "helpful_assistant"
+  },
+  "persona_id": {
+    "zh": "选择已创建的人格标识，用其系统提示词和预置对话约束模型回复。填写人格 ID 而不是整段提示词，编辑提示词请进入人格详情。",
+    "en": "Select an existing persona by ID to apply its system prompt and preset dialogs. Enter the persona ID, not the prompt text; edit prompts in persona details.",
+    "example": "helpful_assistant"
+  },
+  "system_prompt": {
+    "zh": "定义人格的角色、目标、语气和行为边界，作为模型的系统提示词。建议分段写明任务与限制；模型是否遵循仍受其能力和服务商规则影响。",
+    "en": "Define persona role, goals, tone and boundaries as the system prompt. Separate tasks and constraints into paragraphs; compliance still depends on the model and provider.",
+    "example": "你是中文助手。先给出结论，再解释必要步骤。不要编造未知事实。"
+  },
+  "begin_dialogs": {
+    "zh": "人格预置的示例对话，用于示范问答风格与格式；按服务器定义保留 role/content 结构，避免放入真实私人聊天。",
+    "en": "Preset example dialogs demonstrating persona style and format. Preserve the server role/content structure and avoid real private conversations.",
+    "example": [
+      {
+        "role": "user",
+        "content": "你好"
+      },
+      {
+        "role": "assistant",
+        "content": "你好，有什么可以帮助你？"
+      }
+    ]
+  },
+  "knowledgebase": {
+    "zh": "配置知识库检索及关联的集合；检索质量同时取决于文档、嵌入模型、召回数量和重排序，修改前确认所选资源存在。",
+    "en": "Configure retrieval and associated knowledge collections. Quality depends on documents, embeddings, retrieval limits and reranking. Verify referenced resources exist.",
+    "example": {
+      "kb_names": [
+        "manual"
+      ]
+    }
+  },
+  "websearch": {
+    "zh": "配置模型可使用的网页搜索服务与凭据；需要支持工具调用的执行流程及可访问的搜索服务，启用不保证每次回复都会搜索。",
+    "en": "Configure web search service and credentials for model tools. A compatible tool-calling flow and reachable search service are required; enabling does not force a search on every reply.",
+    "example": {
+      "web_search": true
+    }
+  },
+  "agent_computer_use": {
+    "zh": "配置智能体的计算机操作环境与权限。远程沙箱与本机执行的权限范围不同，应先选择运行方式，再配置地址、认证和授权范围。",
+    "en": "Configure computer-use environment and permissions. Remote sandboxes and local execution have different access scopes. Select runtime before endpoint, authentication and permissions.",
+    "example": {
+      "computer_use_runtime": "none"
+    }
+  },
+  "subagents": {
+    "zh": "配置子智能体的可用配置与并发限制。主智能体是否委派任务由其执行器与工具决定；并发增加会提高资源消耗。",
+    "en": "Configure subagent profiles and concurrency. Delegation depends on the main runner and tools; higher concurrency consumes more resources.",
+    "example": {
+      "max_concurrent_agents": 2
+    }
+  },
+  "truncate_and_compress": {
+    "zh": "管理超出上下文时的裁剪或摘要策略。裁剪可能丢失旧消息；摘要会调用模型并增加延迟或费用，需保留足够近期对话。",
+    "en": "Manage context trimming or summarization. Trimming loses older messages; summarization can add model calls, latency and cost. Retain enough recent turns.",
+    "example": {
+      "max_turns": 20
+    }
+  },
+  "others": {
+    "zh": "包含其余运行行为与系统选项。逐项阅读帮助后修改；服务器部署相关参数可能需要重启，不要用整个对象覆盖未知字段。",
+    "en": "Contains remaining runtime and system options. Review each child before editing; deployment options can need a restart. Preserve unknown fields.",
+    "example": {}
+  },
+  "system": {
+    "zh": "包含其余运行行为与系统选项。逐项阅读帮助后修改；服务器部署相关参数可能需要重启，不要用整个对象覆盖未知字段。",
+    "en": "Contains remaining runtime and system options. Review each child before editing; deployment options can need a restart. Preserve unknown fields.",
+    "example": {}
+  },
+  "admins": {
+    "zh": "设置管理员用户标识；管理员可调用高权限命令。请使用平台实际用户 ID，可通过 /sid 查询，不要用昵称替代。",
+    "en": "Set administrator user identifiers granting privileged commands. Use actual platform user IDs (query with /sid), not display names.",
+    "example": [
+      "123456789"
+    ]
+  },
+  "whitelist": {
+    "zh": "控制哪些会话允许机器人响应。当前源码在白名单关闭或列表为空时不拦截，WebChat 也豁免；管理员可由群聊/私聊开关绕过。列表可匹配群号或完整会话来源，通过 /sid 获取，例如 aiocqhttp:GroupMessage:123456789；不要给所有平台强加 group: 前缀。",
+    "en": "Control which sessions may receive replies. In this source baseline, disabled or empty allowlists do not filter; WebChat is exempt. Separate group/private switches can exempt admins. Match a group ID or full unified origin from /sid, e.g. aiocqhttp:GroupMessage:123456789. Do not add group: universally.",
+    "example": [
+      "aiocqhttp:GroupMessage:123456789"
+    ]
+  },
+  "platform_settings.enable_id_white_list": {
+    "zh": "控制哪些会话允许机器人响应。当前源码在白名单关闭或列表为空时不拦截，WebChat 也豁免；管理员可由群聊/私聊开关绕过。列表可匹配群号或完整会话来源，通过 /sid 获取，例如 aiocqhttp:GroupMessage:123456789；不要给所有平台强加 group: 前缀。",
+    "en": "Control which sessions may receive replies. In this source baseline, disabled or empty allowlists do not filter; WebChat is exempt. Separate group/private switches can exempt admins. Match a group ID or full unified origin from /sid, e.g. aiocqhttp:GroupMessage:123456789. Do not add group: universally.",
+    "example": [
+      "aiocqhttp:GroupMessage:123456789"
+    ]
+  },
+  "enable_id_white_list": {
+    "zh": "控制哪些会话允许机器人响应。当前源码在白名单关闭或列表为空时不拦截，WebChat 也豁免；管理员可由群聊/私聊开关绕过。列表可匹配群号或完整会话来源，通过 /sid 获取，例如 aiocqhttp:GroupMessage:123456789；不要给所有平台强加 group: 前缀。",
+    "en": "Control which sessions may receive replies. In this source baseline, disabled or empty allowlists do not filter; WebChat is exempt. Separate group/private switches can exempt admins. Match a group ID or full unified origin from /sid, e.g. aiocqhttp:GroupMessage:123456789. Do not add group: universally.",
+    "example": [
+      "aiocqhttp:GroupMessage:123456789"
+    ]
+  },
+  "platform_settings.wl_ignore_admin_on_group": {
+    "zh": "开启后，管理员的群聊消息跳过会话白名单；不改变普通群成员的白名单规则，也不等于授予所有群成员管理员权限。",
+    "en": "Allow administrator group messages to bypass the session allowlist. This neither exempts ordinary members nor grants them admin rights.",
+    "example": true
+  },
+  "wl_ignore_admin_on_group": {
+    "zh": "开启后，管理员的群聊消息跳过会话白名单；不改变普通群成员的白名单规则，也不等于授予所有群成员管理员权限。",
+    "en": "Allow administrator group messages to bypass the session allowlist. This neither exempts ordinary members nor grants them admin rights.",
+    "example": true
+  },
+  "platform_settings.wl_ignore_admin_on_friend": {
+    "zh": "开启后，管理员私聊消息跳过会话白名单；关闭时仍按该会话是否在名单中判断。",
+    "en": "Allow administrator private messages to bypass the session allowlist. Otherwise normal session matching applies.",
+    "example": true
+  },
+  "wl_ignore_admin_on_friend": {
+    "zh": "开启后，管理员私聊消息跳过会话白名单；关闭时仍按该会话是否在名单中判断。",
+    "en": "Allow administrator private messages to bypass the session allowlist. Otherwise normal session matching applies.",
+    "example": true
+  },
+  "plugin": {
+    "zh": "管理服务器插件及其启用状态与配置。插件的业务字段由插件作者定义；涉及安装、卸载或启停时先检查依赖和当前服务器权限。",
+    "en": "Manage server plugins, enabled state and configuration. Business fields belong to each plugin; check dependencies and permissions before install, removal or activation.",
+    "example": {
+      "enable": true
+    }
+  },
+  "plugins": {
+    "zh": "管理服务器插件及其启用状态与配置。插件的业务字段由插件作者定义；涉及安装、卸载或启停时先检查依赖和当前服务器权限。",
+    "en": "Manage server plugins, enabled state and configuration. Business fields belong to each plugin; check dependencies and permissions before install, removal or activation.",
+    "example": {
+      "enable": true
+    }
+  },
+  "segmented_reply": {
+    "zh": "将一条回复拆成多段发送。分段规则和间隔共同决定消息数量与节奏；过细分段可能触发平台风控或限流。",
+    "en": "Split a reply into multiple outgoing messages. Rules and intervals control count and pacing; excessive splitting may trigger platform limits.",
+    "example": {
+      "enable": true,
+      "only_llm_result": true
+    }
+  },
+  "rate_limit": {
+    "zh": "限制时间窗口内处理的消息数量；超限可以等待或丢弃。窗口与计数需要一起设置，避免将正常消息误判为过量。",
+    "en": "Limit handled messages within a time window. Excess messages can wait or be discarded. Configure the window and count together to avoid suppressing normal traffic.",
+    "example": {
+      "time": 60,
+      "count": 20,
+      "strategy": "stall"
+    }
+  },
+  "platform_settings.rate_limit.time": {
+    "zh": "速率限制统计窗口，单位为秒；与 count 配合。例如 60 秒内最多处理 20 条，超限行为由 strategy 决定。",
+    "en": "Rate-limit window in seconds, used with count. For example 20 messages per 60 seconds; strategy controls excess traffic.",
+    "example": 60
+  },
+  "time": {
+    "zh": "速率限制统计窗口，单位为秒；与 count 配合。例如 60 秒内最多处理 20 条，超限行为由 strategy 决定。",
+    "en": "Rate-limit window in seconds, used with count. For example 20 messages per 60 seconds; strategy controls excess traffic.",
+    "example": 60
+  },
+  "platform_settings.rate_limit.count": {
+    "zh": "速率限制窗口内允许的消息数，需结合 time 理解；较低值更容易触发等待或丢弃。",
+    "en": "Allowed message count per time window. Lower values trigger waiting or discarding more often.",
+    "example": 20
+  },
+  "count": {
+    "zh": "速率限制窗口内允许的消息数，需结合 time 理解；较低值更容易触发等待或丢弃。",
+    "en": "Allowed message count per time window. Lower values trigger waiting or discarding more often.",
+    "example": 20
+  },
+  "platform_settings.rate_limit.strategy": {
+    "zh": "消息超过速率限制时，stall 表示等待后继续，discard 表示丢弃超限消息。选择等待会增加延迟，丢弃则可能没有回复。",
+    "en": "For excess messages, stall waits before continuing; discard drops the message. Waiting adds latency, while dropping can leave it unanswered.",
+    "example": "stall"
+  },
+  "strategy": {
+    "zh": "消息超过速率限制时，stall 表示等待后继续，discard 表示丢弃超限消息。选择等待会增加延迟，丢弃则可能没有回复。",
+    "en": "For excess messages, stall waits before continuing; discard drops the message. Waiting adds latency, while dropping can leave it unanswered.",
+    "example": "stall"
+  },
+  "content_safety": {
+    "zh": "配置消息与回复内容检查。内置关键词和百度内容审核是不同检查器；百度检查需要服务端安装依赖并填写其应用凭据。",
+    "en": "Configure input/reply content checks. Internal keywords and Baidu moderation are separate checkers. Baidu requires server dependencies and application credentials.",
+    "example": {
+      "also_use_in_response": true
+    }
+  },
+  "content_safety.also_use_in_response": {
+    "zh": "同时审核模型输出而不只检查输入；拦截后可能导致没有原始回复，请结合服务器日志排查。",
+    "en": "Moderate model output as well as input. Blocking may suppress the original reply; inspect server logs when troubleshooting.",
+    "example": true
+  },
+  "content_safety.internal_keywords.enable": {
+    "zh": "启用内置关键词检查器，按配置的关键词列表检查内容；仅切换此项不会自动补充词库。",
+    "en": "Enable the internal keyword checker using its configured list. This switch does not populate the list automatically.",
+    "example": true
+  },
+  "provider_settings.provider_pool": {
+    "zh": "此字段在当前上游文档中标记为尚未实际使用；不要依赖它实现负载均衡或故障转移，应配置当前执行器支持的模型与回退项。",
+    "en": "The upstream documentation marks this field as not currently used. Do not rely on it for balancing or failover; configure supported model/fallback options instead.",
+    "example": [
+      "*"
+    ]
+  },
+  "default_kb_collection": {
+    "zh": "旧版默认知识库集合。当前源码已标注过时，新配置优先使用知识库名称列表 kb_names；连接旧服务器时保留原有结构，不要直接删除旧值。",
+    "en": "Legacy default knowledge collection, marked obsolete by current source. Prefer kb_names for new configurations; retain the original structure on older servers.",
+    "example": "manual"
+  },
+  "t2i_use_file_service": {
+    "zh": "文本转图片后通过文件服务提供图片 URL；需要配置可访问的 callback_api_base，接收消息的平台必须能访问该地址，否则图片发送会失败。",
+    "en": "Serve text-rendered images through file-service URLs. Configure a reachable callback_api_base; the messaging platform must be able to fetch it or delivery fails.",
+    "example": false
+  },
+  "t2i_word_threshold": {
+    "zh": "超过该文本长度时尝试将回复转成图片；阈值越低越容易生成图片，仍需图像渲染服务可用，具体计数规则由服务器版本决定。",
+    "en": "Length threshold for rendering a reply as an image. Lower values trigger images more often; a working renderer is still required and counting depends on server version.",
+    "example": 150
+  },
+  "url": {
+    "zh": "远程服务的完整 URL，包含协议、主机、端口及路径。MCP 中填写 url 会选择远程连接，未填写时才使用本机 command 启动；地址由 AstrBot 服务器访问。",
+    "en": "Full remote URL including scheme, host, port and path. For MCP, url selects remote transport; command is used only when url is absent. The AstrBot server makes the connection.",
+    "example": "https://mcp.example.com/mcp"
+  },
+  "command": {
+    "zh": "MCP stdio 服务的启动命令，在 AstrBot 服务器上执行，不是在安卓手机运行。需要该服务器已安装对应程序；与远程 url 连接二选一。",
+    "en": "Command launching an MCP stdio server on the AstrBot host, not the Android phone. The executable must be installed there. Use this instead of a remote url.",
+    "example": "uvx"
+  },
+  "args": {
+    "zh": "MCP 启动命令的参数列表，每个参数独占一个列表元素，避免把整条 shell 命令写成一个元素。路径相对于 AstrBot 服务器环境。",
+    "en": "MCP command arguments, one argument per array item. Do not put an entire shell command in one item. Paths refer to the AstrBot server environment.",
+    "example": [
+      "mcp-server-fetch"
+    ]
+  },
+  "env": {
+    "zh": "传给 MCP stdio 子进程的环境变量对象；键为变量名，值为字符串。不要将真实密钥写入公开示例或截图。",
+    "en": "Environment variables for the MCP stdio subprocess. Keys are variable names and values are strings. Keep real credentials out of public examples and screenshots.",
+    "example": {
+      "SERVICE_TOKEN": "YOUR_TOKEN"
+    }
+  },
+  "headers": {
+    "zh": "远程 MCP HTTP 请求附带的请求头；仅给受信任的目标发送认证。Authorization 的具体格式以服务要求为准，不能把手机的 AstrBot 登录凭据当成 MCP 密钥。",
+    "en": "Headers for remote MCP HTTP requests. Send authentication only to trusted targets. Follow the service Authorization format; AstrBot phone login credentials are not MCP service keys.",
+    "example": {
+      "Authorization": "Bearer YOUR_TOKEN"
+    }
+  },
+  "transport": {
+    "zh": "MCP 远程传输类型：当前实现支持 sse 和 streamable_http；有 url 且未指定时按 SSE 处理。必须与服务端路径和协议一致。",
+    "en": "MCP remote transport: this source supports sse and streamable_http. With url and no transport, SSE is used. Match the remote path and protocol.",
+    "example": "streamable_http"
+  },
+  "host": {
+    "zh": "服务监听或连接主机，含义由所在对象决定；0.0.0.0 表示监听全部网卡，不能作为手机连接目标，手机应填写服务器可访问地址。",
+    "en": "Listening or target host according to the containing object. 0.0.0.0 binds all interfaces; it is not a phone connection destination. Use a reachable server address.",
+    "example": "192.168.1.10"
+  },
+  "tools": {
+    "zh": "配置当前智能体可用的工具或技能集合；实际调用还取决于插件加载情况、权限和模型工具调用能力。保留服务器返回的条目结构。",
+    "en": "Configure tools or skills available to an agent. Actual invocation also depends on loaded plugins, permissions and model tool support. Preserve the server item structure.",
+    "example": []
+  },
+  "skills": {
+    "zh": "配置当前智能体可用的工具或技能集合；实际调用还取决于插件加载情况、权限和模型工具调用能力。保留服务器返回的条目结构。",
+    "en": "Configure tools or skills available to an agent. Actual invocation also depends on loaded plugins, permissions and model tool support. Preserve the server item structure.",
+    "example": []
+  },
+  "name": {
+    "zh": "当前资源的名称或唯一标识。名称用于区分条目；作为引用的标识需与其他配置精确一致，重命名前检查模型、人格或平台的引用。",
+    "en": "Resource name or unique identifier. Referenced IDs must match other settings exactly. Check model, persona and platform references before renaming.",
+    "example": "my-resource"
+  },
+  "id": {
+    "zh": "当前资源的名称或唯一标识。名称用于区分条目；作为引用的标识需与其他配置精确一致，重命名前检查模型、人格或平台的引用。",
+    "en": "Resource name or unique identifier. Referenced IDs must match other settings exactly. Check model, persona and platform references before renaming.",
+    "example": "my-resource"
+  },
+  "identifier": {
+    "zh": "当前资源的名称或唯一标识。名称用于区分条目；作为引用的标识需与其他配置精确一致，重命名前检查模型、人格或平台的引用。",
+    "en": "Resource name or unique identifier. Referenced IDs must match other settings exactly. Check model, persona and platform references before renaming.",
+    "example": "my-resource"
+  },
+  "type": {
+    "zh": "指定当前条目的实现或能力类型，含义取决于所在平台、模型或子配置。优先从服务器返回的可选项选择，不要把展示名称当作类型标识。",
+    "en": "Select implementation or capability type for this item. Meaning depends on platform, model or nested configuration. Prefer server options rather than display names.",
+    "example": "chat_completion"
+  },
+  "provider_type": {
+    "zh": "指定当前条目的实现或能力类型，含义取决于所在平台、模型或子配置。优先从服务器返回的可选项选择，不要把展示名称当作类型标识。",
+    "en": "Select implementation or capability type for this item. Meaning depends on platform, model or nested configuration. Prefer server options rather than display names.",
+    "example": "chat_completion"
+  },
+  "enable": {
+    "zh": "控制当前条目是否启用，作用范围仅为所在对象；启用前先完成必需配置，关闭不会自动删除该条目的设置。",
+    "en": "Enable this item within its containing object. Complete required configuration first; disabling does not automatically erase its settings.",
+    "example": true
+  },
+  "enabled": {
+    "zh": "控制当前条目是否启用，作用范围仅为所在对象；启用前先完成必需配置，关闭不会自动删除该条目的设置。",
+    "en": "Enable this item within its containing object. Complete required configuration first; disabling does not automatically erase its settings.",
+    "example": true
+  },
+  "active": {
+    "zh": "控制当前条目是否启用，作用范围仅为所在对象；启用前先完成必需配置，关闭不会自动删除该条目的设置。",
+    "en": "Enable this item within its containing object. Complete required configuration first; disabling does not automatically erase its settings.",
+    "example": true
+  },
+  "api_key": {
+    "zh": "目标服务的认证凭据，由该服务控制台生成；不是本手机保存的 AstrBot 登录密码。多个 key 的列表结构请保持不变；示例占位符必须换成你自己的有效凭据。",
+    "en": "Authentication credential issued by the target service, separate from this phone AstrBot login. Preserve array structure for multiple keys. Replace the sample placeholder with a valid service credential.",
+    "example": "YOUR_API_KEY"
+  },
+  "dashscope_api_key": {
+    "zh": "目标服务的认证凭据，由该服务控制台生成；不是本手机保存的 AstrBot 登录密码。多个 key 的列表结构请保持不变；示例占位符必须换成你自己的有效凭据。",
+    "en": "Authentication credential issued by the target service, separate from this phone AstrBot login. Preserve array structure for multiple keys. Replace the sample placeholder with a valid service credential.",
+    "example": "YOUR_API_KEY"
+  },
+  "gemini_tts_api_key": {
+    "zh": "目标服务的认证凭据，由该服务控制台生成；不是本手机保存的 AstrBot 登录密码。多个 key 的列表结构请保持不变；示例占位符必须换成你自己的有效凭据。",
+    "en": "Authentication credential issued by the target service, separate from this phone AstrBot login. Preserve array structure for multiple keys. Replace the sample placeholder with a valid service credential.",
+    "example": "YOUR_API_KEY"
+  },
+  "embedding_api_key": {
+    "zh": "目标服务的认证凭据，由该服务控制台生成；不是本手机保存的 AstrBot 登录密码。多个 key 的列表结构请保持不变；示例占位符必须换成你自己的有效凭据。",
+    "en": "Authentication credential issued by the target service, separate from this phone AstrBot login. Preserve array structure for multiple keys. Replace the sample placeholder with a valid service credential.",
+    "example": "YOUR_API_KEY"
+  },
+  "nvidia_rerank_api_key": {
+    "zh": "目标服务的认证凭据，由该服务控制台生成；不是本手机保存的 AstrBot 登录密码。多个 key 的列表结构请保持不变；示例占位符必须换成你自己的有效凭据。",
+    "en": "Authentication credential issued by the target service, separate from this phone AstrBot login. Preserve array structure for multiple keys. Replace the sample placeholder with a valid service credential.",
+    "example": "YOUR_API_KEY"
+  },
+  "key": {
+    "zh": "目标服务的认证凭据，由该服务控制台生成；不是本手机保存的 AstrBot 登录密码。多个 key 的列表结构请保持不变；示例占位符必须换成你自己的有效凭据。",
+    "en": "Authentication credential issued by the target service, separate from this phone AstrBot login. Preserve array structure for multiple keys. Replace the sample placeholder with a valid service credential.",
+    "example": "YOUR_API_KEY"
+  },
+  "content_safety.baidu_aip.api_key": {
+    "zh": "目标服务的认证凭据，由该服务控制台生成；不是本手机保存的 AstrBot 登录密码。多个 key 的列表结构请保持不变；示例占位符必须换成你自己的有效凭据。",
+    "en": "Authentication credential issued by the target service, separate from this phone AstrBot login. Preserve array structure for multiple keys. Replace the sample placeholder with a valid service credential.",
+    "example": "YOUR_API_KEY"
+  },
+  "content_safety.baidu_aip.secret_key": {
+    "zh": "目标服务的认证凭据，由该服务控制台生成；不是本手机保存的 AstrBot 登录密码。多个 key 的列表结构请保持不变；示例占位符必须换成你自己的有效凭据。",
+    "en": "Authentication credential issued by the target service, separate from this phone AstrBot login. Preserve array structure for multiple keys. Replace the sample placeholder with a valid service credential.",
+    "example": "YOUR_API_KEY"
+  },
+  "secret_key": {
+    "zh": "目标服务的认证凭据，由该服务控制台生成；不是本手机保存的 AstrBot 登录密码。多个 key 的列表结构请保持不变；示例占位符必须换成你自己的有效凭据。",
+    "en": "Authentication credential issued by the target service, separate from this phone AstrBot login. Preserve array structure for multiple keys. Replace the sample placeholder with a valid service credential.",
+    "example": "YOUR_API_KEY"
+  },
+  "api_base": {
+    "zh": "对应模型或嵌入/重排序服务的基础地址，在 AstrBot 服务器侧访问。是否需要 /v1 等路径取决于服务兼容协议，不要重复拼接接口路径。",
+    "en": "Base endpoint for the model, embedding or rerank service, accessed by the AstrBot host. Whether /v1 is needed depends on the provider protocol; avoid duplicate endpoint paths.",
+    "example": "https://api.example.com/v1"
+  },
+  "embedding_api_base": {
+    "zh": "对应模型或嵌入/重排序服务的基础地址，在 AstrBot 服务器侧访问。是否需要 /v1 等路径取决于服务兼容协议，不要重复拼接接口路径。",
+    "en": "Base endpoint for the model, embedding or rerank service, accessed by the AstrBot host. Whether /v1 is needed depends on the provider protocol; avoid duplicate endpoint paths.",
+    "example": "https://api.example.com/v1"
+  },
+  "nvidia_rerank_api_base": {
+    "zh": "对应模型或嵌入/重排序服务的基础地址，在 AstrBot 服务器侧访问。是否需要 /v1 等路径取决于服务兼容协议，不要重复拼接接口路径。",
+    "en": "Base endpoint for the model, embedding or rerank service, accessed by the AstrBot host. Whether /v1 is needed depends on the provider protocol; avoid duplicate endpoint paths.",
+    "example": "https://api.example.com/v1"
+  },
+  "content_safety.baidu_aip.app_id": {
+    "zh": "百度智能云内容审核应用的 App ID，与该应用的 API Key 和 Secret Key 配套使用；不是 AstrBot 插件标识。",
+    "en": "Baidu content moderation application App ID, paired with its API Key and Secret Key; not an AstrBot plugin identifier.",
+    "example": "12345678"
+  },
+  "lark_connection_mode": {
+    "zh": "飞书事件接收方式，按适配器选项选择 WebSocket 长连接或回调方式；回调方式需要飞书能够访问服务器配置的地址。",
+    "en": "Lark event subscription mode: select the adapter-supported WebSocket or callback option. Callbacks require a server address reachable by Lark.",
+    "example": "websocket"
+  },
+  "is_sandbox": {
+    "zh": "启用当前平台适配器的沙箱环境，用于测试账号和接口；生产与沙箱的账号、凭据及地址可能不同，需配套配置。",
+    "en": "Use this platform adapter sandbox environment for test accounts and APIs. Production and sandbox credentials/endpoints may differ.",
+    "example": false
+  },
+  "active_send_mode": {
+    "zh": "切换适配器的主动发送接口；是否可用取决于平台权限与机器人类型，开启后不代表可以绕过平台的主动消息限制。",
+    "en": "Switch to the adapter proactive-send API. Availability depends on platform permissions and bot type; enabling does not bypass platform messaging limits.",
+    "example": false
+  },
+  "ws_reverse_port": {
+    "zh": "反向 WebSocket 服务在 AstrBot 主机监听的端口。机器人客户端需要连接到该主机和端口；检查端口占用、防火墙及容器映射。",
+    "en": "Reverse WebSocket listening port on the AstrBot host. The bot client connects there; check conflicts, firewall rules and container port mapping.",
+    "example": 6199
+  },
+  "genie_language": {
+    "zh": "发送给 Genie 语音合成服务的语言标识；应与文本语言及服务支持的代码匹配，选错可能影响发音。",
+    "en": "Language code sent to Genie TTS. Match the text and codes supported by that service; a mismatch can affect pronunciation.",
+    "example": "zh"
+  },
+  "rerank_model": {
+    "zh": "用于重排检索候选的模型名称，需与重排序提供商支持的模型标识精确一致；不是聊天模型的展示名称。",
+    "en": "Model identifier used to rerank retrieved candidates. Match a model supported by the rerank provider, not a chat-model display name.",
+    "example": "rerank-model-id"
+  },
+  "dashscope_tts_voice": {
+    "zh": "百炼语音合成的音色标识；音色需与所选模型兼容，填写服务文档中的标识而不是自行起名。",
+    "en": "DashScope TTS voice identifier. It must be compatible with the selected model; use a service-documented identifier.",
+    "example": "longxiaochun"
+  },
+  "gm_thinking_config": {
+    "zh": "当前模型的思考参数对象，子项由 Gemini 或 Anthropic 协议定义。模型不支持时可能拒绝请求；保留服务端结构并单独调整预算或模式。",
+    "en": "Model thinking configuration defined by Gemini or Anthropic. Unsupported models may reject it. Preserve structure and edit the budget/mode children individually.",
+    "example": {}
+  },
+  "anth_thinking_config": {
+    "zh": "当前模型的思考参数对象，子项由 Gemini 或 Anthropic 协议定义。模型不支持时可能拒绝请求；保留服务端结构并单独调整预算或模式。",
+    "en": "Model thinking configuration defined by Gemini or Anthropic. Unsupported models may reject it. Preserve structure and edit the budget/mode children individually.",
+    "example": {}
+  },
+  "agent.runtime": {
+    "zh": "选择智能体执行器；local 使用本地智能体流程，Dify、Coze、百炼、DeerFlow 则使用各自服务。切换后需在对应配置组填写完整凭据与应用参数。",
+    "en": "Select agent runner. local uses the local flow; Dify, Coze, DashScope and DeerFlow use their respective services. Fill the matching service configuration when switching.",
+    "example": "local"
+  },
+  "runtime": {
+    "zh": "选择智能体执行器；local 使用本地智能体流程，Dify、Coze、百炼、DeerFlow 则使用各自服务。切换后需在对应配置组填写完整凭据与应用参数。",
+    "en": "Select agent runner. local uses the local flow; Dify, Coze, DashScope and DeerFlow use their respective services. Fill the matching service configuration when switching.",
+    "example": "local"
+  },
+  "dify_runner": {
+    "zh": "配置对应远程智能体执行器；仅在选用该执行器时读取其配置。服务地址、应用标识和密钥需要来自同一个服务环境。",
+    "en": "Configure this remote agent runner. These settings are used when that runner is selected. Endpoint, application ID and credentials must refer to the same environment.",
+    "example": {}
+  },
+  "coze_runner": {
+    "zh": "配置对应远程智能体执行器；仅在选用该执行器时读取其配置。服务地址、应用标识和密钥需要来自同一个服务环境。",
+    "en": "Configure this remote agent runner. These settings are used when that runner is selected. Endpoint, application ID and credentials must refer to the same environment.",
+    "example": {}
+  },
+  "dashscope_runner": {
+    "zh": "配置对应远程智能体执行器；仅在选用该执行器时读取其配置。服务地址、应用标识和密钥需要来自同一个服务环境。",
+    "en": "Configure this remote agent runner. These settings are used when that runner is selected. Endpoint, application ID and credentials must refer to the same environment.",
+    "example": {}
+  },
+  "deerflow_runner": {
+    "zh": "配置对应远程智能体执行器；仅在选用该执行器时读取其配置。服务地址、应用标识和密钥需要来自同一个服务环境。",
+    "en": "Configure this remote agent runner. These settings are used when that runner is selected. Endpoint, application ID and credentials must refer to the same environment.",
+    "example": {}
+  },
+  "agent.config.dify_api_type": {
+    "zh": "Dify 应用接口类型，聊天与工作流的请求/响应结构不同；选择应与 Dify 已发布的应用类型一致。",
+    "en": "Dify application API type. Chat and workflow payloads differ; match the published Dify application type.",
+    "example": "chat"
+  },
+  "agent.config.dify_api_base": {
+    "zh": "对应远程执行器的服务基础地址；由 AstrBot 主机发起访问，填写部署文档规定的前缀并确认网络可达。",
+    "en": "Base endpoint for this remote runner, accessed by the AstrBot host. Use the prefix documented by your deployment and verify reachability.",
+    "example": "https://agent.example.com/v1"
+  },
+  "agent.config.coze_api_base": {
+    "zh": "对应远程执行器的服务基础地址；由 AstrBot 主机发起访问，填写部署文档规定的前缀并确认网络可达。",
+    "en": "Base endpoint for this remote runner, accessed by the AstrBot host. Use the prefix documented by your deployment and verify reachability.",
+    "example": "https://agent.example.com/v1"
+  },
+  "agent.config.deerflow_api_base": {
+    "zh": "对应远程执行器的服务基础地址；由 AstrBot 主机发起访问，填写部署文档规定的前缀并确认网络可达。",
+    "en": "Base endpoint for this remote runner, accessed by the AstrBot host. Use the prefix documented by your deployment and verify reachability.",
+    "example": "https://agent.example.com/v1"
+  },
+  "agent.config.dify_api_key": {
+    "zh": "所选远程执行器的应用认证密钥，必须与其应用/助手 ID 和服务地址匹配；无权限时应检查该服务的授权，不要改用 AstrBot 登录密钥。",
+    "en": "Application credential for the selected remote runner. It must match the application/assistant ID and endpoint. Check service authorization on failures, not the AstrBot login key.",
+    "example": "YOUR_APP_KEY"
+  },
+  "agent.config.coze_api_key": {
+    "zh": "所选远程执行器的应用认证密钥，必须与其应用/助手 ID 和服务地址匹配；无权限时应检查该服务的授权，不要改用 AstrBot 登录密钥。",
+    "en": "Application credential for the selected remote runner. It must match the application/assistant ID and endpoint. Check service authorization on failures, not the AstrBot login key.",
+    "example": "YOUR_APP_KEY"
+  },
+  "agent.config.dashscope_api_key": {
+    "zh": "所选远程执行器的应用认证密钥，必须与其应用/助手 ID 和服务地址匹配；无权限时应检查该服务的授权，不要改用 AstrBot 登录密钥。",
+    "en": "Application credential for the selected remote runner. It must match the application/assistant ID and endpoint. Check service authorization on failures, not the AstrBot login key.",
+    "example": "YOUR_APP_KEY"
+  },
+  "agent.config.deerflow_api_key": {
+    "zh": "所选远程执行器的应用认证密钥，必须与其应用/助手 ID 和服务地址匹配；无权限时应检查该服务的授权，不要改用 AstrBot 登录密钥。",
+    "en": "Application credential for the selected remote runner. It must match the application/assistant ID and endpoint. Check service authorization on failures, not the AstrBot login key.",
+    "example": "YOUR_APP_KEY"
+  },
+  "agent.config.dify_workflow_output_key": {
+    "zh": "Dify 工作流输出中作为机器人回复读取的变量名；需要与你的工作流终点输出字段一致，否则可能无法取得回复。",
+    "en": "Dify workflow output variable used as the bot reply. Match the workflow end-node output field or the reply may be missing.",
+    "example": "answer"
+  },
+  "agent.config.dify_query_input_key": {
+    "zh": "Dify 工作流接收用户消息的输入变量名，需在工作流中声明同名输入；不是要发送的实际消息。",
+    "en": "Dify workflow input variable receiving the user message. Declare the same input in the workflow; this is a variable name, not message content.",
+    "example": "query"
+  },
+  "agent.config.variables": {
+    "zh": "附加给远程执行器的输入变量对象；键需与应用声明的变量一致，值的类型由应用决定。不要覆盖执行器自动注入的消息字段。",
+    "en": "Additional input variables for the remote runner. Match application-declared names and types; do not overwrite automatically supplied message fields.",
+    "example": {
+      "language": "zh-CN"
+    }
+  },
+  "agent.config.timeout": {
+    "zh": "等待远程执行或工具调用完成的超时时间，单位为秒；增大会延长等待，占用资源也更久，不能修复无法访问的地址。",
+    "en": "Timeout for remote execution or tool calls, in seconds. Increasing it allows longer waits and resource use; it cannot fix an unreachable endpoint.",
+    "example": 60
+  },
+  "tool_call_timeout": {
+    "zh": "等待远程执行或工具调用完成的超时时间，单位为秒；增大会延长等待，占用资源也更久，不能修复无法访问的地址。",
+    "en": "Timeout for remote execution or tool calls, in seconds. Increasing it allows longer waits and resource use; it cannot fix an unreachable endpoint.",
+    "example": 60
+  },
+  "agent.config.misc.tool_call_timeout": {
+    "zh": "等待远程执行或工具调用完成的超时时间，单位为秒；增大会延长等待，占用资源也更久，不能修复无法访问的地址。",
+    "en": "Timeout for remote execution or tool calls, in seconds. Increasing it allows longer waits and resource use; it cannot fix an unreachable endpoint.",
+    "example": 60
+  },
+  "agent.config.proxy": {
+    "zh": "远程执行器请求使用的网络代理地址；由 AstrBot 主机连接，代理需要支持所用协议。留空时按执行器默认网络方式处理。",
+    "en": "Network proxy for remote runner requests, connected from the AstrBot host. It must support the required protocol. Empty uses the runner default network behavior.",
+    "example": "http://127.0.0.1:7890"
+  },
+  "agent.config.bot_id": {
+    "zh": "远程服务中已创建并发布的机器人、应用或助手 ID；从对应控制台复制，不能使用本地展示名称代替。",
+    "en": "Identifier of the published bot, application or assistant on the remote service. Copy it from that console rather than using a local display name.",
+    "example": "YOUR_APP_ID"
+  },
+  "agent.config.dashscope_app_id": {
+    "zh": "远程服务中已创建并发布的机器人、应用或助手 ID；从对应控制台复制，不能使用本地展示名称代替。",
+    "en": "Identifier of the published bot, application or assistant on the remote service. Copy it from that console rather than using a local display name.",
+    "example": "YOUR_APP_ID"
+  },
+  "dashscope_app_id": {
+    "zh": "远程服务中已创建并发布的机器人、应用或助手 ID；从对应控制台复制，不能使用本地展示名称代替。",
+    "en": "Identifier of the published bot, application or assistant on the remote service. Copy it from that console rather than using a local display name.",
+    "example": "YOUR_APP_ID"
+  },
+  "agent.config.deerflow_assistant_id": {
+    "zh": "远程服务中已创建并发布的机器人、应用或助手 ID；从对应控制台复制，不能使用本地展示名称代替。",
+    "en": "Identifier of the published bot, application or assistant on the remote service. Copy it from that console rather than using a local display name.",
+    "example": "YOUR_APP_ID"
+  },
+  "agent.config.auto_save_history": {
+    "zh": "由 Coze 服务管理对话历史，影响后续请求是否延续远程会话；与 AstrBot 本地上下文不是同一份记录。",
+    "en": "Let Coze manage conversation history and continuation of remote sessions. This history is separate from AstrBot local context.",
+    "example": true
+  },
+  "agent.config.dashscope_app_type": {
+    "zh": "百炼应用类型，选择与控制台创建的应用相同的类型，避免聊天与工作流请求参数不匹配。",
+    "en": "DashScope application type. Match the console application to avoid mismatched chat/workflow request parameters.",
+    "example": "agent"
+  },
+  "agent.config.rag_options.pipeline_ids": {
+    "zh": "百炼应用检索范围的知识库 Pipeline 或文件 ID 列表；仅填写该应用有权限访问的资源，空列表的行为由服务端应用决定。",
+    "en": "DashScope retrieval pipeline or file IDs. Use resources accessible to this application; empty-list behavior is determined by the service.",
+    "example": [
+      "YOUR_RESOURCE_ID"
+    ]
+  },
+  "agent.config.rag_options.file_ids": {
+    "zh": "百炼应用检索范围的知识库 Pipeline 或文件 ID 列表；仅填写该应用有权限访问的资源，空列表的行为由服务端应用决定。",
+    "en": "DashScope retrieval pipeline or file IDs. Use resources accessible to this application; empty-list behavior is determined by the service.",
+    "example": [
+      "YOUR_RESOURCE_ID"
+    ]
+  },
+  "agent.config.rag_options.output_reference": {
+    "zh": "请求百炼返回检索引用，便于核对回答来源；是否展示完整引用还取决于应用与回复渲染支持。",
+    "en": "Request retrieval references from DashScope. Complete reference display also depends on application and reply rendering support.",
+    "example": true
+  },
+  "agent.config.deerflow_auth_header": {
+    "zh": "发送 DeerFlow 认证时使用的 HTTP 头名称；需与网关或部署配置一致，名称与 API key 的值是两个不同字段。",
+    "en": "HTTP header name for DeerFlow authentication. Match gateway/deployment configuration; header name and credential value are separate fields.",
+    "example": "Authorization"
+  },
+  "agent.config.deerflow_model_name": {
+    "zh": "覆盖 DeerFlow 使用的模型名称，需为远程服务已配置的模型标识；留空时是否使用服务默认值由执行器决定。",
+    "en": "Override DeerFlow model name with an identifier configured remotely. Empty-value default behavior is determined by the runner.",
+    "example": "YOUR_MODEL_ID"
+  },
+  "deerflow_thinking_enabled": {
+    "zh": "请求 DeerFlow 使用思考模式；需要服务和模型支持，可能增加响应时间及模型消耗。",
+    "en": "Request DeerFlow thinking mode. Requires service/model support and may increase latency and model usage.",
+    "example": true
+  },
+  "agent.config.deerflow_thinking_enabled": {
+    "zh": "请求 DeerFlow 使用思考模式；需要服务和模型支持，可能增加响应时间及模型消耗。",
+    "en": "Request DeerFlow thinking mode. Requires service/model support and may increase latency and model usage.",
+    "example": true
+  },
+  "agent.config.deerflow_plan_mode": {
+    "zh": "请求 DeerFlow 先进行任务规划；适用于复杂任务，可能增加步骤与等待时间，具体执行由远程服务决定。",
+    "en": "Request DeerFlow task planning. Useful for complex tasks, with potentially more steps and latency; execution is controlled remotely.",
+    "example": true
+  },
+  "agent.config.deerflow_subagent_enabled": {
+    "zh": "允许 DeerFlow 调用子智能体协作；远程服务必须支持，开启后可能增加并发请求和模型消耗。",
+    "en": "Allow DeerFlow subagent delegation. The remote service must support it; this can increase concurrency and model usage.",
+    "example": true
+  },
+  "agent.config.deerflow_max_concurrent_subagents": {
+    "zh": "DeerFlow 同时运行的子智能体上限；提高可并行处理更多任务，也会消耗更多远程资源。",
+    "en": "Maximum concurrent DeerFlow subagents. Higher limits allow more parallel work but consume more remote resources.",
+    "example": 2
+  },
+  "agent.config.deerflow_recursion_limit": {
+    "zh": "DeerFlow 执行图的递归/步骤深度限制，用于约束持续执行；过小会提前终止复杂任务，过大会延长运行。",
+    "en": "DeerFlow execution graph recursion/step depth limit. Low values can stop complex tasks early; high values allow longer runs.",
+    "example": 50
+  },
+  "provider_settings.web_search": {
+    "zh": "为智能体开放网页搜索工具；需要配置可用的搜索提供商及凭据，模型自行决定是否调用，不保证每条消息都联网。",
+    "en": "Expose web search tools to the agent. Configure a working search provider and credentials; the model decides whether to invoke it.",
+    "example": true
+  },
+  "web_search": {
+    "zh": "为智能体开放网页搜索工具；需要配置可用的搜索提供商及凭据，模型自行决定是否调用，不保证每条消息都联网。",
+    "en": "Expose web search tools to the agent. Configure a working search provider and credentials; the model decides whether to invoke it.",
+    "example": true
+  },
+  "provider_settings.websearch_provider": {
+    "zh": "选择网页搜索后端；与该后端的 API Key 一起配置，不同搜索商返回质量、额度与计费方式不同。",
+    "en": "Select web search backend with its matching API key. Results, quotas and pricing differ by service.",
+    "example": "tavily"
+  },
+  "websearch_provider": {
+    "zh": "选择网页搜索后端；与该后端的 API Key 一起配置，不同搜索商返回质量、额度与计费方式不同。",
+    "en": "Select web search backend with its matching API key. Results, quotas and pricing differ by service.",
+    "example": "tavily"
+  },
+  "provider_settings.web_search_link": {
+    "zh": "控制网页搜索结果引用链接的输出，便于查证来源；开启不能保证模型生成的每个陈述都有对应来源。",
+    "en": "Control output of source links from web search. Links help verification but do not guarantee every model claim has a source.",
+    "example": true
+  },
+  "web_search_link": {
+    "zh": "控制网页搜索结果引用链接的输出，便于查证来源；开启不能保证模型生成的每个陈述都有对应来源。",
+    "en": "Control output of source links from web search. Links help verification but do not guarantee every model claim has a source.",
+    "example": true
+  },
+  "provider_settings.computer_use_local_permissions": {
+    "zh": "控制本机计算机操作或文件访问范围；修改前确认授权目录和可执行操作，避免把整个宿主机范围授予不需要的任务。",
+    "en": "Control local computer-use or filesystem access scope. Check permitted directories and operations before expanding access to the host.",
+    "example": "read_only"
+  },
+  "computer_use_local_permissions": {
+    "zh": "控制本机计算机操作或文件访问范围；修改前确认授权目录和可执行操作，避免把整个宿主机范围授予不需要的任务。",
+    "en": "Control local computer-use or filesystem access scope. Check permitted directories and operations before expanding access to the host.",
+    "example": "read_only"
+  },
+  "filesystem_scope": {
+    "zh": "控制本机计算机操作或文件访问范围；修改前确认授权目录和可执行操作，避免把整个宿主机范围授予不需要的任务。",
+    "en": "Control local computer-use or filesystem access scope. Check permitted directories and operations before expanding access to the host.",
+    "example": "read_only"
+  },
+  "provider_settings.sandbox.booter": {
+    "zh": "选择远程沙箱环境的启动驱动；对应的端点、认证和生命周期参数应与该驱动一起配置。",
+    "en": "Select sandbox launcher/driver. Configure endpoint, authentication and lifecycle parameters for that driver.",
+    "example": "shipyard"
+  },
+  "booter": {
+    "zh": "选择远程沙箱环境的启动驱动；对应的端点、认证和生命周期参数应与该驱动一起配置。",
+    "en": "Select sandbox launcher/driver. Configure endpoint, authentication and lifecycle parameters for that driver.",
+    "example": "shipyard"
+  },
+  "agent.config.misc.max_steps": {
+    "zh": "限制一轮智能体响应中的工具调用迭代次数。较小可防止长时间循环，较大会允许更复杂任务并增加延迟与消耗。",
+    "en": "Maximum tool-call iterations in one agent response. Lower limits prevent long loops; higher limits permit complex tasks with more latency and usage.",
+    "example": 10
+  },
+  "max_steps": {
+    "zh": "限制一轮智能体响应中的工具调用迭代次数。较小可防止长时间循环，较大会允许更复杂任务并增加延迟与消耗。",
+    "en": "Maximum tool-call iterations in one agent response. Lower limits prevent long loops; higher limits permit complex tasks with more latency and usage.",
+    "example": 10
+  },
+  "provider_tts_settings.dual_output": {
+    "zh": "开启语音合成时同时保留文字回复；关闭时输出方式由 TTS 流程决定。双输出可能增加平台消息数量。",
+    "en": "Keep a text reply alongside synthesized audio. When disabled, output follows the TTS flow. Dual output can increase outgoing message count.",
+    "example": true
+  },
+  "dual_output": {
+    "zh": "开启语音合成时同时保留文字回复；关闭时输出方式由 TTS 流程决定。双输出可能增加平台消息数量。",
+    "en": "Keep a text reply alongside synthesized audio. When disabled, output follows the TTS flow. Dual output can increase outgoing message count.",
+    "example": true
+  },
+  "platform_settings.ignore_bot_self_message": {
+    "zh": "忽略机器人自己发送的消息，避免自我回复循环；关闭前确认适配器能够区分消息来源。",
+    "en": "Ignore bot-authored messages to avoid reply loops. Verify adapter source detection before disabling.",
+    "example": true
+  },
+  "platform_settings.ignore_at_all": {
+    "zh": "控制是否忽略群内 @全体成员事件，减少由广播提及触发的处理；不等于关闭普通 @机器人 消息。",
+    "en": "Ignore group mention-everyone events to reduce broadcast triggers. This is separate from direct mentions of the bot.",
+    "example": true
+  },
+  "platform_settings.no_permission_reply": {
+    "zh": "用户尝试执行无权限操作时是否发送权限提示；关闭后可能静默拒绝，不会改变真实授权结果。",
+    "en": "Reply with a permission notice when an unauthorized action is attempted. Disabling can make rejection silent; it does not change authorization.",
+    "example": true
+  },
+  "platform_specific.lark.pre_ack_emoji.enable": {
+    "zh": "处理消息前添加平台支持的表情回应，提示机器人已收到消息。需要平台 API 与机器人权限支持；不代表模型已生成答案。",
+    "en": "Add a platform reaction before processing to acknowledge receipt. Requires platform API/permission support; it does not mean the model answer is ready.",
+    "example": true
+  },
+  "platform_specific.telegram.pre_ack_emoji.enable": {
+    "zh": "处理消息前添加平台支持的表情回应，提示机器人已收到消息。需要平台 API 与机器人权限支持；不代表模型已生成答案。",
+    "en": "Add a platform reaction before processing to acknowledge receipt. Requires platform API/permission support; it does not mean the model answer is ready.",
+    "example": true
+  },
+  "platform_specific.discord.pre_ack_emoji.enable": {
+    "zh": "处理消息前添加平台支持的表情回应，提示机器人已收到消息。需要平台 API 与机器人权限支持；不代表模型已生成答案。",
+    "en": "Add a platform reaction before processing to acknowledge receipt. Requires platform API/permission support; it does not mean the model answer is ready.",
+    "example": true
+  },
+  "platform_settings.segmented_reply.only_llm_result": {
+    "zh": "仅对模型生成的回复进行分段，避免插件或命令原本的消息格式被拆开；关闭后适用范围更广。",
+    "en": "Split only model-generated replies to preserve plugin/command formatting. Disabling broadens the scope.",
+    "example": true
+  },
+  "only_llm_result": {
+    "zh": "仅对模型生成的回复进行分段，避免插件或命令原本的消息格式被拆开；关闭后适用范围更广。",
+    "en": "Split only model-generated replies to preserve plugin/command formatting. Disabling broadens the scope.",
+    "example": true
+  },
+  "platform_settings.segmented_reply.split_mode": {
+    "zh": "选择分段规则；正则与分隔词方式需要填写相应子项。先用典型长回复验证，避免把代码、链接或数字拆坏。",
+    "en": "Select splitting rule and configure the matching regex/delimiter fields. Test representative replies to avoid breaking code, links or numbers.",
+    "example": "regex"
+  },
+  "split_mode": {
+    "zh": "选择分段规则；正则与分隔词方式需要填写相应子项。先用典型长回复验证，避免把代码、链接或数字拆坏。",
+    "en": "Select splitting rule and configure the matching regex/delimiter fields. Test representative replies to avoid breaking code, links or numbers.",
+    "example": "regex"
+  },
+  "provider_ltm_settings.active_reply.method": {
+    "zh": "选择当前功能的实现策略，取值由所在对象和服务器可选项决定。群聊主动回复策略会影响触发条件；不要把其他配置组的同名 method 值直接复制过来。",
+    "en": "Select implementation strategy from this object server options. Proactive group-reply strategy affects triggering; a method value from another group may have a different meaning.",
+    "example": "possibility"
+  },
+  "method": {
+    "zh": "选择当前功能的实现策略，取值由所在对象和服务器可选项决定。群聊主动回复策略会影响触发条件；不要把其他配置组的同名 method 值直接复制过来。",
+    "en": "Select implementation strategy from this object server options. Proactive group-reply strategy affects triggering; a method value from another group may have a different meaning.",
+    "example": "possibility"
+  },
+  "interval_method": {
+    "zh": "分段发送间隔的计算方式，配合 interval、log_base 等选项控制节奏；请使用当前服务器返回的可选值。",
+    "en": "How segmented-message delays are calculated, together with interval/log_base settings. Use the current server option values.",
+    "example": "random"
+  },
+  "gsv_top_k": {
+    "zh": "限制 GPT-SoVITS 每步采样的候选数量；较小通常更保守。 参数传给语音服务，范围与兼容性以你部署的 GPT-SoVITS 版本为准。",
+    "en": "Limit candidate count per GPT-SoVITS sampling step; lower values are usually more conservative. The value is passed to the speech service; supported ranges depend on your deployed GPT-SoVITS version.",
+    "example": 5
+  },
+  "gsv_top_p": {
+    "zh": "GPT-SoVITS 核采样概率阈值；调整会影响语音生成的多样性。 参数传给语音服务，范围与兼容性以你部署的 GPT-SoVITS 版本为准。",
+    "en": "GPT-SoVITS nucleus sampling probability threshold affecting generation diversity. The value is passed to the speech service; supported ranges depend on your deployed GPT-SoVITS version.",
+    "example": 1.0
+  },
+  "gsv_temperature": {
+    "zh": "GPT-SoVITS 采样温度；提高通常增加随机性，也可能降低稳定性。 参数传给语音服务，范围与兼容性以你部署的 GPT-SoVITS 版本为准。",
+    "en": "GPT-SoVITS sampling temperature; higher values usually increase randomness and can reduce stability. The value is passed to the speech service; supported ranges depend on your deployed GPT-SoVITS version.",
+    "example": 1.0
+  },
+  "gsv_batch_size": {
+    "zh": "GPT-SoVITS 推理批大小；增大可提高吞吐，也可能增加显存占用。 参数传给语音服务，范围与兼容性以你部署的 GPT-SoVITS 版本为准。",
+    "en": "GPT-SoVITS inference batch size; larger batches may improve throughput and increase memory use. The value is passed to the speech service; supported ranges depend on your deployed GPT-SoVITS version.",
+    "example": 1
+  },
+  "gsv_batch_threshold": {
+    "zh": "GPT-SoVITS 批处理阈值参数，按所部署服务的 API 定义调节。 参数传给语音服务，范围与兼容性以你部署的 GPT-SoVITS 版本为准。",
+    "en": "GPT-SoVITS batching threshold, interpreted by the deployed service API. The value is passed to the speech service; supported ranges depend on your deployed GPT-SoVITS version.",
+    "example": 0.75
+  },
+  "gsv_split_bucket": {
+    "zh": "GPT-SoVITS 按文本长度分桶以便批量处理，实际效果取决于服务实现。 参数传给语音服务，范围与兼容性以你部署的 GPT-SoVITS 版本为准。",
+    "en": "GPT-SoVITS text-length bucketing for batched processing; behavior depends on service implementation. The value is passed to the speech service; supported ranges depend on your deployed GPT-SoVITS version.",
+    "example": true
+  },
+  "gsv_fragment_interval": {
+    "zh": "GPT-SoVITS 语音片段间隔，单位为秒；过长会使拼接停顿明显。 参数传给语音服务，范围与兼容性以你部署的 GPT-SoVITS 版本为准。",
+    "en": "GPT-SoVITS gap between audio fragments in seconds; long gaps produce noticeable pauses. The value is passed to the speech service; supported ranges depend on your deployed GPT-SoVITS version.",
+    "example": 0.3
+  },
+  "gsv_streaming_mode": {
+    "zh": "向 GPT-SoVITS 请求流式输出；当前客户端与服务器都需支持对应响应格式。 参数传给语音服务，范围与兼容性以你部署的 GPT-SoVITS 版本为准。",
+    "en": "Request GPT-SoVITS streaming output; client and server must support its response format. The value is passed to the speech service; supported ranges depend on your deployed GPT-SoVITS version.",
+    "example": false
+  },
+  "gsv_parallel_infer": {
+    "zh": "启用 GPT-SoVITS 并行推理，可能提高速度并增加资源占用。 参数传给语音服务，范围与兼容性以你部署的 GPT-SoVITS 版本为准。",
+    "en": "Enable GPT-SoVITS parallel inference, potentially improving speed and resource usage. The value is passed to the speech service; supported ranges depend on your deployed GPT-SoVITS version.",
+    "example": true
+  },
+  "gsv_repetition_penalty": {
+    "zh": "GPT-SoVITS 重复惩罚系数；调整用于减少重复，过大可能影响自然度。 参数传给语音服务，范围与兼容性以你部署的 GPT-SoVITS 版本为准。",
+    "en": "GPT-SoVITS repetition penalty; reducing repetition too aggressively may affect naturalness. The value is passed to the speech service; supported ranges depend on your deployed GPT-SoVITS version.",
+    "example": 1.35
+  },
+  "version": {
+    "zh": "服务器报告的软件或前端版本，用于排查接口兼容问题；这是状态信息，修改显示值不会升级服务器。",
+    "en": "Server-reported software/frontend version used for compatibility troubleshooting. Editing a displayed value does not upgrade the server.",
+    "example": "4.0.0"
+  },
+  "webui_version": {
+    "zh": "服务器报告的软件或前端版本，用于排查接口兼容问题；这是状态信息，修改显示值不会升级服务器。",
+    "en": "Server-reported software/frontend version used for compatibility troubleshooting. Editing a displayed value does not upgrade the server.",
+    "example": "4.0.0"
+  },
+  "dashboard_version": {
+    "zh": "服务器报告的软件或前端版本，用于排查接口兼容问题；这是状态信息，修改显示值不会升级服务器。",
+    "en": "Server-reported software/frontend version used for compatibility troubleshooting. Editing a displayed value does not upgrade the server.",
+    "example": "4.0.0"
+  },
+  "astrbot_version": {
+    "zh": "服务器报告的软件或前端版本，用于排查接口兼容问题；这是状态信息，修改显示值不会升级服务器。",
+    "en": "Server-reported software/frontend version used for compatibility troubleshooting. Editing a displayed value does not upgrade the server.",
+    "example": "4.0.0"
+  },
+  "astrbot_code_version": {
+    "zh": "服务器报告的软件或前端版本，用于排查接口兼容问题；这是状态信息，修改显示值不会升级服务器。",
+    "en": "Server-reported software/frontend version used for compatibility troubleshooting. Editing a displayed value does not upgrade the server.",
+    "example": "4.0.0"
+  },
+  "uptime": {
+    "zh": "服务器进程已运行的持续时间，可能由时、分、秒组成。应用会组合显示为可读时长；重启进程后重新计时，不是开机日历时间。",
+    "en": "Elapsed server process uptime, sometimes split into hours/minutes/seconds. Displayed as a duration and reset on restart, not a calendar date.",
+    "example": {
+      "hours": 1,
+      "minutes": 2,
+      "seconds": 3
+    }
+  },
+  "running": {
+    "zh": "服务器进程已运行的持续时间，可能由时、分、秒组成。应用会组合显示为可读时长；重启进程后重新计时，不是开机日历时间。",
+    "en": "Elapsed server process uptime, sometimes split into hours/minutes/seconds. Displayed as a duration and reset on restart, not a calendar date.",
+    "example": {
+      "hours": 1,
+      "minutes": 2,
+      "seconds": 3
+    }
+  },
+  "start_time": {
+    "zh": "服务器进程启动时间；Unix 秒或毫秒时间戳由应用格式化到手机时区。设备时区变化会改变显示时间，不改变原始时间点。",
+    "en": "Process start timestamp. Unix seconds/milliseconds are formatted in the phone time zone; changing the zone changes display, not the instant.",
+    "example": 1700000000
+  },
+  "cpu_percent": {
+    "zh": "服务器报告的资源使用百分比。进度条按 0–100 展示，原始数值仍保留；缺失值不当作 0，多核 CPU 的上限可能取决于服务器统计方式。",
+    "en": "Server-reported resource percentage. Progress uses 0–100 while retaining the value. Missing is not zero; multicore CPU scaling depends on server reporting.",
+    "example": 42.5
+  },
+  "cpu_usage": {
+    "zh": "服务器报告的资源使用百分比。进度条按 0–100 展示，原始数值仍保留；缺失值不当作 0，多核 CPU 的上限可能取决于服务器统计方式。",
+    "en": "Server-reported resource percentage. Progress uses 0–100 while retaining the value. Missing is not zero; multicore CPU scaling depends on server reporting.",
+    "example": 42.5
+  },
+  "memory_percent": {
+    "zh": "服务器报告的资源使用百分比。进度条按 0–100 展示，原始数值仍保留；缺失值不当作 0，多核 CPU 的上限可能取决于服务器统计方式。",
+    "en": "Server-reported resource percentage. Progress uses 0–100 while retaining the value. Missing is not zero; multicore CPU scaling depends on server reporting.",
+    "example": 42.5
+  },
+  "disk_percent": {
+    "zh": "服务器报告的资源使用百分比。进度条按 0–100 展示，原始数值仍保留；缺失值不当作 0，多核 CPU 的上限可能取决于服务器统计方式。",
+    "en": "Server-reported resource percentage. Progress uses 0–100 while retaining the value. Missing is not zero; multicore CPU scaling depends on server reporting.",
+    "example": 42.5
+  },
+  "used_percent": {
+    "zh": "服务器报告的资源使用百分比。进度条按 0–100 展示，原始数值仍保留；缺失值不当作 0，多核 CPU 的上限可能取决于服务器统计方式。",
+    "en": "Server-reported resource percentage. Progress uses 0–100 while retaining the value. Missing is not zero; multicore CPU scaling depends on server reporting.",
+    "example": 42.5
+  },
+  "usage_percent": {
+    "zh": "服务器报告的资源使用百分比。进度条按 0–100 展示，原始数值仍保留；缺失值不当作 0，多核 CPU 的上限可能取决于服务器统计方式。",
+    "en": "Server-reported resource percentage. Progress uses 0–100 while retaining the value. Missing is not zero; multicore CPU scaling depends on server reporting.",
+    "example": 42.5
+  },
+  "memory": {
+    "zh": "内存统计对象。旧接口 process 表示进程内存、system 表示系统总内存，单位 MiB；system 不是系统已用量。应用据此换算，不能混同于字节字段。",
+    "en": "Memory statistics. Legacy process is process memory and system is total system memory, in MiB; system is not used RAM. These differ from explicit byte fields.",
+    "example": {
+      "process": 660,
+      "system": 1699
+    }
+  },
+  "memory.process": {
+    "zh": "内存统计对象。旧接口 process 表示进程内存、system 表示系统总内存，单位 MiB；system 不是系统已用量。应用据此换算，不能混同于字节字段。",
+    "en": "Memory statistics. Legacy process is process memory and system is total system memory, in MiB; system is not used RAM. These differ from explicit byte fields.",
+    "example": {
+      "process": 660,
+      "system": 1699
+    }
+  },
+  "memory.system": {
+    "zh": "内存统计对象。旧接口 process 表示进程内存、system 表示系统总内存，单位 MiB；system 不是系统已用量。应用据此换算，不能混同于字节字段。",
+    "en": "Memory statistics. Legacy process is process memory and system is total system memory, in MiB; system is not used RAM. These differ from explicit byte fields.",
+    "example": {
+      "process": 660,
+      "system": 1699
+    }
+  },
+  "process_memory_bytes": {
+    "zh": "明确以字节为单位的内存或磁盘统计；应用换算成易读容量。used 是已用、total 是总量，缺失项不会自动补零。",
+    "en": "Explicit byte-valued memory/disk statistic, formatted as readable capacity. used means occupied and total means capacity; absent values are not filled with zero.",
+    "example": 104857600
+  },
+  "memory_used_bytes": {
+    "zh": "明确以字节为单位的内存或磁盘统计；应用换算成易读容量。used 是已用、total 是总量，缺失项不会自动补零。",
+    "en": "Explicit byte-valued memory/disk statistic, formatted as readable capacity. used means occupied and total means capacity; absent values are not filled with zero.",
+    "example": 104857600
+  },
+  "memory_total_bytes": {
+    "zh": "明确以字节为单位的内存或磁盘统计；应用换算成易读容量。used 是已用、total 是总量，缺失项不会自动补零。",
+    "en": "Explicit byte-valued memory/disk statistic, formatted as readable capacity. used means occupied and total means capacity; absent values are not filled with zero.",
+    "example": 104857600
+  },
+  "disk_used_bytes": {
+    "zh": "明确以字节为单位的内存或磁盘统计；应用换算成易读容量。used 是已用、total 是总量，缺失项不会自动补零。",
+    "en": "Explicit byte-valued memory/disk statistic, formatted as readable capacity. used means occupied and total means capacity; absent values are not filled with zero.",
+    "example": 104857600
+  },
+  "disk_total_bytes": {
+    "zh": "明确以字节为单位的内存或磁盘统计；应用换算成易读容量。used 是已用、total 是总量，缺失项不会自动补零。",
+    "en": "Explicit byte-valued memory/disk statistic, formatted as readable capacity. used means occupied and total means capacity; absent values are not filled with zero.",
+    "example": 104857600
+  },
+  "storage": {
+    "zh": "存储或资源容量统计，含义和单位需结合父级字段。used 为已用、total 为总量、free 为未分配、available 为可用；不要把无单位数值默认当成百分比。",
+    "en": "Capacity statistic interpreted with its parent and units. used is occupied, total capacity, free unallocated and available usable. Unitless values are not automatically percentages.",
+    "example": 1024
+  },
+  "disk": {
+    "zh": "存储或资源容量统计，含义和单位需结合父级字段。used 为已用、total 为总量、free 为未分配、available 为可用；不要把无单位数值默认当成百分比。",
+    "en": "Capacity statistic interpreted with its parent and units. used is occupied, total capacity, free unallocated and available usable. Unitless values are not automatically percentages.",
+    "example": 1024
+  },
+  "used": {
+    "zh": "存储或资源容量统计，含义和单位需结合父级字段。used 为已用、total 为总量、free 为未分配、available 为可用；不要把无单位数值默认当成百分比。",
+    "en": "Capacity statistic interpreted with its parent and units. used is occupied, total capacity, free unallocated and available usable. Unitless values are not automatically percentages.",
+    "example": 1024
+  },
+  "total": {
+    "zh": "存储或资源容量统计，含义和单位需结合父级字段。used 为已用、total 为总量、free 为未分配、available 为可用；不要把无单位数值默认当成百分比。",
+    "en": "Capacity statistic interpreted with its parent and units. used is occupied, total capacity, free unallocated and available usable. Unitless values are not automatically percentages.",
+    "example": 1024
+  },
+  "free": {
+    "zh": "存储或资源容量统计，含义和单位需结合父级字段。used 为已用、total 为总量、free 为未分配、available 为可用；不要把无单位数值默认当成百分比。",
+    "en": "Capacity statistic interpreted with its parent and units. used is occupied, total capacity, free unallocated and available usable. Unitless values are not automatically percentages.",
+    "example": 1024
+  },
+  "available": {
+    "zh": "存储或资源容量统计，含义和单位需结合父级字段。used 为已用、total 为总量、free 为未分配、available 为可用；不要把无单位数值默认当成百分比。",
+    "en": "Capacity statistic interpreted with its parent and units. used is occupied, total capacity, free unallocated and available usable. Unitless values are not automatically percentages.",
+    "example": 1024
+  },
+  "thread_count": {
+    "zh": "服务器进程的线程数量，用于观察并发与资源变化；线程数不等于在线用户数或处理中的消息数。",
+    "en": "Server process thread count for observing concurrency/resources; not the count of online users or active messages.",
+    "example": 22
+  },
+  "platform_count": {
+    "zh": "状态接口报告的平台、插件或消息数量；累计口径与重启后是否清零取决于接口版本，不能用插件数量推断全部已启用。",
+    "en": "Platform, plugin or message count reported by the status API. Accumulation/reset semantics depend on server version; plugin count does not imply all are enabled.",
+    "example": 12
+  },
+  "plugin_count": {
+    "zh": "状态接口报告的平台、插件或消息数量；累计口径与重启后是否清零取决于接口版本，不能用插件数量推断全部已启用。",
+    "en": "Platform, plugin or message count reported by the status API. Accumulation/reset semantics depend on server version; plugin count does not imply all are enabled.",
+    "example": 12
+  },
+  "message_count": {
+    "zh": "状态接口报告的平台、插件或消息数量；累计口径与重启后是否清零取决于接口版本，不能用插件数量推断全部已启用。",
+    "en": "Platform, plugin or message count reported by the status API. Accumulation/reset semantics depend on server version; plugin count does not imply all are enabled.",
+    "example": 12
+  },
+  "total_message_count": {
+    "zh": "状态接口报告的平台、插件或消息数量；累计口径与重启后是否清零取决于接口版本，不能用插件数量推断全部已启用。",
+    "en": "Platform, plugin or message count reported by the status API. Accumulation/reset semantics depend on server version; plugin count does not imply all are enabled.",
+    "example": 12
+  },
+  "notice": {
+    "zh": "服务器返回的通知或运行提示；保留原文方便排查，通知不是客户端确认某项操作已成功的凭据。",
+    "en": "Server notice or runtime message, retained for troubleshooting. A notice alone is not client verification of an operation.",
+    "example": "Server maintenance scheduled"
+  },
+  "process": {
+    "zh": "服务器返回的进程、状态或统计集合。展开查看子项；字段是否存在及统计周期由服务器版本决定，读取状态不会改变服务器配置。",
+    "en": "Server process/status/statistics collection. Expand children; available fields and sampling periods depend on server version. Reading status does not modify configuration.",
+    "example": {}
+  },
+  "status": {
+    "zh": "服务器返回的进程、状态或统计集合。展开查看子项；字段是否存在及统计周期由服务器版本决定，读取状态不会改变服务器配置。",
+    "en": "Server process/status/statistics collection. Expand children; available fields and sampling periods depend on server version. Reading status does not modify configuration.",
+    "example": {}
+  },
+  "message_time_series": {
+    "zh": "服务器返回的进程、状态或统计集合。展开查看子项；字段是否存在及统计周期由服务器版本决定，读取状态不会改变服务器配置。",
+    "en": "Server process/status/statistics collection. Expand children; available fields and sampling periods depend on server version. Reading status does not modify configuration.",
+    "example": {}
+  },
+  "platforms": {
+    "zh": "服务器返回的进程、状态或统计集合。展开查看子项；字段是否存在及统计周期由服务器版本决定，读取状态不会改变服务器配置。",
+    "en": "Server process/status/statistics collection. Expand children; available fields and sampling periods depend on server version. Reading status does not modify configuration.",
+    "example": {}
+  },
+  "active_reply": {
+    "zh": "配置群聊主动回复策略与触发概率，启用后可能在未被点名时发送消息。",
+    "en": "Configure proactive group-reply strategy and probability; enabling may produce replies without a direct mention.",
+    "example": {
+      "enable": false
+    }
+  },
+  "admin": {
+    "zh": "配置管理员使用本机计算机工具时允许的操作；这是权限矩阵，不是管理员 ID 列表。",
+    "en": "Permissions for administrators using local computer tools, not the admin ID list.",
+    "example": {}
+  },
+  "member": {
+    "zh": "配置普通成员使用本机计算机工具的权限；应保持任务所需的最小范围。",
+    "en": "Permissions for ordinary members using local computer tools. Keep scope limited to the task.",
+    "example": {}
+  },
+  "allow_execution": {
+    "zh": "允许相应角色通过本机计算机工具执行程序；这可能改变服务器文件或进程，需结合文件系统范围授权。",
+    "en": "Allow this role to execute programs through local computer tools, potentially changing server files/processes. Combine with filesystem scope.",
+    "example": false
+  },
+  "allow_network": {
+    "zh": "允许相应角色的本机计算机工具访问网络；授权会影响宿主环境，不能替代网络层隔离。",
+    "en": "Permit network access for this role local computer tools. Applies to the host environment and does not replace network isolation.",
+    "example": false
+  },
+  "baidu_aip": {
+    "zh": "配置百度内容审核应用及其凭据；服务端需安装 baidu-aip 依赖，启用后将相关内容发送给审核服务。",
+    "en": "Configure Baidu moderation credentials. Install baidu-aip on the server; enabling sends relevant content to the moderation service.",
+    "example": {
+      "enable": false
+    }
+  },
+  "config": {
+    "zh": "当前执行器的参数对象；结构随所选执行器改变，切换后不要把旧执行器对象整体复制过来。",
+    "en": "Parameters for the selected runner. Structure changes with the runner; do not copy a previous runner object wholesale.",
+    "example": {}
+  },
+  "file_extract": {
+    "zh": "控制将用户上传文件转换为模型可读文本的功能；当前来源包含 Moonshot 提取设置，实际支持的文件格式由服务决定。",
+    "en": "Convert uploaded files into text for the model. This baseline includes Moonshot extraction settings; supported file formats depend on the service.",
+    "example": {
+      "enable": false
+    }
+  },
+  "internal_keywords": {
+    "zh": "按内置和额外关键词规则检查内容；额外规则支持正则，错误规则可能误拦截正常消息。",
+    "en": "Check content against built-in and additional keyword rules. Extra patterns support regex; incorrect rules can block normal messages.",
+    "example": {
+      "enable": true,
+      "extra_keywords": []
+    }
+  },
+  "moonshotai_api_key": {
+    "zh": "用于 Moonshot 文件提取服务的 API Key；由 AstrBot 服务器向该服务发送文件，请确认允许上传相关内容。",
+    "en": "API key for Moonshot file extraction. The AstrBot server uploads files to that service; confirm the content may be sent.",
+    "example": "YOUR_API_KEY"
+  },
+  "provider_source_id": {
+    "zh": "引用已配置的模型服务来源 ID；模型使用该来源的地址和认证，必须与来源列表中的标识精确一致。",
+    "en": "Reference an existing provider-source ID for endpoint/authentication. Match the source identifier exactly.",
+    "example": "my-source"
+  },
+  "use_file_service": {
+    "zh": "通过 AstrBot 文件服务 URL 提供合成语音，需要消息平台能访问 callback_api_base 指定的地址，否则可能无法获取音频。",
+    "en": "Provide synthesized audio through AstrBot file-service URLs. The platform must reach callback_api_base or audio retrieval may fail.",
+    "example": false
+  }
+}

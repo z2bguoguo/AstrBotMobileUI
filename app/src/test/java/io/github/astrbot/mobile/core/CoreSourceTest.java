@@ -20,6 +20,8 @@ public class CoreSourceTest {
         new JSONObject()
             .put("main.js", resource("main.js"))
             .put("ui.js", resource("ui.js"))
+            .put("help.js", resource("help.js"))
+            .put("help.json", resource("help.json"))
             .put("locales.json", resource("locales.json"))
             .put("fields.json", resource("fields.json"));
     CoreRuntime.configure(CoreSource.script(payload));
@@ -38,6 +40,14 @@ public class CoreSourceTest {
                 "language",
                 "zh"));
     assertEquals("消息平台设置", presentation.getString("title"));
+    JSONObject meta =
+        CoreRuntime.object(
+            "form.metadata",
+            CoreRuntime.args(
+                "root", new JSONObject(), "path", new JSONArray().put("config_version")));
+    JSONObject labels = new JSONObject(resource("fields.json")).getJSONObject("zh");
+    assertTrue(labels.getString(meta.getString("hint")).contains("填写示例"));
+    assertTrue(labels.getString(meta.getString("hint")).contains("不要手动"));
   }
 
   @Test
@@ -48,7 +58,8 @@ public class CoreSourceTest {
             .put("ui.js", resource("ui.js"))
             .put(
                 "z-extra.js",
-                "CoreModules['ui.extra']=function(a){return {type:'text',text:'downloaded screen'};};");
+                "CoreModules['ui.extra']=function(a){return {type:'text',text:'downloaded"
+                    + " screen'};};");
     CoreRuntime.configure(CoreSource.script(payload));
     assertEquals(
         "downloaded screen", CoreRuntime.object("ui.extra", new JSONObject()).getString("text"));

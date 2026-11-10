@@ -1,27 +1,27 @@
 {
   "weixin_oc_base_url": {
-    "zh": "Base URL",
+    "zh": "基础地址",
     "en": "Base URL"
   },
   "weixin_oc_bot_type": {
     "zh": "扫码参数 bot_type",
-    "en": "扫码参数 bot_type"
+    "en": "bot_type (QR login parameter)"
   },
   "weixin_oc_qr_poll_interval": {
     "zh": "二维码状态轮询间隔（秒）",
-    "en": "二维码状态轮询间隔（秒）"
+    "en": "QR status poll interval (seconds)"
   },
   "weixin_oc_long_poll_timeout_ms": {
     "zh": "getUpdates 长轮询超时时间（毫秒）",
-    "en": "getUpdates 长轮询超时时间（毫秒）"
+    "en": "getUpdates long-poll timeout (ms)"
   },
   "weixin_oc_api_timeout_ms": {
     "zh": "HTTP 请求超时（毫秒）",
-    "en": "HTTP 请求超时（毫秒）"
+    "en": "HTTP timeout (ms)"
   },
   "weixin_oc_token": {
     "zh": "登录后 token（可留空）",
-    "en": "登录后 token（可留空）"
+    "en": "Token after login (optional)"
   },
   "platform": {
     "zh": "机器人平台列表",
@@ -41,23 +41,23 @@
   },
   "dify_runner": {
     "zh": "Dify 配置",
-    "en": "Dify 配置"
+    "en": "Dify Configuration"
   },
   "coze_runner": {
     "zh": "Coze 配置",
-    "en": "Coze 配置"
+    "en": "Coze Configuration"
   },
   "dashscope_runner": {
     "zh": "阿里云百炼应用配置",
-    "en": "阿里云百炼应用配置"
+    "en": "Alibaba Cloud Bailian Application Configuration"
   },
   "deerflow_runner": {
     "zh": "DeerFlow 配置",
-    "en": "DeerFlow 配置"
+    "en": "DeerFlow Configuration"
   },
   "ai": {
     "zh": "模型",
-    "en": "模型"
+    "en": "Model"
   },
   "persona": {
     "zh": "默认人格",
@@ -65,35 +65,35 @@
   },
   "knowledgebase": {
     "zh": "知识库",
-    "en": "知识库"
+    "en": "Knowledge Base"
   },
   "websearch": {
     "zh": "网页搜索",
-    "en": "网页搜索"
+    "en": "Web Search"
   },
   "agent_computer_use": {
-    "zh": "Agent Computer Use",
+    "zh": "智能体计算机操作",
     "en": "Agent Computer Use"
   },
   "subagents": {
     "zh": "子代理",
-    "en": "子代理"
+    "en": "Subagents"
   },
   "proactive_capability": {
     "zh": "主动型 Agent",
-    "en": "主动型 Agent"
+    "en": "Proactive capability"
   },
   "truncate_and_compress": {
     "zh": "上下文管理策略",
-    "en": "上下文管理策略"
+    "en": "Context Management Strategy"
   },
   "others": {
     "zh": "其他配置",
-    "en": "其他配置"
+    "en": "Other Settings"
   },
   "general": {
     "zh": "基本",
-    "en": "基本"
+    "en": "General"
   },
   "rate_limit": {
     "zh": "消息频率限制",
@@ -105,15 +105,15 @@
   },
   "admins": {
     "zh": "管理员",
-    "en": "管理员"
+    "en": "Administrators"
   },
   "whitelist": {
     "zh": "白名单",
-    "en": "白名单"
+    "en": "Whitelist"
   },
   "plugin": {
     "zh": "插件",
-    "en": "插件"
+    "en": "Plugins"
   },
   "segmented_reply": {
     "zh": "分段回复",
@@ -121,7 +121,7 @@
   },
   "ltm": {
     "zh": "群聊上下文感知",
-    "en": "群聊上下文感知"
+    "en": "Group Chat Context Awareness"
   },
   "t2i": {
     "zh": "文本转图片",
@@ -129,231 +129,231 @@
   },
   "system": {
     "zh": "系统配置",
-    "en": "系统配置"
+    "en": "System Settings"
   },
   "app_id": {
     "zh": "应用 ID",
-    "en": "应用 ID"
+    "en": "Application ID"
   },
   "app_secret": {
     "zh": "应用密钥",
-    "en": "应用密钥"
+    "en": "Application secret"
   },
   "domain": {
     "zh": "开放平台 API 地址",
-    "en": "开放平台 API 地址"
+    "en": "Open platform API URL"
   },
   "corpid": {
     "zh": "企业 ID",
-    "en": "企业 ID"
+    "en": "Enterprise ID"
   },
   "token": {
     "zh": "回调 Token",
-    "en": "回调 Token"
+    "en": "Callback token"
   },
   "encoding_aes_key": {
     "zh": "消息加密密钥",
-    "en": "消息加密密钥"
+    "en": "Message encryption key"
   },
   "api_base_url": {
     "zh": "API 基础地址",
-    "en": "API 基础地址"
+    "en": "API base URL"
   },
   "client_id": {
     "zh": "客户端 ID",
-    "en": "客户端 ID"
+    "en": "Client ID"
   },
   "client_secret": {
     "zh": "客户端密钥",
-    "en": "客户端密钥"
+    "en": "Client secret"
   },
   "start_message": {
     "zh": "Start 命令回复",
-    "en": "Start 命令回复"
+    "en": "Start command reply"
   },
   "telegram_api_base_url": {
     "zh": "API 地址",
-    "en": "API 地址"
+    "en": "API URL"
   },
   "telegram_file_base_url": {
     "zh": "文件 API 地址",
-    "en": "文件 API 地址"
+    "en": "File API URL"
   },
   "bot_token": {
-    "zh": "Slack Bot Token",
+    "zh": "Slack 机器人令牌",
     "en": "Slack Bot Token"
   },
   "app_token": {
-    "zh": "Slack App Token",
+    "zh": "Slack 应用令牌",
     "en": "Slack App Token"
   },
   "signing_secret": {
-    "zh": "Slack Signing Secret",
+    "zh": "Slack 签名密钥",
     "en": "Slack Signing Secret"
   },
   "channel_access_token": {
     "zh": "LINE 频道访问令牌",
-    "en": "LINE 频道访问令牌"
+    "en": "LINE Channel Access Token"
   },
   "channel_secret": {
     "zh": "LINE 频道密钥",
-    "en": "LINE 频道密钥"
+    "en": "LINE Channel Secret"
   },
   "lark_connection_mode": {
     "zh": "订阅方式",
-    "en": "订阅方式"
+    "en": "Subscription Mode"
   },
   "lark_encrypt_key": {
-    "zh": "Encrypt Key",
+    "zh": "加密密钥",
     "en": "Encrypt Key"
   },
   "lark_verification_token": {
-    "zh": "Verification Token",
+    "zh": "验证令牌",
     "en": "Verification Token"
   },
   "is_sandbox": {
     "zh": "沙箱模式",
-    "en": "沙箱模式"
+    "en": "Sandbox Mode"
   },
   "satori_api_base_url": {
     "zh": "Satori API 终结点",
-    "en": "Satori API 终结点"
+    "en": "Satori API Endpoint"
   },
   "satori_endpoint": {
     "zh": "Satori WebSocket 终结点",
-    "en": "Satori WebSocket 终结点"
+    "en": "Satori WebSocket Endpoint"
   },
   "satori_token": {
     "zh": "Satori 令牌",
-    "en": "Satori 令牌"
+    "en": "Satori Token"
   },
   "satori_auto_reconnect": {
     "zh": "启用自动重连",
-    "en": "启用自动重连"
+    "en": "Enable Auto Reconnect"
   },
   "satori_heartbeat_interval": {
     "zh": "Satori 心跳间隔",
-    "en": "Satori 心跳间隔"
+    "en": "Satori Heartbeat Interval"
   },
   "satori_reconnect_delay": {
     "zh": "Satori 重连延迟",
-    "en": "Satori 重连延迟"
+    "en": "Satori Reconnect Delay"
   },
   "slack_connection_mode": {
-    "zh": "Slack Connection Mode",
+    "zh": "Slack 连接方式",
     "en": "Slack Connection Mode"
   },
   "slack_webhook_host": {
-    "zh": "Slack Webhook Host",
+    "zh": "Slack 回调监听地址",
     "en": "Slack Webhook Host"
   },
   "slack_webhook_port": {
-    "zh": "Slack Webhook Port",
+    "zh": "Slack 回调监听端口",
     "en": "Slack Webhook Port"
   },
   "slack_webhook_path": {
-    "zh": "Slack Webhook Path",
+    "zh": "Slack 回调路径",
     "en": "Slack Webhook Path"
   },
   "active_send_mode": {
     "zh": "是否换用主动发送接口",
-    "en": "是否换用主动发送接口"
+    "en": "Use Proactive Send API"
   },
   "wpp_active_message_poll": {
     "zh": "是否启用主动消息轮询",
-    "en": "是否启用主动消息轮询"
+    "en": "Enable Proactive Message Polling"
   },
   "wpp_active_message_poll_interval": {
     "zh": "主动消息轮询间隔",
-    "en": "主动消息轮询间隔"
+    "en": "Proactive Message Poll Interval"
   },
   "kf_name": {
     "zh": "微信客服账号名",
-    "en": "微信客服账号名"
+    "en": "WeChat Customer Service Account Name"
   },
   "telegram_token": {
-    "zh": "Bot Token",
+    "zh": "机器人令牌",
     "en": "Bot Token"
   },
   "mattermost_url": {
-    "zh": "Mattermost URL",
+    "zh": "Mattermost 服务地址",
     "en": "Mattermost URL"
   },
   "mattermost_bot_token": {
-    "zh": "Mattermost Bot Token",
+    "zh": "Mattermost 机器人令牌",
     "en": "Mattermost Bot Token"
   },
   "mattermost_reconnect_delay": {
     "zh": "Mattermost 重连延迟",
-    "en": "Mattermost 重连延迟"
+    "en": "Mattermost Reconnect Delay"
   },
   "misskey_instance_url": {
     "zh": "Misskey 实例 URL",
-    "en": "Misskey 实例 URL"
+    "en": "Misskey Instance URL"
   },
   "misskey_token": {
-    "zh": "Misskey Access Token",
+    "zh": "Misskey 访问令牌",
     "en": "Misskey Access Token"
   },
   "misskey_default_visibility": {
     "zh": "默认帖子可见性",
-    "en": "默认帖子可见性"
+    "en": "Default Post Visibility"
   },
   "misskey_local_only": {
     "zh": "仅限本站（不参与联合）",
-    "en": "仅限本站（不参与联合）"
+    "en": "Local Only (No Federation)"
   },
   "misskey_enable_chat": {
     "zh": "启用聊天消息响应",
-    "en": "启用聊天消息响应"
+    "en": "Enable Chat Message Responses"
   },
   "misskey_enable_file_upload": {
     "zh": "启用文件上传到 Misskey",
-    "en": "启用文件上传到 Misskey"
+    "en": "Enable File Upload to Misskey"
   },
   "misskey_allow_insecure_downloads": {
     "zh": "允许不安全下载（禁用 SSL 验证）",
-    "en": "允许不安全下载（禁用 SSL 验证）"
+    "en": "Allow Insecure Downloads (Disable SSL Verification)"
   },
   "misskey_download_timeout": {
     "zh": "远端下载超时时间（秒）",
-    "en": "远端下载超时时间（秒）"
+    "en": "Remote Download Timeout (seconds)"
   },
   "misskey_download_chunk_size": {
     "zh": "流式下载分块大小（字节）",
-    "en": "流式下载分块大小（字节）"
+    "en": "Stream Download Chunk Size (bytes)"
   },
   "misskey_max_download_bytes": {
     "zh": "最大允许下载字节数（超出则中止）",
-    "en": "最大允许下载字节数（超出则中止）"
+    "en": "Max Download Size (bytes)"
   },
   "misskey_upload_concurrency": {
     "zh": "并发上传限制",
-    "en": "并发上传限制"
+    "en": "Upload Concurrency Limit"
   },
   "misskey_upload_folder": {
     "zh": "上传到网盘的目标文件夹 ID",
-    "en": "上传到网盘的目标文件夹 ID"
+    "en": "Target Drive Folder ID"
   },
   "card_template_id": {
     "zh": "卡片模板 ID",
-    "en": "卡片模板 ID"
+    "en": "Card Template ID"
   },
   "telegram_command_register": {
     "zh": "命令注册",
-    "en": "命令注册"
+    "en": "Command Registration"
   },
   "telegram_command_auto_refresh": {
     "zh": "命令自动刷新",
-    "en": "命令自动刷新"
+    "en": "Command Auto Refresh"
   },
   "telegram_command_register_interval": {
     "zh": "命令自动刷新间隔",
-    "en": "命令自动刷新间隔"
+    "en": "Command Auto Refresh Interval"
   },
   "telegram_polling_restart_delay": {
     "zh": "轮询重启延迟",
-    "en": "轮询重启延迟"
+    "en": "Polling Restart Delay"
   },
   "id": {
     "zh": "标识",
@@ -368,104 +368,104 @@
     "en": "Enabled"
   },
   "appid": {
-    "zh": "appid",
+    "zh": "应用标识",
     "en": "appid"
   },
   "secret": {
-    "zh": "secret",
+    "zh": "密钥",
     "en": "secret"
   },
   "enable_group_c2c": {
     "zh": "启用消息列表单聊",
-    "en": "启用消息列表单聊"
+    "en": "Enable Message List Private Chat"
   },
   "enable_guild_direct_message": {
     "zh": "启用频道私聊",
-    "en": "启用频道私聊"
+    "en": "Enable Guild Direct Messages"
   },
   "use_markdown": {
     "zh": "主动消息使用 Markdown",
-    "en": "主动消息使用 Markdown"
+    "en": "Use Markdown for Proactive Messages"
   },
   "ws_reverse_host": {
     "zh": "反向 Websocket 主机",
-    "en": "反向 Websocket 主机"
+    "en": "Reverse WebSocket Host"
   },
   "ws_reverse_port": {
     "zh": "反向 Websocket 端口",
-    "en": "反向 Websocket 端口"
+    "en": "Reverse WebSocket Port"
   },
   "ws_reverse_token": {
     "zh": "反向 Websocket Token",
-    "en": "反向 Websocket Token"
+    "en": "Reverse WebSocket Token"
   },
   "wecom_ai_bot_name": {
     "zh": "企业微信智能机器人的名字",
-    "en": "企业微信智能机器人的名字"
+    "en": "WeCom AI Bot Name"
   },
   "wecom_ai_bot_connection_mode": {
     "zh": "企业微信智能机器人连接模式",
-    "en": "企业微信智能机器人连接模式"
+    "en": "WeCom AI Bot Connection Mode"
   },
   "wecomaibot_init_respond_text": {
     "zh": "企业微信智能机器人初始响应文本",
-    "en": "企业微信智能机器人初始响应文本"
+    "en": "WeCom AI Bot Initial Response Text"
   },
   "wecomaibot_friend_message_welcome_text": {
     "zh": "企业微信智能机器人私聊欢迎语",
-    "en": "企业微信智能机器人私聊欢迎语"
+    "en": "WeCom AI Bot DM Welcome Message"
   },
   "wecomaibot_token": {
     "zh": "企业微信智能机器人 Token",
-    "en": "企业微信智能机器人 Token"
+    "en": "WeCom AI Bot Token"
   },
   "wecomaibot_encoding_aes_key": {
     "zh": "企业微信智能机器人 EncodingAESKey",
-    "en": "企业微信智能机器人 EncodingAESKey"
+    "en": "WeCom AI Bot EncodingAESKey"
   },
   "msg_push_webhook_url": {
     "zh": "企业微信消息推送 Webhook URL",
-    "en": "企业微信消息推送 Webhook URL"
+    "en": "WeCom Message Push Webhook URL"
   },
   "only_use_webhook_url_to_send": {
     "zh": "仅使用 Webhook 发送消息",
-    "en": "仅使用 Webhook 发送消息"
+    "en": "Send Replies via Webhook Only"
   },
   "wecomaibot_ws_bot_id": {
     "zh": "长连接 BotID",
-    "en": "长连接 BotID"
+    "en": "Long Connection BotID"
   },
   "wecomaibot_ws_secret": {
     "zh": "长连接 Secret",
-    "en": "长连接 Secret"
+    "en": "Long Connection Secret"
   },
   "wecomaibot_ws_url": {
     "zh": "长连接 WebSocket 地址",
-    "en": "长连接 WebSocket 地址"
+    "en": "Long Connection WebSocket URL"
   },
   "wecomaibot_heartbeat_interval": {
     "zh": "长连接心跳间隔",
-    "en": "长连接心跳间隔"
+    "en": "Long Connection Heartbeat Interval"
   },
   "discord_token": {
-    "zh": "Discord Bot Token",
+    "zh": "Discord 机器人令牌",
     "en": "Discord Bot Token"
   },
   "discord_proxy": {
     "zh": "Discord 代理地址",
-    "en": "Discord 代理地址"
+    "en": "Discord Proxy URL"
   },
   "discord_command_register": {
     "zh": "注册 Discord 指令",
-    "en": "注册 Discord 指令"
+    "en": "Register Discord slash commands"
   },
   "discord_activity_name": {
     "zh": "Discord 活动名称",
-    "en": "Discord 活动名称"
+    "en": "Discord Activity Name"
   },
   "discord_allow_bot_messages": {
     "zh": "允许接收机器人消息",
-    "en": "允许接收机器人消息"
+    "en": "Allow Bot Messages"
   },
   "port": {
     "zh": "端口",
@@ -473,54 +473,54 @@
   },
   "callback_server_host": {
     "zh": "回调服务器主机",
-    "en": "回调服务器主机"
+    "en": "Callback Server Host"
   },
   "unified_webhook_mode": {
     "zh": "统一 Webhook 模式",
-    "en": "统一 Webhook 模式"
+    "en": "Unified Webhook Mode"
   },
   "webhook_uuid": {
-    "zh": "Webhook UUID",
+    "zh": "回调唯一标识",
     "en": "Webhook UUID"
   },
   "kook_bot_token": {
     "zh": "机器人 Token",
-    "en": "机器人 Token"
+    "en": "Bot Token"
   },
   "kook_reconnect_delay": {
     "zh": "重连延迟",
-    "en": "重连延迟"
+    "en": "Reconnect Delay"
   },
   "kook_max_reconnect_delay": {
     "zh": "最大重连延迟",
-    "en": "最大重连延迟"
+    "en": "Max Reconnect Delay"
   },
   "kook_max_retry_delay": {
     "zh": "最大重试延迟",
-    "en": "最大重试延迟"
+    "en": "Max Retry Delay"
   },
   "kook_heartbeat_interval": {
     "zh": "心跳间隔",
-    "en": "心跳间隔"
+    "en": "Heartbeat Interval"
   },
   "kook_heartbeat_timeout": {
     "zh": "心跳超时时间",
-    "en": "心跳超时时间"
+    "en": "Heartbeat Timeout"
   },
   "kook_max_heartbeat_failures": {
     "zh": "最大心跳失败次数",
-    "en": "最大心跳失败次数"
+    "en": "Max Heartbeat Failures"
   },
   "kook_max_consecutive_failures": {
     "zh": "最大连续失败次数",
-    "en": "最大连续失败次数"
+    "en": "Max Consecutive Failures"
   },
   "genie_onnx_model_dir": {
-    "zh": "ONNX Model Directory",
+    "zh": "ONNX 模型目录",
     "en": "ONNX Model Directory"
   },
   "genie_language": {
-    "zh": "Language",
+    "zh": "语言",
     "en": "Language"
   },
   "api_key": {
@@ -528,272 +528,272 @@
     "en": "API key"
   },
   "dashscope_api_key": {
-    "zh": "DashScope API Key",
+    "zh": "DashScope API 密钥",
     "en": "DashScope API Key"
   },
   "gemini_tts_api_key": {
-    "zh": "Gemini API Key",
+    "zh": "Gemini API 密钥",
     "en": "Gemini API Key"
   },
   "xai_native_search": {
     "zh": "启用原生搜索功能",
-    "en": "启用原生搜索功能"
+    "en": "Enable native search"
   },
   "rerank_api_base": {
     "zh": "重排序模型 API Base URL",
-    "en": "重排序模型 API Base URL"
+    "en": "Rerank Model API Base URL"
   },
   "rerank_api_suffix": {
     "zh": "API URL 路径后缀",
-    "en": "API URL 路径后缀"
+    "en": "API URL path suffix"
   },
   "rerank_api_key": {
-    "zh": "API Key",
+    "zh": "API 密钥",
     "en": "API Key"
   },
   "rerank_model": {
     "zh": "重排序模型名称",
-    "en": "重排序模型名称"
+    "en": "Rerank Model Name"
   },
   "return_documents": {
     "zh": "是否在排序结果中返回文档原文",
-    "en": "是否在排序结果中返回文档原文"
+    "en": "Return source documents in rerank results"
   },
   "instruct": {
     "zh": "自定义排序任务类型说明",
-    "en": "自定义排序任务类型说明"
+    "en": "Custom rerank task description"
   },
   "launch_model_if_not_running": {
     "zh": "模型未运行时自动启动",
-    "en": "模型未运行时自动启动"
+    "en": "Auto-start model if not running"
   },
   "nvidia_rerank_api_base": {
-    "zh": "API Base URL",
+    "zh": "API 基础地址",
     "en": "API Base URL"
   },
   "nvidia_rerank_api_key": {
-    "zh": "API Key",
+    "zh": "API 密钥",
     "en": "API Key"
   },
   "nvidia_rerank_model": {
     "zh": "重排序模型名称",
-    "en": "重排序模型名称"
+    "en": "Rerank Model Name"
   },
   "nvidia_rerank_model_endpoint": {
     "zh": "自定义模型端点",
-    "en": "自定义模型端点"
+    "en": "Custom Model Endpoint"
   },
   "nvidia_rerank_truncate": {
     "zh": "文本截断策略",
-    "en": "文本截断策略"
+    "en": "Text Truncation Strategy"
   },
   "tei_rerank_truncate": {
     "zh": "截断超长文本",
-    "en": "截断超长文本"
+    "en": "Truncate Long Text"
   },
   "tei_rerank_truncation_direction": {
     "zh": "截断方向",
-    "en": "截断方向"
+    "en": "Truncation Direction"
   },
   "tei_rerank_raw_scores": {
     "zh": "返回原始分数",
-    "en": "返回原始分数"
+    "en": "Return Raw Scores"
   },
   "tei_rerank_return_text": {
     "zh": "返回排序结果中的文档原文",
-    "en": "返回排序结果中的文档原文"
+    "en": "Return Document Text in Results"
   },
   "modalities": {
     "zh": "模型能力",
-    "en": "模型能力"
+    "en": "Model capabilities"
   },
   "custom_headers": {
     "zh": "自定义请求头",
-    "en": "自定义请求头"
+    "en": "Custom request headers"
   },
   "ollama_disable_thinking": {
     "zh": "关闭思考模式",
-    "en": "关闭思考模式"
+    "en": "Disable thinking mode"
   },
   "custom_extra_body": {
     "zh": "自定义请求体参数",
-    "en": "自定义请求体参数"
+    "en": "Custom request body parameters"
   },
   "gpt_weights_path": {
     "zh": "GPT模型文件路径",
-    "en": "GPT模型文件路径"
+    "en": "GPT model file path"
   },
   "sovits_weights_path": {
     "zh": "SoVITS模型文件路径",
-    "en": "SoVITS模型文件路径"
+    "en": "SoVITS model file path"
   },
   "gsv_default_parms": {
     "zh": "GPT_SoVITS默认参数",
-    "en": "GPT_SoVITS默认参数"
+    "en": "GPT_SoVITS default parameters"
   },
   "embedding_dimensions": {
     "zh": "嵌入维度",
-    "en": "嵌入维度"
+    "en": "Embedding dimensions"
   },
   "embedding_dimensions_mode": {
     "zh": "嵌入维度参数发送模式",
-    "en": "嵌入维度参数发送模式"
+    "en": "Embedding dimensions mode"
   },
   "embedding_model": {
     "zh": "嵌入模型",
-    "en": "嵌入模型"
+    "en": "Embedding model"
   },
   "embedding_api_key": {
-    "zh": "API Key",
+    "zh": "API 密钥",
     "en": "API Key"
   },
   "embedding_api_base": {
-    "zh": "API Base URL",
+    "zh": "API 基础地址",
     "en": "API Base URL"
   },
   "volcengine_cluster": {
     "zh": "火山引擎集群",
-    "en": "火山引擎集群"
+    "en": "Volcengine cluster"
   },
   "volcengine_voice_type": {
     "zh": "火山引擎音色",
-    "en": "火山引擎音色"
+    "en": "Volcengine voice"
   },
   "volcengine_speed_ratio": {
     "zh": "语速设置",
-    "en": "语速设置"
+    "en": "Speech rate"
   },
   "volcengine_volume_ratio": {
     "zh": "音量设置",
-    "en": "音量设置"
+    "en": "Volume"
   },
   "azure_tts_voice": {
     "zh": "音色设置",
-    "en": "音色设置"
+    "en": "Voice style"
   },
   "azure_tts_style": {
     "zh": "风格设置",
-    "en": "风格设置"
+    "en": "Style"
   },
   "azure_tts_role": {
     "zh": "模仿设置（可选）",
-    "en": "模仿设置（可选）"
+    "en": "Role (optional)"
   },
   "azure_tts_rate": {
     "zh": "语速设置",
-    "en": "语速设置"
+    "en": "Speech rate"
   },
   "azure_tts_volume": {
     "zh": "语音音量设置",
-    "en": "语音音量设置"
+    "en": "Speech volume"
   },
   "azure_tts_region": {
     "zh": "API 地区",
-    "en": "API 地区"
+    "en": "API region"
   },
   "azure_tts_subscription_key": {
     "zh": "服务订阅密钥",
-    "en": "服务订阅密钥"
+    "en": "Service subscription key"
   },
   "dashscope_tts_voice": {
     "zh": "音色",
-    "en": "音色"
+    "en": "Voice"
   },
   "gm_resp_image_modal": {
     "zh": "启用图片模态",
-    "en": "启用图片模态"
+    "en": "Enable image modality"
   },
   "gm_native_search": {
     "zh": "启用原生搜索功能",
-    "en": "启用原生搜索功能"
+    "en": "Enable native search"
   },
   "gm_native_coderunner": {
     "zh": "启用原生代码执行器",
-    "en": "启用原生代码执行器"
+    "en": "Enable native code runner"
   },
   "gm_url_context": {
     "zh": "启用URL上下文功能",
-    "en": "启用URL上下文功能"
+    "en": "Enable URL context"
   },
   "gm_safety_settings": {
     "zh": "安全过滤器",
-    "en": "安全过滤器"
+    "en": "Safety filters"
   },
   "gm_thinking_config": {
-    "zh": "Thinking Config",
+    "zh": "思考配置",
     "en": "Thinking Config"
   },
   "anth_thinking_config": {
     "zh": "思考配置",
-    "en": "思考配置"
+    "en": "Thinking Config"
   },
   "minimax-group-id": {
     "zh": "用户组",
-    "en": "用户组"
+    "en": "User group"
   },
   "minimax-langboost": {
     "zh": "指定语言/方言",
-    "en": "指定语言/方言"
+    "en": "Target language/dialect"
   },
   "minimax-voice-speed": {
     "zh": "语速",
-    "en": "语速"
+    "en": "Speech rate"
   },
   "minimax-voice-vol": {
     "zh": "音量",
-    "en": "音量"
+    "en": "Volume"
   },
   "minimax-voice-pitch": {
     "zh": "语调",
-    "en": "语调"
+    "en": "Pitch"
   },
   "minimax-is-timber-weight": {
     "zh": "启用混合音色",
-    "en": "启用混合音色"
+    "en": "Enable mixed voices"
   },
   "minimax-timber-weight": {
     "zh": "混合音色",
-    "en": "混合音色"
+    "en": "Mixed voices"
   },
   "minimax-voice-id": {
     "zh": "单一音色",
-    "en": "单一音色"
+    "en": "Single voice"
   },
   "minimax-voice-emotion": {
     "zh": "情绪",
-    "en": "情绪"
+    "en": "Emotion"
   },
   "minimax-voice-latex": {
     "zh": "支持朗读latex公式",
-    "en": "支持朗读latex公式"
+    "en": "Read LaTeX formulas"
   },
   "minimax-voice-english-normalization": {
     "zh": "支持英语文本规范化",
-    "en": "支持英语文本规范化"
+    "en": "English text normalization"
   },
   "rag_options": {
     "zh": "RAG 选项",
-    "en": "RAG 选项"
+    "en": "RAG options"
   },
   "sensevoice_hint": {
     "zh": "部署SenseVoice",
-    "en": "部署SenseVoice"
+    "en": "Deploy SenseVoice"
   },
   "is_emotion": {
     "zh": "情绪识别",
-    "en": "情绪识别"
+    "en": "Emotion recognition"
   },
   "stt_model": {
     "zh": "模型名称",
-    "en": "模型名称"
+    "en": "Model name"
   },
   "variables": {
     "zh": "工作流固定输入变量",
-    "en": "工作流固定输入变量"
+    "en": "Workflow fixed input variables"
   },
   "dashscope_app_type": {
     "zh": "应用类型",
-    "en": "应用类型"
+    "en": "App type"
   },
   "timeout": {
     "zh": "超时时间",
@@ -801,58 +801,58 @@
   },
   "total_timeout": {
     "zh": "总超时时间",
-    "en": "总超时时间"
+    "en": "Total timeout"
   },
   "max_concurrency": {
     "zh": "最大并发数",
-    "en": "最大并发数"
+    "en": "Maximum concurrency"
   },
   "openai-tts-voice": {
-    "zh": "voice",
+    "zh": "音色",
     "en": "voice"
   },
   "mimo-tts-voice": {
     "zh": "音色",
-    "en": "音色"
+    "en": "Voice"
   },
   "mimo-tts-format": {
     "zh": "输出格式",
-    "en": "输出格式"
+    "en": "Output format"
   },
   "mimo-tts-style-prompt": {
     "zh": "风格提示词",
-    "en": "风格提示词"
+    "en": "Style prompt"
   },
   "mimo-tts-dialect": {
     "zh": "方言",
-    "en": "方言"
+    "en": "Dialect"
   },
   "mimo-tts-seed-text": {
     "zh": "种子文本",
-    "en": "种子文本"
+    "en": "Seed text"
   },
   "fishaudio-tts-character": {
-    "zh": "character",
+    "zh": "角色",
     "en": "character"
   },
   "fishaudio-tts-reference-id": {
-    "zh": "reference_id",
+    "zh": "参考音频标识",
     "en": "reference_id"
   },
   "whisper_hint": {
     "zh": "本地部署 Whisper 模型须知",
-    "en": "本地部署 Whisper 模型须知"
+    "en": "Notes for local Whisper deployment"
   },
   "whisper_device": {
     "zh": "推理设备",
-    "en": "推理设备"
+    "en": "Inference device"
   },
   "provider_type": {
     "zh": "模型提供商能力种类",
-    "en": "模型提供商能力种类"
+    "en": "Provider capability type"
   },
   "key": {
-    "zh": "API Key",
+    "zh": "API 密钥",
     "en": "API Key"
   },
   "api_base": {
@@ -869,255 +869,255 @@
   },
   "max_context_tokens": {
     "zh": "模型上下文窗口大小",
-    "en": "模型上下文窗口大小"
+    "en": "Model context window size"
   },
   "dify_api_key": {
-    "zh": "API Key",
+    "zh": "API 密钥",
     "en": "API Key"
   },
   "dify_api_base": {
-    "zh": "API Base URL",
+    "zh": "API 基础地址",
     "en": "API Base URL"
   },
   "dify_api_type": {
     "zh": "Dify 应用类型",
-    "en": "Dify 应用类型"
+    "en": "Dify app type"
   },
   "dify_workflow_output_key": {
     "zh": "Dify Workflow 输出变量名",
-    "en": "Dify Workflow 输出变量名"
+    "en": "Dify workflow output variable name"
   },
   "dify_query_input_key": {
     "zh": "Prompt 输入变量名",
-    "en": "Prompt 输入变量名"
+    "en": "Prompt input variable name"
   },
   "coze_api_key": {
-    "zh": "Coze API Key",
+    "zh": "Coze API 密钥",
     "en": "Coze API Key"
   },
   "bot_id": {
-    "zh": "Bot ID",
+    "zh": "机器人标识",
     "en": "Bot ID"
   },
   "coze_api_base": {
-    "zh": "API Base URL",
+    "zh": "API 基础地址",
     "en": "API Base URL"
   },
   "deerflow_api_base": {
-    "zh": "API Base URL",
+    "zh": "API 基础地址",
     "en": "API Base URL"
   },
   "deerflow_api_key": {
-    "zh": "DeerFlow API Key",
+    "zh": "DeerFlow API 密钥",
     "en": "DeerFlow API Key"
   },
   "deerflow_auth_header": {
-    "zh": "Authorization Header",
+    "zh": "认证请求头",
     "en": "Authorization Header"
   },
   "deerflow_assistant_id": {
-    "zh": "Assistant ID",
+    "zh": "助手标识",
     "en": "Assistant ID"
   },
   "deerflow_model_name": {
     "zh": "模型名称覆盖",
-    "en": "模型名称覆盖"
+    "en": "Model name override"
   },
   "deerflow_thinking_enabled": {
     "zh": "启用思考模式",
-    "en": "启用思考模式"
+    "en": "Enable thinking mode"
   },
   "deerflow_plan_mode": {
     "zh": "启用计划模式",
-    "en": "启用计划模式"
+    "en": "Enable plan mode"
   },
   "deerflow_subagent_enabled": {
     "zh": "启用子智能体",
-    "en": "启用子智能体"
+    "en": "Enable subagent"
   },
   "deerflow_max_concurrent_subagents": {
     "zh": "子智能体最大并发数",
-    "en": "子智能体最大并发数"
+    "en": "Max concurrent subagents"
   },
   "deerflow_recursion_limit": {
     "zh": "递归深度上限",
-    "en": "递归深度上限"
+    "en": "Recursion limit"
   },
   "auto_save_history": {
     "zh": "由 Coze 管理对话记录",
-    "en": "由 Coze 管理对话记录"
+    "en": "Conversation history managed by Coze"
   },
   "provider_settings.enable": {
     "zh": "启用",
-    "en": "启用"
+    "en": "Enable"
   },
   "agent.runtime": {
     "zh": "执行器",
-    "en": "执行器"
+    "en": "Runtime"
   },
   "agent.config.dify_api_type": {
     "zh": "应用类型",
-    "en": "应用类型"
+    "en": "App type"
   },
   "agent.config.dify_api_key": {
-    "zh": "API Key",
+    "zh": "API 密钥",
     "en": "API Key"
   },
   "agent.config.dify_api_base": {
-    "zh": "API Base URL",
+    "zh": "API 基础地址",
     "en": "API Base URL"
   },
   "agent.config.dify_workflow_output_key": {
     "zh": "Workflow 输出变量名",
-    "en": "Workflow 输出变量名"
+    "en": "Workflow Output Variable"
   },
   "agent.config.dify_query_input_key": {
     "zh": "Prompt 输入变量名",
-    "en": "Prompt 输入变量名"
+    "en": "Prompt input variable name"
   },
   "agent.config.variables": {
     "zh": "变量",
-    "en": "变量"
+    "en": "Variables"
   },
   "agent.config.timeout": {
     "zh": "超时时间（秒）",
-    "en": "超时时间（秒）"
+    "en": "Timeout (seconds)"
   },
   "agent.config.proxy": {
     "zh": "代理地址",
-    "en": "代理地址"
+    "en": "Proxy address"
   },
   "agent.config.coze_api_key": {
-    "zh": "API Key",
+    "zh": "API 密钥",
     "en": "API Key"
   },
   "agent.config.bot_id": {
-    "zh": "Bot ID",
+    "zh": "机器人标识",
     "en": "Bot ID"
   },
   "agent.config.coze_api_base": {
-    "zh": "API Base URL",
+    "zh": "API 基础地址",
     "en": "API Base URL"
   },
   "agent.config.auto_save_history": {
     "zh": "由 Coze 管理对话记录",
-    "en": "由 Coze 管理对话记录"
+    "en": "Conversation history managed by Coze"
   },
   "agent.config.dashscope_app_type": {
     "zh": "应用类型",
-    "en": "应用类型"
+    "en": "App type"
   },
   "agent.config.dashscope_api_key": {
-    "zh": "API Key",
+    "zh": "API 密钥",
     "en": "API Key"
   },
   "agent.config.dashscope_app_id": {
     "zh": "应用 ID",
-    "en": "应用 ID"
+    "en": "Application ID"
   },
   "agent.config.rag_options.pipeline_ids": {
     "zh": "知识库 Pipeline ID",
-    "en": "知识库 Pipeline ID"
+    "en": "Knowledge Base Pipeline IDs"
   },
   "agent.config.rag_options.file_ids": {
     "zh": "文件 ID",
-    "en": "文件 ID"
+    "en": "File IDs"
   },
   "agent.config.rag_options.output_reference": {
     "zh": "输出引用",
-    "en": "输出引用"
+    "en": "Include References"
   },
   "agent.config.deerflow_api_base": {
-    "zh": "API Base URL",
+    "zh": "API 基础地址",
     "en": "API Base URL"
   },
   "agent.config.deerflow_api_key": {
-    "zh": "API Key",
+    "zh": "API 密钥",
     "en": "API Key"
   },
   "agent.config.deerflow_auth_header": {
-    "zh": "Authorization Header",
+    "zh": "认证请求头",
     "en": "Authorization Header"
   },
   "agent.config.deerflow_assistant_id": {
-    "zh": "Assistant ID",
+    "zh": "助手标识",
     "en": "Assistant ID"
   },
   "agent.config.deerflow_model_name": {
     "zh": "模型名称覆盖",
-    "en": "模型名称覆盖"
+    "en": "Model name override"
   },
   "agent.config.deerflow_thinking_enabled": {
     "zh": "启用思考模式",
-    "en": "启用思考模式"
+    "en": "Enable thinking mode"
   },
   "agent.config.deerflow_plan_mode": {
     "zh": "启用计划模式",
-    "en": "启用计划模式"
+    "en": "Enable plan mode"
   },
   "agent.config.deerflow_subagent_enabled": {
     "zh": "启用子智能体",
-    "en": "启用子智能体"
+    "en": "Enable subagent"
   },
   "agent.config.deerflow_max_concurrent_subagents": {
     "zh": "子智能体最大并发数",
-    "en": "子智能体最大并发数"
+    "en": "Max concurrent subagents"
   },
   "agent.config.deerflow_recursion_limit": {
     "zh": "递归深度上限",
-    "en": "递归深度上限"
+    "en": "Recursion limit"
   },
   "agent.config.model.provider_id": {
     "zh": "对话模型",
-    "en": "对话模型"
+    "en": "Chat Model"
   },
   "agent.config.model.fallback_provider_ids": {
     "zh": "回退对话模型",
-    "en": "回退对话模型"
+    "en": "Fallback Chat Models"
   },
   "agent.config.model.request_max_retries": {
     "zh": "异常重试次数",
-    "en": "异常重试次数"
+    "en": "Retries on Error"
   },
   "provider_settings.default_image_caption_provider_id": {
     "zh": "图片转述模型",
-    "en": "图片转述模型"
+    "en": "Image Caption Model"
   },
   "provider_stt_settings.enable": {
     "zh": "语音识别",
-    "en": "语音识别"
+    "en": "Speech Recognition"
   },
   "provider_stt_settings.provider_id": {
     "zh": "默认语音转文本模型",
-    "en": "默认语音转文本模型"
+    "en": "Default Speech-to-Text Model"
   },
   "provider_tts_settings.enable": {
     "zh": "语音回复",
-    "en": "语音回复"
+    "en": "Voice Replies"
   },
   "provider_tts_settings.provider_id": {
     "zh": "默认文本转语音模型",
-    "en": "默认文本转语音模型"
+    "en": "Default Text-to-Speech Model"
   },
   "provider_tts_settings.trigger_probability": {
     "zh": "TTS 触发概率",
-    "en": "TTS 触发概率"
+    "en": "TTS Trigger Probability"
   },
   "provider_settings.image_caption_prompt": {
     "zh": "图片转述提示词",
-    "en": "图片转述提示词"
+    "en": "Image Caption Prompt"
   },
   "agent.config.persona.persona_id": {
     "zh": "默认采用的人格",
-    "en": "默认采用的人格"
+    "en": "Default Persona"
   },
   "agent.config.persona.safety_mode": {
     "zh": "健康模式",
-    "en": "健康模式"
+    "en": "Safety Mode"
   },
   "agent.config.persona.safety_mode_strategy": {
     "zh": "健康模式策略",
-    "en": "健康模式策略"
+    "en": "Safety Mode Strategy"
   },
   "kb_names": {
     "zh": "知识库名称",
@@ -1137,267 +1137,267 @@
   },
   "provider_settings.web_search": {
     "zh": "启用网页搜索",
-    "en": "启用网页搜索"
+    "en": "Enable Web Search"
   },
   "provider_settings.websearch_provider": {
     "zh": "网页搜索提供商",
-    "en": "网页搜索提供商"
+    "en": "Web Search Provider"
   },
   "provider_settings.websearch_tavily_key": {
-    "zh": "Tavily API Key",
+    "zh": "Tavily API 密钥",
     "en": "Tavily API Key"
   },
   "provider_settings.websearch_bocha_key": {
-    "zh": "BoCha API Key",
+    "zh": "BoCha API 密钥",
     "en": "BoCha API Key"
   },
   "provider_settings.websearch_brave_key": {
-    "zh": "Brave Search API Key",
+    "zh": "Brave Search API 密钥",
     "en": "Brave Search API Key"
   },
   "provider_settings.websearch_firecrawl_key": {
-    "zh": "Firecrawl API Key",
+    "zh": "Firecrawl API 密钥",
     "en": "Firecrawl API Key"
   },
   "provider_settings.websearch_baidu_app_builder_key": {
     "zh": "百度千帆智能云 APP Builder API Key",
-    "en": "百度千帆智能云 APP Builder API Key"
+    "en": "Baidu Qianfan Smart Cloud APP Builder API Key"
   },
   "provider_settings.websearch_exa_key": {
-    "zh": "Exa API Key",
+    "zh": "Exa API 密钥",
     "en": "Exa API Key"
   },
   "provider_settings.websearch_anysearch_key": {
-    "zh": "AnySearch API Key",
+    "zh": "AnySearch API 密钥",
     "en": "AnySearch API Key"
   },
   "provider_settings.websearch_deepseek_key": {
-    "zh": "DeepSeek API Key",
+    "zh": "DeepSeek API 密钥",
     "en": "DeepSeek API Key"
   },
   "provider_settings.websearch_serpapi_key": {
-    "zh": "SerpApi API Key",
+    "zh": "SerpApi API 密钥",
     "en": "SerpApi API Key"
   },
   "provider_settings.web_search_link": {
     "zh": "显示来源引用",
-    "en": "显示来源引用"
+    "en": "Display Source Citations"
   },
   "provider_settings.computer_use_runtime": {
-    "zh": "Computer Use Runtime",
+    "zh": "计算机操作环境",
     "en": "Computer Use Runtime"
   },
   "provider_settings.computer_use_local_permissions": {
     "zh": "本地权限策略",
-    "en": "本地权限策略"
+    "en": "Local Permission Policies"
   },
   "provider_settings.computer_use_require_admin": {
     "zh": "沙箱能力需要 AstrBot 管理员权限",
-    "en": "沙箱能力需要 AstrBot 管理员权限"
+    "en": "Require Admin Permission for Sandbox"
   },
   "provider_settings.sandbox.booter": {
     "zh": "沙箱环境驱动器",
-    "en": "沙箱环境驱动器"
+    "en": "Sandbox Environment Driver"
   },
   "provider_settings.sandbox.shipyard_neo_endpoint": {
-    "zh": "Shipyard Neo API Endpoint",
+    "zh": "Shipyard Neo API 接口地址",
     "en": "Shipyard Neo API Endpoint"
   },
   "provider_settings.sandbox.shipyard_neo_access_token": {
-    "zh": "Shipyard Neo Access Token",
+    "zh": "Shipyard Neo 访问令牌",
     "en": "Shipyard Neo Access Token"
   },
   "provider_settings.sandbox.shipyard_neo_profile": {
-    "zh": "Shipyard Neo Profile",
+    "zh": "Shipyard Neo 配置档案",
     "en": "Shipyard Neo Profile"
   },
   "provider_settings.sandbox.shipyard_neo_ttl": {
-    "zh": "Shipyard Neo Sandbox TTL",
+    "zh": "Shipyard Neo 沙箱存活时间（秒）",
     "en": "Shipyard Neo Sandbox TTL"
   },
   "provider_settings.sandbox.cua_image": {
-    "zh": "CUA Image",
+    "zh": "CUA 镜像",
     "en": "CUA Image"
   },
   "provider_settings.sandbox.cua_os_type": {
-    "zh": "CUA OS Type",
+    "zh": "CUA 操作系统类型",
     "en": "CUA OS Type"
   },
   "provider_settings.sandbox.cua_idle_timeout": {
-    "zh": "CUA Idle Timeout",
+    "zh": "CUA 空闲超时",
     "en": "CUA Idle Timeout"
   },
   "provider_settings.sandbox.cua_telemetry_enabled": {
-    "zh": "CUA Telemetry",
+    "zh": "CUA 遥测",
     "en": "CUA Telemetry"
   },
   "provider_settings.sandbox.cua_local": {
-    "zh": "CUA Local Sandbox",
+    "zh": "CUA 本地沙箱",
     "en": "CUA Local Sandbox"
   },
   "provider_settings.sandbox.cua_api_key": {
-    "zh": "CUA API Key",
+    "zh": "CUA API 密钥",
     "en": "CUA API Key"
   },
   "provider_settings.sandbox.shipyard_endpoint": {
-    "zh": "Shipyard API Endpoint",
+    "zh": "Shipyard API 接口地址",
     "en": "Shipyard API Endpoint"
   },
   "provider_settings.sandbox.shipyard_access_token": {
-    "zh": "Shipyard Access Token",
+    "zh": "Shipyard 访问令牌",
     "en": "Shipyard Access Token"
   },
   "provider_settings.sandbox.shipyard_ttl": {
-    "zh": "Shipyard Session TTL",
+    "zh": "Shipyard 会话存活时间（秒）",
     "en": "Shipyard Session TTL"
   },
   "provider_settings.sandbox.shipyard_max_sessions": {
-    "zh": "Shipyard Max Sessions",
+    "zh": "Shipyard 最大会话数",
     "en": "Shipyard Max Sessions"
   },
   "agent.config.subagents.enabled": {
     "zh": "启用子代理",
-    "en": "启用子代理"
+    "en": "Enable Subagents"
   },
   "agent.config.subagents.config_ids": {
     "zh": "专用 Agent 配置",
-    "en": "专用 Agent 配置"
+    "en": "Specialized Agent Configurations"
   },
   "agent.config.subagents.max_concurrent_agents": {
     "zh": "每会话并发数",
-    "en": "每会话并发数"
+    "en": "Concurrent Agents per Conversation"
   },
   "agent.config.subagents.task_timeout": {
     "zh": "任务超时（秒）",
-    "en": "任务超时（秒）"
+    "en": "Task Timeout (seconds)"
   },
   "provider_settings.proactive_capability.add_cron_tools": {
     "zh": "启用",
-    "en": "启用"
+    "en": "Enable"
   },
   "agent.config.compression.max_turns": {
     "zh": "压缩前最多保留对话轮数",
-    "en": "压缩前最多保留对话轮数"
+    "en": "Max Turns Before Compression"
   },
   "agent.config.compression.trim_turns": {
     "zh": "轮次超限时一次丢弃轮数",
-    "en": "轮次超限时一次丢弃轮数"
+    "en": "Turns to Discard When Limit Exceeded"
   },
   "agent.config.compression.overflow_strategy": {
     "zh": "压缩策略",
-    "en": "压缩策略"
+    "en": "Compression Strategy"
   },
   "agent.config.compression.instruction": {
     "zh": "上下文压缩提示词",
-    "en": "上下文压缩提示词"
+    "en": "Context Compression Instruction"
   },
   "agent.config.compression.keep_recent_ratio": {
     "zh": "压缩时保留最近上下文比例",
-    "en": "压缩时保留最近上下文比例"
+    "en": "Recent Context Token Ratio to Keep"
   },
   "agent.config.compression.provider_id": {
     "zh": "压缩模型",
-    "en": "压缩模型"
+    "en": "Compression Model"
   },
   "agent.config.compression.fallback_max_tokens": {
     "zh": "上下文窗口兜底值",
-    "en": "上下文窗口兜底值"
+    "en": "Fallback context window size"
   },
   "provider_settings.display_reasoning_text": {
     "zh": "显示思考内容",
-    "en": "显示思考内容"
+    "en": "Display Reasoning Content"
   },
   "provider_settings.streaming_response": {
     "zh": "流式输出",
-    "en": "流式输出"
+    "en": "Streaming Output"
   },
   "provider_settings.unsupported_streaming_strategy": {
     "zh": "不支持流式回复的平台",
-    "en": "不支持流式回复的平台"
+    "en": "Platforms Without Streaming Support"
   },
   "provider_settings.identifier": {
     "zh": "用户识别",
-    "en": "用户识别"
+    "en": "User Identification"
   },
   "provider_settings.group_name_display": {
     "zh": "显示群名称",
-    "en": "显示群名称"
+    "en": "Display Group Name"
   },
   "provider_settings.datetime_system_prompt": {
     "zh": "现实世界时间感知",
-    "en": "现实世界时间感知"
+    "en": "Real-world Time Awareness"
   },
   "provider_settings.show_tool_use_status": {
     "zh": "输出工具调用信息",
-    "en": "输出工具调用信息"
+    "en": "Show Tool Call Information"
   },
   "provider_settings.show_tool_call_result": {
     "zh": "输出工具调用结果",
-    "en": "输出工具调用结果"
+    "en": "Output Tool Call Results"
   },
   "provider_settings.buffer_intermediate_messages": {
     "zh": "合并 Agent 中间消息",
-    "en": "合并 Agent 中间消息"
+    "en": "Merge Agent Intermediate Messages"
   },
   "agent.config.misc.sanitize_context_by_modalities": {
     "zh": "按模型能力清理历史上下文",
-    "en": "按模型能力清理历史上下文"
+    "en": "Sanitize History by Modalities"
   },
   "agent.config.misc.max_steps": {
     "zh": "工具调用轮数上限",
-    "en": "工具调用轮数上限"
+    "en": "Maximum Tool Call Rounds"
   },
   "agent.config.misc.tool_call_timeout": {
     "zh": "工具调用超时时间（秒）",
-    "en": "工具调用超时时间（秒）"
+    "en": "Tool call timeout"
   },
   "agent.config.misc.tool_schema_mode": {
     "zh": "工具调用模式",
-    "en": "工具调用模式"
+    "en": "Tool Schema Mode"
   },
   "provider_settings.wake_prefix": {
     "zh": "额外唤醒前缀",
-    "en": "额外唤醒前缀"
+    "en": "Additional Wake Prefix"
   },
   "provider_settings.image_compress_options.max_size": {
     "zh": "输入图片最大边长",
-    "en": "输入图片最大边长"
+    "en": "Input image maximum edge length"
   },
   "provider_settings.prompt_prefix": {
     "zh": "用户提示词",
-    "en": "用户提示词"
+    "en": "User Prompt"
   },
   "provider_tts_settings.dual_output": {
     "zh": "开启 TTS 时同时输出语音和文字内容",
-    "en": "开启 TTS 时同时输出语音和文字内容"
+    "en": "Output Both Voice and Text When TTS is Enabled"
   },
   "provider_settings.reachability_check": {
     "zh": "提供商可达性检测",
-    "en": "提供商可达性检测"
+    "en": "Provider Reachability Check"
   },
   "provider_settings.max_quoted_fallback_images": {
     "zh": "引用图片回退解析上限",
-    "en": "引用图片回退解析上限"
+    "en": "Max quoted fallback images"
   },
   "provider_settings.quoted_message_parser.max_component_chain_depth": {
     "zh": "引用解析组件链深度",
-    "en": "引用解析组件链深度"
+    "en": "Max component chain depth"
   },
   "provider_settings.quoted_message_parser.max_forward_node_depth": {
     "zh": "引用解析转发节点深度",
-    "en": "引用解析转发节点深度"
+    "en": "Max forward node depth"
   },
   "provider_settings.quoted_message_parser.max_forward_fetch": {
     "zh": "引用解析转发拉取上限",
-    "en": "引用解析转发拉取上限"
+    "en": "Max forward fetch"
   },
   "provider_settings.quoted_message_parser.warn_on_action_failure": {
     "zh": "引用解析 action 失败告警",
-    "en": "引用解析 action 失败告警"
+    "en": "Warn on action failure"
   },
   "platform_settings.unique_session": {
     "zh": "隔离对话",
-    "en": "隔离对话"
+    "en": "Isolate Conversation"
   },
   "wake_prefix": {
     "zh": "唤醒前缀",
@@ -1405,27 +1405,27 @@
   },
   "platform_settings.friend_message_needs_wake_prefix": {
     "zh": "私聊消息需要唤醒词",
-    "en": "私聊消息需要唤醒词"
+    "en": "Private Messages Require Wake Word"
   },
   "platform_settings.reply_prefix": {
     "zh": "回复时的文本前缀",
-    "en": "回复时的文本前缀"
+    "en": "Reply Text Prefix"
   },
   "platform_settings.reply_with_mention": {
     "zh": "回复时 @ 发送人",
-    "en": "回复时 @ 发送人"
+    "en": "Mention Sender in Reply"
   },
   "platform_settings.reply_with_quote": {
     "zh": "回复时引用发送人消息",
-    "en": "回复时引用发送人消息"
+    "en": "Quote Sender's Message in Reply"
   },
   "platform_settings.forward_threshold": {
     "zh": "转发消息的字数阈值",
-    "en": "转发消息的字数阈值"
+    "en": "Forward Message Word Count Threshold"
   },
   "platform_settings.empty_mention_waiting": {
     "zh": "只 @ 机器人是否触发等待",
-    "en": "只 @ 机器人是否触发等待"
+    "en": "Trigger Waiting on Mention-only Messages"
   },
   "disable_builtin_commands": {
     "zh": "禁用内置指令",
@@ -1433,79 +1433,79 @@
   },
   "platform_settings.rate_limit.time": {
     "zh": "消息速率限制时间(秒)",
-    "en": "消息速率限制时间(秒)"
+    "en": "Message Rate Limit Time (seconds)"
   },
   "platform_settings.rate_limit.count": {
     "zh": "消息速率限制计数",
-    "en": "消息速率限制计数"
+    "en": "Message Rate Limit Count"
   },
   "platform_settings.rate_limit.strategy": {
     "zh": "速率限制策略",
-    "en": "速率限制策略"
+    "en": "Rate Limit Strategy"
   },
   "content_safety.also_use_in_response": {
     "zh": "同时检查模型的响应内容",
-    "en": "同时检查模型的响应内容"
+    "en": "Also Check Model Response Content"
   },
   "content_safety.baidu_aip.enable": {
     "zh": "使用百度内容安全审核",
-    "en": "使用百度内容安全审核"
+    "en": "Use Baidu Content Safety Moderation"
   },
   "content_safety.baidu_aip.app_id": {
-    "zh": "App ID",
+    "zh": "应用标识",
     "en": "App ID"
   },
   "content_safety.baidu_aip.api_key": {
-    "zh": "API Key",
+    "zh": "API 密钥",
     "en": "API Key"
   },
   "content_safety.baidu_aip.secret_key": {
-    "zh": "Secret Key",
+    "zh": "私密密钥",
     "en": "Secret Key"
   },
   "content_safety.internal_keywords.enable": {
     "zh": "关键词检查",
-    "en": "关键词检查"
+    "en": "Keyword Check"
   },
   "content_safety.internal_keywords.extra_keywords": {
     "zh": "额外关键词",
-    "en": "额外关键词"
+    "en": "Additional Keywords"
   },
   "platform_settings.ignore_bot_self_message": {
     "zh": "是否忽略机器人自身的消息",
-    "en": "是否忽略机器人自身的消息"
+    "en": "Ignore Bot's Own Messages"
   },
   "platform_settings.ignore_at_all": {
     "zh": "是否忽略 @ 全体成员事件",
-    "en": "是否忽略 @ 全体成员事件"
+    "en": "Ignore @All Events"
   },
   "platform_settings.no_permission_reply": {
     "zh": "用户权限不足时是否回复",
-    "en": "用户权限不足时是否回复"
+    "en": "Reply When User Has Insufficient Permissions"
   },
   "platform_specific.lark.pre_ack_emoji.enable": {
     "zh": "[飞书] 启用预回应表情",
-    "en": "[飞书] 启用预回应表情"
+    "en": "[Lark] Enable Pre-acknowledgment Emoji"
   },
   "platform_specific.lark.pre_ack_emoji.emojis": {
     "zh": "表情列表（飞书表情枚举名）",
-    "en": "表情列表（飞书表情枚举名）"
+    "en": "Emojis"
   },
   "platform_specific.telegram.pre_ack_emoji.enable": {
     "zh": "[Telegram] 启用预回应表情",
-    "en": "[Telegram] 启用预回应表情"
+    "en": "[Telegram] Enable Pre-acknowledgment Emoji"
   },
   "platform_specific.telegram.pre_ack_emoji.emojis": {
     "zh": "表情列表（Unicode）",
-    "en": "表情列表（Unicode）"
+    "en": "Emojis"
   },
   "platform_specific.discord.pre_ack_emoji.enable": {
     "zh": "[Discord] 启用预回应表情",
-    "en": "[Discord] 启用预回应表情"
+    "en": "[Discord] Enable Pre-acknowledgment Emoji"
   },
   "platform_specific.discord.pre_ack_emoji.emojis": {
     "zh": "表情列表（Unicode 或自定义表情名）",
-    "en": "表情列表（Unicode 或自定义表情名）"
+    "en": "Emoji List (Unicode or Custom Emoji Name)"
   },
   "admins_id": {
     "zh": "管理员账号",
@@ -1513,23 +1513,23 @@
   },
   "platform_settings.enable_id_white_list": {
     "zh": "启用白名单",
-    "en": "启用白名单"
+    "en": "Enable Whitelist"
   },
   "platform_settings.id_whitelist": {
     "zh": "白名单 ID 列表",
-    "en": "白名单 ID 列表"
+    "en": "Whitelist ID List"
   },
   "platform_settings.id_whitelist_log": {
     "zh": "输出拦截日志",
-    "en": "输出拦截日志"
+    "en": "Log Blocked Messages"
   },
   "platform_settings.wl_ignore_admin_on_group": {
     "zh": "管理员群组消息无视 ID 白名单",
-    "en": "管理员群组消息无视 ID 白名单"
+    "en": "Administrator Group Messages Bypass ID Whitelist"
   },
   "platform_settings.wl_ignore_admin_on_friend": {
     "zh": "管理员私聊消息无视 ID 白名单",
-    "en": "管理员私聊消息无视 ID 白名单"
+    "en": "Administrator Private Messages Bypass ID Whitelist"
   },
   "plugin_set": {
     "zh": "启用的插件集合",
@@ -1537,83 +1537,83 @@
   },
   "platform_settings.segmented_reply.enable": {
     "zh": "启用分段回复",
-    "en": "启用分段回复"
+    "en": "Enable Segmented Reply"
   },
   "platform_settings.segmented_reply.only_llm_result": {
     "zh": "仅对 LLM 结果分段",
-    "en": "仅对 LLM 结果分段"
+    "en": "Segment Only LLM Results"
   },
   "platform_settings.segmented_reply.interval_method": {
     "zh": "间隔方法。",
-    "en": "间隔方法。"
+    "en": "Interval method"
   },
   "platform_settings.segmented_reply.interval": {
     "zh": "随机间隔时间",
-    "en": "随机间隔时间"
+    "en": "Random Interval Time"
   },
   "platform_settings.segmented_reply.log_base": {
     "zh": "对数底数",
-    "en": "对数底数"
+    "en": "Logarithm Base"
   },
   "platform_settings.segmented_reply.words_count_threshold": {
     "zh": "分段回复字数阈值",
-    "en": "分段回复字数阈值"
+    "en": "Segmented Reply Word Count Threshold"
   },
   "platform_settings.segmented_reply.split_mode": {
     "zh": "分段模式",
-    "en": "分段模式"
+    "en": "Split Mode"
   },
   "platform_settings.segmented_reply.regex": {
     "zh": "分段正则表达式",
-    "en": "分段正则表达式"
+    "en": "Segmentation Regular Expression"
   },
   "platform_settings.segmented_reply.split_words": {
     "zh": "分段词列表",
-    "en": "分段词列表"
+    "en": "Split Word List"
   },
   "platform_settings.segmented_reply.content_cleanup_rule": {
     "zh": "内容过滤正则表达式",
-    "en": "内容过滤正则表达式"
+    "en": "Content Filtering Regular Expression"
   },
   "provider_ltm_settings.group_icl_enable": {
     "zh": "群聊消息记录注入上下文",
-    "en": "群聊消息记录注入上下文"
+    "en": "Inject Group Chat Records into Context"
   },
   "provider_ltm_settings.group_message_max_cnt": {
     "zh": "注入上下文最大消息数量",
-    "en": "注入上下文最大消息数量"
+    "en": "Maximum Messages Injected into Context"
   },
   "provider_ltm_settings.image_caption": {
     "zh": "自动理解图片",
-    "en": "自动理解图片"
+    "en": "Auto-understand Images"
   },
   "provider_ltm_settings.image_caption_provider_id": {
     "zh": "群聊图片转述模型",
-    "en": "群聊图片转述模型"
+    "en": "Group Chat Image Caption Model"
   },
   "provider_ltm_settings.group_message_history_enable": {
     "zh": "持久化群聊消息记录",
-    "en": "持久化群聊消息记录"
+    "en": "Persist Group Chat Messages"
   },
   "provider_ltm_settings.group_message_history_max_cnt": {
     "zh": "持久化最大消息数量",
-    "en": "持久化最大消息数量"
+    "en": "Maximum Persisted Messages"
   },
   "provider_ltm_settings.active_reply.enable": {
     "zh": "主动回复",
-    "en": "主动回复"
+    "en": "Active Reply"
   },
   "provider_ltm_settings.active_reply.method": {
     "zh": "主动回复方法",
-    "en": "主动回复方法"
+    "en": "Active Reply Method"
   },
   "provider_ltm_settings.active_reply.possibility_reply": {
     "zh": "回复概率",
-    "en": "回复概率"
+    "en": "Reply Probability"
   },
   "provider_ltm_settings.active_reply.whitelist": {
     "zh": "主动回复白名单",
-    "en": "主动回复白名单"
+    "en": "Active Reply Whitelist"
   },
   "t2i_word_threshold": {
     "zh": "转图片字数阈值",
@@ -1629,7 +1629,7 @@
   },
   "t2i_template": {
     "zh": "文本转图像自定义模版",
-    "en": "文本转图像自定义模版"
+    "en": "Text-to-Image Custom Template"
   },
   "t2i_active_template": {
     "zh": "当前图片模板",
@@ -1641,39 +1641,39 @@
   },
   "dashboard.ssl.enable": {
     "zh": "启用 WebUI HTTPS",
-    "en": "启用 WebUI HTTPS"
+    "en": "Enable WebUI HTTPS"
   },
   "dashboard.trust_proxy_headers": {
     "zh": "信任代理请求头获取客户端 IP",
-    "en": "信任代理请求头获取客户端 IP"
+    "en": "Trust Proxy Headers for Client IP"
   },
   "dashboard.auth_rate_limit.enable": {
     "zh": "启用登录验证速率限制",
-    "en": "启用登录验证速率限制"
+    "en": "Enable Login Rate Limiting"
   },
   "dashboard.auth_rate_limit.average_interval": {
     "zh": "验证端点速率限制平均间隔(秒)",
-    "en": "验证端点速率限制平均间隔(秒)"
+    "en": "Endpoint Rate Limit Average Interval (seconds)"
   },
   "dashboard.auth_rate_limit.max_burst": {
     "zh": "验证端点速率限制最大突发数",
-    "en": "验证端点速率限制最大突发数"
+    "en": "Endpoint Rate Limit Max Burst"
   },
   "dashboard.totp.enable": {
     "zh": "启用 WebUI TOTP 双因素认证",
-    "en": "启用 WebUI TOTP 双因素认证"
+    "en": "Enable WebUI TOTP"
   },
   "dashboard.ssl.cert_file": {
     "zh": "SSL 证书文件路径",
-    "en": "SSL 证书文件路径"
+    "en": "SSL Certificate File Path"
   },
   "dashboard.ssl.key_file": {
     "zh": "SSL 私钥文件路径",
-    "en": "SSL 私钥文件路径"
+    "en": "SSL Private Key File Path"
   },
   "dashboard.ssl.ca_certs": {
     "zh": "SSL CA 证书文件路径",
-    "en": "SSL CA 证书文件路径"
+    "en": "SSL CA Certificate File Path"
   },
   "log_file_enable": {
     "zh": "保存日志文件",
@@ -1733,7 +1733,7 @@
   },
   "top_p": {
     "zh": "Top-p 采样",
-    "en": "Top-p 采样"
+    "en": "Top-p sampling"
   },
   "max_tokens": {
     "zh": "最大输出长度",
@@ -1741,123 +1741,123 @@
   },
   "reasoning_effort": {
     "zh": "推理强度",
-    "en": "推理强度"
+    "en": "Reasoning effort"
   },
   "gsv_ref_audio_path": {
     "zh": "参考音频文件路径",
-    "en": "参考音频文件路径"
+    "en": "Reference audio file path"
   },
   "gsv_prompt_text": {
     "zh": "参考音频文本",
-    "en": "参考音频文本"
+    "en": "Reference audio text"
   },
   "gsv_prompt_lang": {
     "zh": "参考音频文本语言",
-    "en": "参考音频文本语言"
+    "en": "Reference audio text language"
   },
   "gsv_aux_ref_audio_paths": {
     "zh": "辅助参考音频文件路径",
-    "en": "辅助参考音频文件路径"
+    "en": "Auxiliary reference audio file paths"
   },
   "gsv_text_lang": {
     "zh": "文本语言",
-    "en": "文本语言"
+    "en": "Text language"
   },
   "gsv_top_k": {
     "zh": "生成语音的多样性",
-    "en": "生成语音的多样性"
+    "en": "Speech diversity"
   },
   "gsv_top_p": {
     "zh": "核采样的阈值",
-    "en": "核采样的阈值"
+    "en": "Nucleus sampling threshold"
   },
   "gsv_temperature": {
     "zh": "生成语音的随机性",
-    "en": "生成语音的随机性"
+    "en": "Speech randomness"
   },
   "gsv_text_split_method": {
     "zh": "切分文本的方法",
-    "en": "切分文本的方法"
+    "en": "Text splitting method"
   },
   "gsv_batch_size": {
     "zh": "批处理大小",
-    "en": "批处理大小"
+    "en": "Batch size"
   },
   "gsv_batch_threshold": {
     "zh": "批处理阈值",
-    "en": "批处理阈值"
+    "en": "Batch threshold"
   },
   "gsv_split_bucket": {
     "zh": "将文本分割成桶以便并行处理",
-    "en": "将文本分割成桶以便并行处理"
+    "en": "Split text into buckets for parallel processing"
   },
   "gsv_speed_factor": {
     "zh": "语音播放速度",
-    "en": "语音播放速度"
+    "en": "Speech playback speed"
   },
   "gsv_fragment_interval": {
     "zh": "语音片段之间的间隔时间",
-    "en": "语音片段之间的间隔时间"
+    "en": "Interval between speech segments"
   },
   "gsv_streaming_mode": {
     "zh": "启用流模式",
-    "en": "启用流模式"
+    "en": "Enable streaming mode"
   },
   "gsv_seed": {
     "zh": "随机种子",
-    "en": "随机种子"
+    "en": "Random seed"
   },
   "gsv_parallel_infer": {
     "zh": "并行执行推理",
-    "en": "并行执行推理"
+    "en": "Run inference in parallel"
   },
   "gsv_repetition_penalty": {
     "zh": "重复惩罚因子",
-    "en": "重复惩罚因子"
+    "en": "Repetition penalty"
   },
   "gsv_media_type": {
     "zh": "输出媒体的类型",
-    "en": "输出媒体的类型"
+    "en": "Output media type"
   },
   "harassment": {
     "zh": "骚扰内容",
-    "en": "骚扰内容"
+    "en": "Harassment"
   },
   "hate_speech": {
     "zh": "仇恨言论",
-    "en": "仇恨言论"
+    "en": "Hate speech"
   },
   "sexually_explicit": {
     "zh": "露骨色情内容",
-    "en": "露骨色情内容"
+    "en": "Sexually explicit content"
   },
   "dangerous_content": {
     "zh": "危险内容",
-    "en": "危险内容"
+    "en": "Dangerous content"
   },
   "budget": {
-    "zh": "Thinking Budget",
+    "zh": "思考预算",
     "en": "Thinking Budget"
   },
   "level": {
-    "zh": "Thinking Level",
+    "zh": "思考等级",
     "en": "Thinking Level"
   },
   "effort": {
     "zh": "思考深度",
-    "en": "思考深度"
+    "en": "Effort Level"
   },
   "pipeline_ids": {
     "zh": "知识库 ID 列表",
-    "en": "知识库 ID 列表"
+    "en": "Knowledge base ID list"
   },
   "file_ids": {
     "zh": "非结构化文档 ID, 传入该参数将对指定非结构化文档进行检索。",
-    "en": "非结构化文档 ID, 传入该参数将对指定非结构化文档进行检索。"
+    "en": "Unstructured document IDs"
   },
   "output_reference": {
     "zh": "是否输出知识库/文档的引用",
-    "en": "是否输出知识库/文档的引用"
+    "en": "Output knowledge base/document references"
   },
   "config_version": {
     "zh": "配置格式版本",
@@ -2109,467 +2109,467 @@
   },
   "runtime": {
     "zh": "执行器",
-    "en": "执行器"
+    "en": "Runtime"
   },
   "dashscope_app_id": {
     "zh": "应用 ID",
-    "en": "应用 ID"
+    "en": "Application ID"
   },
   "provider_id": {
     "zh": "对话模型",
-    "en": "对话模型"
+    "en": "Chat Model"
   },
   "fallback_provider_ids": {
     "zh": "回退对话模型",
-    "en": "回退对话模型"
+    "en": "Fallback Chat Models"
   },
   "request_max_retries": {
     "zh": "异常重试次数",
-    "en": "异常重试次数"
+    "en": "Retries on Error"
   },
   "default_image_caption_provider_id": {
     "zh": "图片转述模型",
-    "en": "图片转述模型"
+    "en": "Image Caption Model"
   },
   "trigger_probability": {
     "zh": "TTS 触发概率",
-    "en": "TTS 触发概率"
+    "en": "TTS Trigger Probability"
   },
   "image_caption_prompt": {
     "zh": "图片转述提示词",
-    "en": "图片转述提示词"
+    "en": "Image Caption Prompt"
   },
   "safety_mode": {
     "zh": "健康模式",
-    "en": "健康模式"
+    "en": "Safety Mode"
   },
   "safety_mode_strategy": {
     "zh": "健康模式策略",
-    "en": "健康模式策略"
+    "en": "Safety Mode Strategy"
   },
   "web_search": {
     "zh": "启用网页搜索",
-    "en": "启用网页搜索"
+    "en": "Enable Web Search"
   },
   "websearch_provider": {
     "zh": "网页搜索提供商",
-    "en": "网页搜索提供商"
+    "en": "Web Search Provider"
   },
   "websearch_tavily_key": {
-    "zh": "Tavily API Key",
+    "zh": "Tavily API 密钥",
     "en": "Tavily API Key"
   },
   "websearch_bocha_key": {
-    "zh": "BoCha API Key",
+    "zh": "BoCha API 密钥",
     "en": "BoCha API Key"
   },
   "websearch_brave_key": {
-    "zh": "Brave Search API Key",
+    "zh": "Brave Search API 密钥",
     "en": "Brave Search API Key"
   },
   "websearch_firecrawl_key": {
-    "zh": "Firecrawl API Key",
+    "zh": "Firecrawl API 密钥",
     "en": "Firecrawl API Key"
   },
   "websearch_baidu_app_builder_key": {
     "zh": "百度千帆智能云 APP Builder API Key",
-    "en": "百度千帆智能云 APP Builder API Key"
+    "en": "Baidu Qianfan Smart Cloud APP Builder API Key"
   },
   "websearch_exa_key": {
-    "zh": "Exa API Key",
+    "zh": "Exa API 密钥",
     "en": "Exa API Key"
   },
   "websearch_anysearch_key": {
-    "zh": "AnySearch API Key",
+    "zh": "AnySearch API 密钥",
     "en": "AnySearch API Key"
   },
   "websearch_deepseek_key": {
-    "zh": "DeepSeek API Key",
+    "zh": "DeepSeek API 密钥",
     "en": "DeepSeek API Key"
   },
   "websearch_serpapi_key": {
-    "zh": "SerpApi API Key",
+    "zh": "SerpApi API 密钥",
     "en": "SerpApi API Key"
   },
   "web_search_link": {
     "zh": "显示来源引用",
-    "en": "显示来源引用"
+    "en": "Display Source Citations"
   },
   "computer_use_runtime": {
-    "zh": "Computer Use Runtime",
+    "zh": "计算机操作环境",
     "en": "Computer Use Runtime"
   },
   "computer_use_local_permissions": {
     "zh": "本地权限策略",
-    "en": "本地权限策略"
+    "en": "Local Permission Policies"
   },
   "computer_use_require_admin": {
     "zh": "沙箱能力需要 AstrBot 管理员权限",
-    "en": "沙箱能力需要 AstrBot 管理员权限"
+    "en": "Require Admin Permission for Sandbox"
   },
   "booter": {
     "zh": "沙箱环境驱动器",
-    "en": "沙箱环境驱动器"
+    "en": "Sandbox Environment Driver"
   },
   "shipyard_neo_endpoint": {
-    "zh": "Shipyard Neo API Endpoint",
+    "zh": "Shipyard Neo API 接口地址",
     "en": "Shipyard Neo API Endpoint"
   },
   "shipyard_neo_access_token": {
-    "zh": "Shipyard Neo Access Token",
+    "zh": "Shipyard Neo 访问令牌",
     "en": "Shipyard Neo Access Token"
   },
   "shipyard_neo_profile": {
-    "zh": "Shipyard Neo Profile",
+    "zh": "Shipyard Neo 配置档案",
     "en": "Shipyard Neo Profile"
   },
   "shipyard_neo_ttl": {
-    "zh": "Shipyard Neo Sandbox TTL",
+    "zh": "Shipyard Neo 沙箱存活时间（秒）",
     "en": "Shipyard Neo Sandbox TTL"
   },
   "cua_image": {
-    "zh": "CUA Image",
+    "zh": "CUA 镜像",
     "en": "CUA Image"
   },
   "cua_os_type": {
-    "zh": "CUA OS Type",
+    "zh": "CUA 操作系统类型",
     "en": "CUA OS Type"
   },
   "cua_idle_timeout": {
-    "zh": "CUA Idle Timeout",
+    "zh": "CUA 空闲超时",
     "en": "CUA Idle Timeout"
   },
   "cua_telemetry_enabled": {
-    "zh": "CUA Telemetry",
+    "zh": "CUA 遥测",
     "en": "CUA Telemetry"
   },
   "cua_local": {
-    "zh": "CUA Local Sandbox",
+    "zh": "CUA 本地沙箱",
     "en": "CUA Local Sandbox"
   },
   "cua_api_key": {
-    "zh": "CUA API Key",
+    "zh": "CUA API 密钥",
     "en": "CUA API Key"
   },
   "shipyard_endpoint": {
-    "zh": "Shipyard API Endpoint",
+    "zh": "Shipyard API 接口地址",
     "en": "Shipyard API Endpoint"
   },
   "shipyard_access_token": {
-    "zh": "Shipyard Access Token",
+    "zh": "Shipyard 访问令牌",
     "en": "Shipyard Access Token"
   },
   "shipyard_ttl": {
-    "zh": "Shipyard Session TTL",
+    "zh": "Shipyard 会话存活时间（秒）",
     "en": "Shipyard Session TTL"
   },
   "shipyard_max_sessions": {
-    "zh": "Shipyard Max Sessions",
+    "zh": "Shipyard 最大会话数",
     "en": "Shipyard Max Sessions"
   },
   "config_ids": {
     "zh": "专用 Agent 配置",
-    "en": "专用 Agent 配置"
+    "en": "Specialized Agent Configurations"
   },
   "max_concurrent_agents": {
     "zh": "每会话并发数",
-    "en": "每会话并发数"
+    "en": "Concurrent Agents per Conversation"
   },
   "task_timeout": {
     "zh": "任务超时（秒）",
-    "en": "任务超时（秒）"
+    "en": "Task Timeout (seconds)"
   },
   "add_cron_tools": {
     "zh": "启用",
-    "en": "启用"
+    "en": "Enable"
   },
   "max_turns": {
     "zh": "压缩前最多保留对话轮数",
-    "en": "压缩前最多保留对话轮数"
+    "en": "Max Turns Before Compression"
   },
   "trim_turns": {
     "zh": "轮次超限时一次丢弃轮数",
-    "en": "轮次超限时一次丢弃轮数"
+    "en": "Turns to Discard When Limit Exceeded"
   },
   "overflow_strategy": {
     "zh": "压缩策略",
-    "en": "压缩策略"
+    "en": "Compression Strategy"
   },
   "instruction": {
     "zh": "上下文压缩提示词",
-    "en": "上下文压缩提示词"
+    "en": "Context Compression Instruction"
   },
   "keep_recent_ratio": {
     "zh": "压缩时保留最近上下文比例",
-    "en": "压缩时保留最近上下文比例"
+    "en": "Recent Context Token Ratio to Keep"
   },
   "fallback_max_tokens": {
     "zh": "上下文窗口兜底值",
-    "en": "上下文窗口兜底值"
+    "en": "Fallback context window size"
   },
   "display_reasoning_text": {
     "zh": "显示思考内容",
-    "en": "显示思考内容"
+    "en": "Display Reasoning Content"
   },
   "streaming_response": {
     "zh": "流式输出",
-    "en": "流式输出"
+    "en": "Streaming Output"
   },
   "unsupported_streaming_strategy": {
     "zh": "不支持流式回复的平台",
-    "en": "不支持流式回复的平台"
+    "en": "Platforms Without Streaming Support"
   },
   "identifier": {
     "zh": "用户识别",
-    "en": "用户识别"
+    "en": "User Identification"
   },
   "group_name_display": {
     "zh": "显示群名称",
-    "en": "显示群名称"
+    "en": "Display Group Name"
   },
   "datetime_system_prompt": {
     "zh": "现实世界时间感知",
-    "en": "现实世界时间感知"
+    "en": "Real-world Time Awareness"
   },
   "show_tool_use_status": {
     "zh": "输出工具调用信息",
-    "en": "输出工具调用信息"
+    "en": "Show Tool Call Information"
   },
   "show_tool_call_result": {
     "zh": "输出工具调用结果",
-    "en": "输出工具调用结果"
+    "en": "Output Tool Call Results"
   },
   "buffer_intermediate_messages": {
     "zh": "合并 Agent 中间消息",
-    "en": "合并 Agent 中间消息"
+    "en": "Merge Agent Intermediate Messages"
   },
   "sanitize_context_by_modalities": {
     "zh": "按模型能力清理历史上下文",
-    "en": "按模型能力清理历史上下文"
+    "en": "Sanitize History by Modalities"
   },
   "max_steps": {
     "zh": "工具调用轮数上限",
-    "en": "工具调用轮数上限"
+    "en": "Maximum Tool Call Rounds"
   },
   "tool_call_timeout": {
     "zh": "工具调用超时时间（秒）",
-    "en": "工具调用超时时间（秒）"
+    "en": "Tool call timeout"
   },
   "tool_schema_mode": {
     "zh": "工具调用模式",
-    "en": "工具调用模式"
+    "en": "Tool Schema Mode"
   },
   "max_size": {
     "zh": "输入图片最大边长",
-    "en": "输入图片最大边长"
+    "en": "Input image maximum edge length"
   },
   "prompt_prefix": {
     "zh": "用户提示词",
-    "en": "用户提示词"
+    "en": "User Prompt"
   },
   "dual_output": {
     "zh": "开启 TTS 时同时输出语音和文字内容",
-    "en": "开启 TTS 时同时输出语音和文字内容"
+    "en": "Output Both Voice and Text When TTS is Enabled"
   },
   "reachability_check": {
     "zh": "提供商可达性检测",
-    "en": "提供商可达性检测"
+    "en": "Provider Reachability Check"
   },
   "max_quoted_fallback_images": {
     "zh": "引用图片回退解析上限",
-    "en": "引用图片回退解析上限"
+    "en": "Max quoted fallback images"
   },
   "max_component_chain_depth": {
     "zh": "引用解析组件链深度",
-    "en": "引用解析组件链深度"
+    "en": "Max component chain depth"
   },
   "max_forward_node_depth": {
     "zh": "引用解析转发节点深度",
-    "en": "引用解析转发节点深度"
+    "en": "Max forward node depth"
   },
   "max_forward_fetch": {
     "zh": "引用解析转发拉取上限",
-    "en": "引用解析转发拉取上限"
+    "en": "Max forward fetch"
   },
   "warn_on_action_failure": {
     "zh": "引用解析 action 失败告警",
-    "en": "引用解析 action 失败告警"
+    "en": "Warn on action failure"
   },
   "friend_message_needs_wake_prefix": {
     "zh": "私聊消息需要唤醒词",
-    "en": "私聊消息需要唤醒词"
+    "en": "Private Messages Require Wake Word"
   },
   "reply_prefix": {
     "zh": "回复时的文本前缀",
-    "en": "回复时的文本前缀"
+    "en": "Reply Text Prefix"
   },
   "reply_with_mention": {
     "zh": "回复时 @ 发送人",
-    "en": "回复时 @ 发送人"
+    "en": "Mention Sender in Reply"
   },
   "reply_with_quote": {
     "zh": "回复时引用发送人消息",
-    "en": "回复时引用发送人消息"
+    "en": "Quote Sender's Message in Reply"
   },
   "forward_threshold": {
     "zh": "转发消息的字数阈值",
-    "en": "转发消息的字数阈值"
+    "en": "Forward Message Word Count Threshold"
   },
   "empty_mention_waiting": {
     "zh": "只 @ 机器人是否触发等待",
-    "en": "只 @ 机器人是否触发等待"
+    "en": "Trigger Waiting on Mention-only Messages"
   },
   "time": {
     "zh": "消息速率限制时间(秒)",
-    "en": "消息速率限制时间(秒)"
+    "en": "Message Rate Limit Time (seconds)"
   },
   "count": {
     "zh": "消息速率限制计数",
-    "en": "消息速率限制计数"
+    "en": "Message Rate Limit Count"
   },
   "strategy": {
     "zh": "速率限制策略",
-    "en": "速率限制策略"
+    "en": "Rate Limit Strategy"
   },
   "also_use_in_response": {
     "zh": "同时检查模型的响应内容",
-    "en": "同时检查模型的响应内容"
+    "en": "Also Check Model Response Content"
   },
   "secret_key": {
-    "zh": "Secret Key",
+    "zh": "私密密钥",
     "en": "Secret Key"
   },
   "extra_keywords": {
     "zh": "额外关键词",
-    "en": "额外关键词"
+    "en": "Additional Keywords"
   },
   "ignore_bot_self_message": {
     "zh": "是否忽略机器人自身的消息",
-    "en": "是否忽略机器人自身的消息"
+    "en": "Ignore Bot's Own Messages"
   },
   "ignore_at_all": {
     "zh": "是否忽略 @ 全体成员事件",
-    "en": "是否忽略 @ 全体成员事件"
+    "en": "Ignore @All Events"
   },
   "no_permission_reply": {
     "zh": "用户权限不足时是否回复",
-    "en": "用户权限不足时是否回复"
+    "en": "Reply When User Has Insufficient Permissions"
   },
   "emojis": {
     "zh": "表情列表（飞书表情枚举名）",
-    "en": "表情列表（飞书表情枚举名）"
+    "en": "Emojis"
   },
   "enable_id_white_list": {
     "zh": "启用白名单",
-    "en": "启用白名单"
+    "en": "Enable Whitelist"
   },
   "id_whitelist": {
     "zh": "白名单 ID 列表",
-    "en": "白名单 ID 列表"
+    "en": "Whitelist ID List"
   },
   "id_whitelist_log": {
     "zh": "输出拦截日志",
-    "en": "输出拦截日志"
+    "en": "Log Blocked Messages"
   },
   "wl_ignore_admin_on_group": {
     "zh": "管理员群组消息无视 ID 白名单",
-    "en": "管理员群组消息无视 ID 白名单"
+    "en": "Administrator Group Messages Bypass ID Whitelist"
   },
   "wl_ignore_admin_on_friend": {
     "zh": "管理员私聊消息无视 ID 白名单",
-    "en": "管理员私聊消息无视 ID 白名单"
+    "en": "Administrator Private Messages Bypass ID Whitelist"
   },
   "only_llm_result": {
     "zh": "仅对 LLM 结果分段",
-    "en": "仅对 LLM 结果分段"
+    "en": "Segment Only LLM Results"
   },
   "interval_method": {
     "zh": "间隔方法。",
-    "en": "间隔方法。"
+    "en": "Interval method"
   },
   "interval": {
     "zh": "随机间隔时间",
-    "en": "随机间隔时间"
+    "en": "Random Interval Time"
   },
   "log_base": {
     "zh": "对数底数",
-    "en": "对数底数"
+    "en": "Logarithm Base"
   },
   "words_count_threshold": {
     "zh": "分段回复字数阈值",
-    "en": "分段回复字数阈值"
+    "en": "Segmented Reply Word Count Threshold"
   },
   "split_mode": {
     "zh": "分段模式",
-    "en": "分段模式"
+    "en": "Split Mode"
   },
   "regex": {
     "zh": "分段正则表达式",
-    "en": "分段正则表达式"
+    "en": "Segmentation Regular Expression"
   },
   "split_words": {
     "zh": "分段词列表",
-    "en": "分段词列表"
+    "en": "Split Word List"
   },
   "content_cleanup_rule": {
     "zh": "内容过滤正则表达式",
-    "en": "内容过滤正则表达式"
+    "en": "Content Filtering Regular Expression"
   },
   "group_icl_enable": {
     "zh": "群聊消息记录注入上下文",
-    "en": "群聊消息记录注入上下文"
+    "en": "Inject Group Chat Records into Context"
   },
   "group_message_max_cnt": {
     "zh": "注入上下文最大消息数量",
-    "en": "注入上下文最大消息数量"
+    "en": "Maximum Messages Injected into Context"
   },
   "image_caption": {
     "zh": "自动理解图片",
-    "en": "自动理解图片"
+    "en": "Auto-understand Images"
   },
   "image_caption_provider_id": {
     "zh": "群聊图片转述模型",
-    "en": "群聊图片转述模型"
+    "en": "Group Chat Image Caption Model"
   },
   "group_message_history_enable": {
     "zh": "持久化群聊消息记录",
-    "en": "持久化群聊消息记录"
+    "en": "Persist Group Chat Messages"
   },
   "group_message_history_max_cnt": {
     "zh": "持久化最大消息数量",
-    "en": "持久化最大消息数量"
+    "en": "Maximum Persisted Messages"
   },
   "method": {
     "zh": "主动回复方法",
-    "en": "主动回复方法"
+    "en": "Active Reply Method"
   },
   "possibility_reply": {
     "zh": "回复概率",
-    "en": "回复概率"
+    "en": "Reply Probability"
   },
   "trust_proxy_headers": {
     "zh": "信任代理请求头获取客户端 IP",
-    "en": "信任代理请求头获取客户端 IP"
+    "en": "Trust Proxy Headers for Client IP"
   },
   "average_interval": {
     "zh": "验证端点速率限制平均间隔(秒)",
-    "en": "验证端点速率限制平均间隔(秒)"
+    "en": "Endpoint Rate Limit Average Interval (seconds)"
   },
   "max_burst": {
     "zh": "验证端点速率限制最大突发数",
-    "en": "验证端点速率限制最大突发数"
+    "en": "Endpoint Rate Limit Max Burst"
   },
   "cert_file": {
     "zh": "SSL 证书文件路径",
-    "en": "SSL 证书文件路径"
+    "en": "SSL Certificate File Path"
   },
   "key_file": {
     "zh": "SSL 私钥文件路径",
-    "en": "SSL 私钥文件路径"
+    "en": "SSL Private Key File Path"
   },
   "ca_certs": {
     "zh": "SSL CA 证书文件路径",
-    "en": "SSL CA 证书文件路径"
+    "en": "SSL CA Certificate File Path"
   },
   "process": {
     "zh": "进程内存",
@@ -2590,5 +2590,53 @@
   "platforms": {
     "zh": "平台条目数量",
     "en": "Platform entries"
+  },
+  "active_reply": {
+    "zh": "主动回复",
+    "en": "Proactive replies"
+  },
+  "admin": {
+    "zh": "管理员权限",
+    "en": "Administrator permissions"
+  },
+  "member": {
+    "zh": "普通成员权限",
+    "en": "Member permissions"
+  },
+  "allow_execution": {
+    "zh": "允许执行程序",
+    "en": "Allow execution"
+  },
+  "allow_network": {
+    "zh": "允许网络访问",
+    "en": "Allow network access"
+  },
+  "baidu_aip": {
+    "zh": "百度内容审核",
+    "en": "Baidu moderation"
+  },
+  "config": {
+    "zh": "执行器配置",
+    "en": "Runner configuration"
+  },
+  "file_extract": {
+    "zh": "文件内容提取",
+    "en": "File extraction"
+  },
+  "internal_keywords": {
+    "zh": "内置关键词检查",
+    "en": "Internal keyword checker"
+  },
+  "moonshotai_api_key": {
+    "zh": "Moonshot 文件提取密钥",
+    "en": "Moonshot extraction API key"
+  },
+  "provider_source_id": {
+    "zh": "模型来源标识",
+    "en": "Provider source ID"
+  },
+  "use_file_service": {
+    "zh": "使用文件服务发送语音",
+    "en": "Use file service for audio"
   }
 }
