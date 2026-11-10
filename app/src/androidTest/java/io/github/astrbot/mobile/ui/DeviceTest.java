@@ -151,21 +151,26 @@ public class DeviceTest {
     }
     // UTP uninstalls the app after testing; copy fixture previews before its external files
     // disappear.
-    String command =
-        "mkdir -p /sdcard/Download/astrbot-ui-previews && cp '"
+    shell(instrumentation, "mkdir -p /sdcard/Download/astrbot-ui-previews");
+    shell(
+        instrumentation,
+        "cp "
             + new java.io.File(dir, name).getAbsolutePath()
-            + "' '/sdcard/Download/astrbot-ui-previews/"
-            + name
-            + "' && echo copied";
+            + " /sdcard/Download/astrbot-ui-previews/"
+            + name);
+    String retained = shell(instrumentation, "ls /sdcard/Download/astrbot-ui-previews/" + name);
+    assertTrue("Failed to retain the test UI preview", retained.contains(name));
+  }
+
+  private String shell(android.app.Instrumentation instrumentation, String command)
+      throws Exception {
     try (android.os.ParcelFileDescriptor output =
             instrumentation.getUiAutomation().executeShellCommand(command);
         java.io.InputStream input =
             new android.os.ParcelFileDescriptor.AutoCloseInputStream(output)) {
-      String result =
-          new String(
-              io.github.astrbot.mobile.core.HttpTransport.readLimited(input, 4096),
-              java.nio.charset.StandardCharsets.UTF_8);
-      assertTrue("Failed to retain the test UI preview", result.contains("copied"));
+      return new String(
+          io.github.astrbot.mobile.core.HttpTransport.readLimited(input, 4096),
+          java.nio.charset.StandardCharsets.UTF_8);
     }
   }
 }
