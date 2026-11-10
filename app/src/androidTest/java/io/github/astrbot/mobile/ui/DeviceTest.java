@@ -80,4 +80,74 @@ public class DeviceTest {
     assertFalse(
         PluginPageActivity.allowed("https://host/bot", "https://host/bot/api/%2e%2e/admin"));
   }
+
+  @Test
+  public void screenshotsRemainAllowedForTroubleshooting() throws Exception {
+    try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+      scenario.onActivity(
+          a ->
+              assertEquals(
+                  0,
+                  a.getWindow().getAttributes().flags
+                      & android.view.WindowManager.LayoutParams.FLAG_SECURE));
+      capture("connections.png");
+    }
+  }
+
+  @Test
+  public void interactiveSettingsUseSwitchAndDetachedDraft() throws Exception {
+    try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+      scenario.onActivity(
+          a -> {
+            try {
+              JSONObject source =
+                  new JSONObject()
+                      .put("enabled", true)
+                      .put("system_prompt", "你是一个友好的助手。\n请清晰回答问题。")
+                      .put("temperature", 0.7)
+                      .put("args", new org.json.JSONArray().put("--verbose"));
+              SettingsEditor editor =
+                  new SettingsEditor(
+                      a,
+                      "配置预览",
+                      source,
+                      new JSONObject(),
+                      new JSONObject(),
+                      java.util.Set.of(),
+                      () -> {},
+                      (config, changed) -> fail("未点击保存不得提交"));
+              editor.show();
+              View root = a.getWindow().getDecorView();
+              TextView enabled = find(root, "启用");
+              assertTrue(enabled instanceof android.widget.Switch);
+              enabled.performClick();
+              assertFalse(((android.widget.Switch) enabled).isChecked());
+              assertTrue(source.getBoolean("enabled"));
+              assertEquals(1, editor.model.changes().size());
+              assertNull(find(root, "POST"));
+            } catch (Exception e) {
+              throw new AssertionError(e);
+            }
+          });
+      capture("settings.png");
+    }
+  }
+
+  private void capture(String name) throws Exception {
+    android.app.Instrumentation instrumentation =
+        androidx.test.platform.app.InstrumentationRegistry.getInstrumentation();
+    instrumentation.waitForIdleSync();
+    Thread.sleep(150);
+    android.graphics.Bitmap image = instrumentation.getUiAutomation().takeScreenshot();
+    assertNotNull(image);
+    java.io.File dir =
+        new java.io.File(
+            instrumentation.getTargetContext().getExternalFilesDir(null), "ui-previews");
+    assertTrue(dir.isDirectory() || dir.mkdirs());
+    try (java.io.FileOutputStream out = new java.io.FileOutputStream(new java.io.File(dir, name))) {
+      assertTrue(image.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, out));
+    } finally {
+      image.recycle();
+    }
+  }
 }

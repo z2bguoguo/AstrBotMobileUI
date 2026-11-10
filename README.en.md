@@ -20,6 +20,7 @@ AstrBot Mobile UI is an independent, native Android management workspace for Ast
 
 - **Multiple workspaces** — Locally saved credentials, groups, duplication and fast switching.
 - **Capability-aware operations** — Server OpenAPI discovery with a separate legacy WebUI route catalogue, native parameter pages and enum suggestions.
+- **Interactive settings** — Native switches, choices, grouped fields and editable lists; changes stay in a draft until confirmed.
 - **Comfortable text editing** — Full-screen prompts and MCP JSON, find and replace, formatting and optional completion.
 - **Reusable configuration** — Encrypted local request presets, loaded and reviewed before execution on another instance.
 - **Extensible** — Declarative client plugins add native actions. Token-scoped server plugin HTML pages open in a dedicated embedded view.

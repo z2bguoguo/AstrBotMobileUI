@@ -19,7 +19,7 @@ import org.json.*;
 
 /** Platform-native UI; HTML is confined to plugin custom views. */
 public final class MainActivity extends Activity {
-  private LinearLayout page, content, toolbar;
+  LinearLayout page, content, toolbar;
   private TextView subtitle;
   private Vault vault;
   private JSONObject state;
@@ -38,18 +38,15 @@ public final class MainActivity extends Activity {
   private Endpoint editing;
   private EditText paths, query, body, fileField;
   private JSONObject applyPreset;
-  private static final int ACCENT = 0xff5769dd, INK = 0xff202641, MUTED = 0xff747b95;
+  static final int ACCENT = 0xff526da9, INK = 0xff252d3e, MUTED = 0xff667086;
 
   @Override
   public void onCreate(Bundle saved) {
     super.onCreate(saved);
-    getWindow()
-        .setFlags(
-            android.view.WindowManager.LayoutParams.FLAG_SECURE,
-            android.view.WindowManager.LayoutParams.FLAG_SECURE);
     vault = new Vault(this);
     try {
       state = vault.load();
+      autofill = state.optBoolean("autofill", true);
       home();
     } catch (Exception e) {
       new AlertDialog.Builder(this)
@@ -61,17 +58,17 @@ public final class MainActivity extends Activity {
     }
   }
 
-  private int dp(int n) {
+  int dp(int n) {
     return (int) (n * getResources().getDisplayMetrics().density + .5f);
   }
 
-  private LinearLayout vertical() {
+  LinearLayout vertical() {
     LinearLayout l = new LinearLayout(this);
     l.setOrientation(LinearLayout.VERTICAL);
     return l;
   }
 
-  private TextView label(String s, int size, int color) {
+  TextView label(String s, int size, int color) {
     TextView t = new TextView(this);
     t.setText(s);
     t.setTextSize(size);
@@ -80,18 +77,20 @@ public final class MainActivity extends Activity {
     return t;
   }
 
-  private GradientDrawable background(int color, int radius) {
+  GradientDrawable background(int color, int radius) {
     GradientDrawable b = new GradientDrawable();
     b.setColor(color);
     b.setCornerRadius(dp(radius));
     return b;
   }
 
-  private void screen(String title, String hint, Runnable back) {
+  void screen(String title, String hint, Runnable back) {
     generation++;
     backAction = back;
     page = vertical();
-    page.setBackgroundColor(0xfff5f6fc);
+    page.setBackground(
+        new GradientDrawable(
+            GradientDrawable.Orientation.TL_BR, new int[] {0xffdce7fc, 0xfff1f5fd, 0xffeeeaf6}));
     // Target SDK 35 draws edge-to-edge: apply the actual system insets.
     page.setOnApplyWindowInsetsListener(
         (v, insets) -> {
@@ -105,7 +104,9 @@ public final class MainActivity extends Activity {
     toolbar = vertical();
     toolbar.setPadding(dp(22), dp(14), dp(22), dp(8));
     if (back != null) {
-      TextView b = label("‹  返回", 15, ACCENT);
+      TextView b = label("‹  返回", 15, INK);
+      b.setBackground(background(0xccffffff, 24));
+      b.setPadding(dp(16), dp(8), dp(16), dp(8));
       b.setOnClickListener(v -> goBack());
       toolbar.addView(b);
     }
@@ -125,10 +126,11 @@ public final class MainActivity extends Activity {
     page.requestApplyInsets();
   }
 
-  private LinearLayout card(String title, String desc) {
+  LinearLayout card(String title, String desc) {
     LinearLayout c = vertical();
     c.setPadding(dp(18), dp(15), dp(18), dp(15));
-    c.setBackground(background(Color.WHITE, 20));
+    c.setBackground(background(0xcfffffff, 26));
+    c.setElevation(dp(1));
     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
     lp.bottomMargin = dp(12);
     content.addView(c, lp);
@@ -141,29 +143,138 @@ public final class MainActivity extends Activity {
     return c;
   }
 
-  private Button button(LinearLayout parent, String title, Runnable action) {
+  Button button(LinearLayout parent, String title, Runnable action) {
     Button b = new Button(this);
     b.setText(title);
+    b.setTextSize(14);
     b.setTextColor(ACCENT);
     b.setAllCaps(false);
+    b.setMinHeight(0);
+    b.setMinWidth(0);
+    b.setBackground(
+        new android.graphics.drawable.RippleDrawable(
+            android.content.res.ColorStateList.valueOf(0x22526da9),
+            background(0xffe8edf8, 24),
+            null));
     b.setOnClickListener(
         v -> {
           if (!busy) attempt(action);
           else toast("正在处理，请稍候或取消");
         });
-    parent.addView(b, new LinearLayout.LayoutParams(-1, dp(50)));
+    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, dp(48));
+    lp.topMargin = dp(8);
+    parent.addView(b, lp);
     return b;
   }
 
-  private EditText input(
+  Button primaryButton(LinearLayout parent, String title, Runnable action) {
+    Button b = button(parent, title, action);
+    b.setTextColor(Color.WHITE);
+    b.setTypeface(null, Typeface.BOLD);
+    b.setBackground(
+        new android.graphics.drawable.RippleDrawable(
+            android.content.res.ColorStateList.valueOf(0x33ffffff), background(ACCENT, 24), null));
+    return b;
+  }
+
+  LinearLayout group(LinearLayout parent) {
+    LinearLayout g = vertical();
+    g.setBackground(background(0xd9ffffff, 26));
+    g.setPadding(0, dp(4), 0, dp(4));
+    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
+    lp.bottomMargin = dp(10);
+    parent.addView(g, lp);
+    return g;
+  }
+
+  void navRow(LinearLayout parent, String title, String detail, String icon, Runnable action) {
+    LinearLayout row = new LinearLayout(this);
+    row.setGravity(Gravity.CENTER_VERTICAL);
+    row.setPadding(dp(16), dp(15), dp(16), dp(15));
+    row.setMinimumHeight(dp(70));
+    if (!icon.isEmpty()) {
+      TextView symbol = label(icon, 20, ACCENT);
+      symbol.setGravity(Gravity.CENTER);
+      symbol.setBackground(background(0xffe6ecfa, 16));
+      row.addView(symbol, new LinearLayout.LayoutParams(dp(40), dp(40)));
+    }
+    LinearLayout text = vertical();
+    text.setPadding(icon.isEmpty() ? 0 : dp(13), 0, dp(12), 0);
+    TextView name = label(title, 16, INK);
+    name.setTypeface(null, Typeface.BOLD);
+    text.addView(name);
+    if (!detail.isEmpty()) text.addView(label(detail, 12, MUTED));
+    row.addView(text, new LinearLayout.LayoutParams(0, -2, 1));
+    if (action != null) {
+      TextView arrow = label("›", 25, MUTED);
+      row.addView(arrow);
+      row.setBackground(
+          new android.graphics.drawable.RippleDrawable(
+              android.content.res.ColorStateList.valueOf(0x15526da9),
+              background(Color.TRANSPARENT, 20),
+              null));
+      row.setOnClickListener(
+          v -> {
+            if (!busy) attempt(action);
+            else toast("正在处理，请稍候");
+          });
+    }
+    parent.addView(row, new LinearLayout.LayoutParams(-1, -2));
+  }
+
+  void textAction(LinearLayout parent, String title, Runnable action) {
+    TextView t = label(title, 13, ACCENT);
+    t.setGravity(Gravity.CENTER);
+    t.setPadding(dp(12), dp(12), dp(12), dp(12));
+    t.setOnClickListener(v -> attempt(action));
+    parent.addView(t);
+  }
+
+  void editLongText(
+      String title, String value, boolean json, java.util.function.Consumer<String> applied) {
+    EditText target = new EditText(this);
+    target.setText(value);
+    target.addTextChangedListener(watcher(() -> applied.accept(target.getText().toString())));
+    fullEditor(title, target, json);
+  }
+
+  private void bottomNav(boolean connected, String current) {
+    LinearLayout bar = new LinearLayout(this);
+    bar.setPadding(dp(12), dp(6), dp(12), dp(10));
+    bar.setBackground(background(0xe6f9fbff, 24));
+    String[] titles = connected ? new String[] {"总览", "管理", "工具"} : new String[] {"连接", "预设", "设置"};
+    Runnable[] actions =
+        connected
+            ? new Runnable[] {this::overview, this::workspace, this::advancedTools}
+            : new Runnable[] {this::home, this::presets, this::appSettings};
+    for (int i = 0; i < titles.length; i++) {
+      String name = titles[i];
+      Runnable action = actions[i];
+      TextView tab = label(name, 14, current.equals(name) ? ACCENT : MUTED);
+      tab.setGravity(Gravity.CENTER);
+      tab.setPadding(dp(8), dp(14), dp(8), dp(14));
+      if (current.equals(name)) tab.setBackground(background(0xffe3eafb, 22));
+      tab.setOnClickListener(
+          v -> {
+            if (!busy) attempt(action);
+          });
+      bar.addView(tab, new LinearLayout.LayoutParams(0, -2, 1));
+    }
+    page.addView(bar);
+  }
+
+  EditText input(
       LinearLayout parent, String hint, String value, boolean secret, boolean multiline) {
-    parent.addView(label(hint, 13, MUTED));
+    TextView caption = label(hint, 13, MUTED);
+    parent.addView(caption);
     AutoCompleteTextView e = new AutoCompleteTextView(this);
+    e.setTag(caption);
     e.setText(value);
     e.setTextSize(15);
     e.setTextColor(INK);
     e.setSingleLine(!multiline);
-    e.setPadding(dp(10), dp(10), dp(10), dp(10));
+    e.setPadding(dp(14), dp(13), dp(14), dp(13));
+    e.setBackground(background(0xffeef2f9, 16));
     e.setInputType(
         secret
             ? android.text.InputType.TYPE_CLASS_TEXT
@@ -186,7 +297,7 @@ public final class MainActivity extends Activity {
     return e;
   }
 
-  private void toast(String text) {
+  void toast(String text) {
     Toast.makeText(this, text, Toast.LENGTH_LONG).show();
   }
 
@@ -198,12 +309,27 @@ public final class MainActivity extends Activity {
     }
   }
 
-  private void error(Throwable e) {
+  void error(Throwable e) {
     if (!isFinishing())
       new AlertDialog.Builder(this)
           .setTitle("操作未完成")
           .setMessage(e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage())
           .setPositiveButton("知道了", null)
+          .setNeutralButton(
+              "复制错误详情",
+              (d, w) -> {
+                android.content.ClipboardManager clipboard =
+                    (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                clipboard.setPrimaryClip(
+                    ClipData.newPlainText(
+                        "错误详情",
+                        e.getClass().getSimpleName()
+                            + ": "
+                            + e.getMessage()
+                            + "\nAndroid "
+                            + android.os.Build.VERSION.RELEASE));
+                toast("错误详情已复制");
+              })
           .show();
   }
 
@@ -215,7 +341,17 @@ public final class MainActivity extends Activity {
     void accept(T value) throws Exception;
   }
 
+  private void fieldVisibility(EditText field, boolean visible) {
+    field.setVisibility(visible ? View.VISIBLE : View.GONE);
+    if (field.getTag() instanceof View)
+      ((View) field.getTag()).setVisibility(visible ? View.VISIBLE : View.GONE);
+  }
+
   private <T> void async(Task<T> task, Done<T> done) {
+    async(task, done, null);
+  }
+
+  private <T> void async(Task<T> task, Done<T> done, Runnable failed) {
     if (busy) {
       toast("已有任务正在处理");
       return;
@@ -244,6 +380,7 @@ public final class MainActivity extends Activity {
                   busy = false;
                   if (view == generation && !isFinishing()) {
                     subtitle.setText("操作未完成");
+                    if (failed != null) failed.run();
                     error(e);
                   }
                 });
@@ -259,7 +396,7 @@ public final class MainActivity extends Activity {
     return state.optJSONArray(key) == null ? new JSONArray() : state.optJSONArray(key);
   }
 
-  private void confirm(String title, String message, Runnable yes) {
+  void confirm(String title, String message, Runnable yes) {
     new AlertDialog.Builder(this)
         .setTitle(title)
         .setMessage(message)
@@ -272,11 +409,11 @@ public final class MainActivity extends Activity {
     selected = null;
     client = null;
     suggestions.clear();
-    screen("AstrBot Mobile", "你的机器人，随身掌控", null);
-    LinearLayout intro = card("连接工作空间", "在多个实例和分组间切换。密码与预设在本机加密保存。");
-    button(intro, "＋ 添加连接", () -> connectionForm(null));
-    LinearLayout search = card("实例", "按名称、分组或地址筛选");
-    EditText f = input(search, "搜索", filter, false, false);
+    screen("AstrBot Mobile", "连接你的机器人工作空间", null);
+    LinearLayout intro = card("随时连接，轻松管理", "在不同实例间切换，让配置、提示词和工具井井有条。");
+    primaryButton(intro, "＋ 添加连接", () -> connectionForm(null));
+    LinearLayout search = card("我的连接", "");
+    EditText f = input(search, "搜索名称、分组或地址", filter, false, false);
     LinearLayout holder = vertical();
     content.addView(holder);
     renderConnections(holder, filter);
@@ -286,25 +423,48 @@ public final class MainActivity extends Activity {
               filter = f.getText().toString();
               renderConnections(holder, filter);
             }));
-    LinearLayout tools = card("工作台", "可复用预设与原生客户端扩展");
-    button(tools, "预设库", this::presets);
-    button(tools, "客户端插件", this::extensions);
-    CheckBox assist = new CheckBox(this);
-    assist.setText("输入辅助与自动补全（当前会话）");
+    bottomNav(false, "连接");
+  }
+
+  private void appSettings() {
+    screen("应用设置", "管理本机偏好与诊断", this::home);
+    LinearLayout preferences = card("输入体验", "");
+    Switch assist = new Switch(this);
+    assist.setText("输入辅助与自动补全");
+    assist.setTextColor(INK);
+    assist.setTextSize(16);
+    assist.setPadding(dp(4), dp(12), dp(4), dp(12));
     assist.setChecked(autofill);
-    assist.setOnCheckedChangeListener((b, c) -> autofill = c);
-    tools.addView(assist);
-    button(
-        tools,
+    preferences.addView(assist);
+    assist.setOnCheckedChangeListener(
+        (v, c) -> {
+          autofill = c;
+          try {
+            state.put("autofill", c);
+            persist();
+          } catch (Exception e) {
+            error(e);
+          }
+        });
+    LinearLayout tools = group(content);
+    navRow(tools, "预设库", "复用配置与长文本", "≡", this::presets);
+    navRow(tools, "客户端插件", "管理扩展操作", "◇", this::extensions);
+    LinearLayout about = card("关于与诊断", "");
+    navRow(about, "截图与录屏", "允许，用于反馈与排查问题", "◎", null);
+    navRow(
+        about,
         "使用指南",
+        "连接、配置与插件说明",
+        "?",
         () ->
             startActivity(
                 new Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse("https://z2bguoguo.github.io/AstrBotMobileUI/"))));
+    bottomNav(false, "设置");
   }
 
-  private TextWatcher watcher(Runnable r) {
+  TextWatcher watcher(Runnable r) {
     return new TextWatcher() {
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -331,16 +491,9 @@ public final class MainActivity extends Activity {
         holder.addView(label(c.group, 17, MUTED));
         last = c.group;
       }
-      LinearLayout row = vertical();
-      row.setPadding(dp(16), dp(12), dp(16), dp(12));
-      row.setBackground(background(Color.WHITE, 18));
-      LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
-      lp.bottomMargin = dp(10);
-      holder.addView(row, lp);
-      row.addView(label(c.name, 20, INK));
-      row.addView(label(c.url, 12, MUTED));
-      button(row, "连接", () -> connect(c));
-      button(row, "编辑 · 复制 · 移动分组", () -> connectionForm(c));
+      LinearLayout row = group(holder);
+      navRow(row, c.name, c.url, "◉", () -> connect(c));
+      textAction(row, "连接设置", () -> connectionForm(c));
     }
     if (entries.isEmpty()) holder.addView(label("还没有连接。添加你的第一台 AstrBot。", 15, MUTED));
   }
@@ -358,6 +511,28 @@ public final class MainActivity extends Activity {
     EditText user = input(form, "WebUI 用户名", c.username, false, false),
         pass = input(form, "WebUI 密码", c.password, true, false),
         key = input(form, "API Key（可选，填写后优先使用）", c.apiKey, true, false);
+    RadioGroup authentication = new RadioGroup(this);
+    authentication.setOrientation(RadioGroup.HORIZONTAL);
+    RadioButton accountMode = new RadioButton(this);
+    accountMode.setId(View.generateViewId());
+    accountMode.setText("账户密码");
+    RadioButton keyMode = new RadioButton(this);
+    keyMode.setId(View.generateViewId());
+    keyMode.setText(io.github.astrbot.mobile.R.string.authentication_key);
+    authentication.addView(accountMode);
+    authentication.addView(keyMode);
+    form.addView(authentication, 0);
+    fieldVisibility(user, c.apiKey.isBlank());
+    fieldVisibility(pass, c.apiKey.isBlank());
+    fieldVisibility(key, !c.apiKey.isBlank());
+    authentication.check(c.apiKey.isBlank() ? accountMode.getId() : keyMode.getId());
+    authentication.setOnCheckedChangeListener(
+        (g, id) -> {
+          boolean account = id == accountMode.getId();
+          fieldVisibility(user, account);
+          fieldVisibility(pass, account);
+          fieldVisibility(key, !account);
+        });
     Spinner mode = new Spinner(this);
     mode.setAdapter(
         new ArrayAdapter<>(
@@ -367,7 +542,7 @@ public final class MainActivity extends Activity {
     mode.setSelection(c.passwordMode.equals("md5") ? 1 : 0);
     form.addView(mode);
     form.addView(label("HTTP 会明文传输凭据，建议使用 HTTPS 或可信局域网。API Key 权限不足时可改用 WebUI 账户。", 13, MUTED));
-    button(
+    primaryButton(
         form,
         "保存连接",
         () -> {
@@ -379,7 +554,10 @@ public final class MainActivity extends Activity {
             n.url = normalized;
             n.username = user.getText().toString();
             n.password = pass.getText().toString();
-            n.apiKey = key.getText().toString();
+            n.apiKey =
+                authentication.getCheckedRadioButtonId() == keyMode.getId()
+                    ? key.getText().toString()
+                    : "";
             n.passwordMode = mode.getSelectedItemPosition() == 1 ? "md5" : "plain";
             JSONArray a = list("connections");
             boolean found = false;
@@ -490,26 +668,308 @@ public final class MainActivity extends Activity {
           Map.entry("plugins", "AstrBot 插件"));
 
   private void workspace() {
-    screen(
-        selected.name,
-        selected.group
-            + " · "
-            + (client.modern ? "OpenAPI 自适应" : "旧版 WebUI 接口")
-            + " · "
-            + endpoints.size()
-            + " 项操作",
-        this::home);
-    LinearLayout quick = card("工作空间", "原生参数页覆盖已发现的 HTTP 接口；自定义插件页面通过独立 HTML 视图打开。");
-    button(quick, "概览", () -> quickRead("/api/v1/stats", "/api/stat/get"));
-    button(quick, "插件自定义 HTML 页面", this::pluginEntry);
-    button(quick, "预设与跨实例配置传递", this::presets);
-    button(quick, "客户端插件", this::extensions);
-    Set<String> groups = new TreeSet<>();
-    for (Endpoint e : endpoints) groups.add(e.category);
-    LinearLayout modules = card("功能模块", "按服务器当前契约生成；找不到的操作可使用手动接口页。");
-    for (String g : groups) button(modules, CATEGORIES.getOrDefault(g, g), () -> operations(g));
-    button(modules, "全部操作 / 搜索", () -> operations(null));
-    button(modules, "手动 API 请求", this::manualEndpoint);
+    screen(selected.name, "已连接 · " + selected.group, this::home);
+    LinearLayout settings = card("配置与运行", "");
+    navRow(settings, "通用设置", "基础配置、管理员与运行选项", "⚙", () -> openConfiguration("system", "通用设置"));
+    navRow(settings, "配置文件", "不同场景使用不同配置", "▤", this::profiles);
+    LinearLayout ai = card("对话与智能", "");
+    navRow(ai, "人格与提示词", "编辑系统提示词与开场对话", "✦", () -> resources(ManagementApi.Resource.PERSONAS));
+    navRow(ai, "模型服务", "查看与编辑模型连接", "◈", () -> resources(ManagementApi.Resource.PROVIDERS));
+    navRow(ai, "MCP 服务", "连接地址、启动参数与环境变量", "⌘", () -> resources(ManagementApi.Resource.MCP));
+    LinearLayout bots = card("平台与扩展", "");
+    navRow(bots, "机器人平台", "编辑平台连接与运行设置", "◉", () -> resources(ManagementApi.Resource.BOTS));
+    navRow(bots, "插件管理", "启停插件、配置与自定义页面", "◇", () -> resources(ManagementApi.Resource.PLUGINS));
+    bottomNav(true, "管理");
+  }
+
+  private void advancedTools() {
+    screen("工具", "预设、扩展与高级诊断", this::workspace);
+    LinearLayout everyday = group(content);
+    navRow(everyday, "预设与配置传递", "保存常用设置，在实例间复用", "≡", this::presets);
+    navRow(everyday, "客户端插件", "管理客户端扩展", "◇", this::extensions);
+    navRow(everyday, "插件自定义页面", "打开 HTML 配置页面", "▣", this::pluginEntry);
+    LinearLayout advanced = card("高级工具", "用于未适配的功能及开发诊断");
+    navRow(advanced, "接口浏览器", "搜索全部接口操作", "⌘", () -> operations(null));
+    navRow(advanced, "自定义请求", "手动指定接口和参数", "↗", this::manualEndpoint);
+    bottomNav(true, "工具");
+  }
+
+  private void overview() {
+    screen(selected.name, "运行概览", this::workspace);
+    LinearLayout status = card("已连接", selected.group);
+    navRow(status, "服务地址", selected.url, "◉", null);
+    LinearLayout stats = card("运行数据", "正在读取…");
+    bottomNav(true, "总览");
+    async(
+        () -> new ManagementApi(client).overview(),
+        data -> {
+          stats.removeAllViews();
+          renderInformation(stats, data, 0);
+        });
+  }
+
+  private void renderInformation(LinearLayout target, Object value, int depth) throws Exception {
+    if (value instanceof JSONObject && depth < 3) {
+      JSONObject o = (JSONObject) value;
+      for (Iterator<String> i = o.keys(); i.hasNext(); ) {
+        String key = i.next();
+        Object v = o.get(key);
+        if (v instanceof JSONObject) renderInformation(target, v, depth + 1);
+        else if (!(v instanceof JSONArray)) navRow(target, fieldName(key), v.toString(), "", null);
+      }
+    } else target.addView(label(Helpers.pretty(Helpers.redact(value)), 14, INK));
+  }
+
+  private String fieldName(String key) {
+    return Map.ofEntries(
+            Map.entry("version", "版本"),
+            Map.entry("platform_count", "平台数量"),
+            Map.entry("plugin_count", "插件数量"),
+            Map.entry("message_count", "消息数量"),
+            Map.entry("total_message_count", "累计消息"),
+            Map.entry("uptime", "运行时长"),
+            Map.entry("start_time", "启动时间"),
+            Map.entry("dashboard_version", "管理面板版本"))
+        .getOrDefault(key, key.replace('_', ' '));
+  }
+
+  private void profiles() {
+    screen("配置文件", "选择要编辑的配置", this::workspace);
+    LinearLayout rows = group(content);
+    primaryButton(content, "刷新列表", this::profiles);
+    async(
+        () -> new ManagementApi(client).profiles(),
+        items -> {
+          for (int i = 0; i < items.length(); i++) {
+            JSONObject item = items.getJSONObject(i);
+            String id = item.optString("id"), name = item.optString("name", id);
+            navRow(
+                rows,
+                name,
+                id.equals("default") ? "默认配置" : "场景配置",
+                "▤",
+                () -> openConfiguration(id, name));
+          }
+        });
+  }
+
+  private void openConfiguration(String id, String title) {
+    screen(title, "正在读取现有设置…", this::workspace);
+    button(content, "重新读取", () -> openConfiguration(id, title));
+    ManagementApi api = new ManagementApi(client);
+    async(
+        () -> api.configuration(id),
+        doc ->
+            showSettings(
+                title,
+                doc,
+                Set.of(),
+                this::workspace,
+                (config, changes) ->
+                    async(
+                        () -> {
+                          api.saveConfiguration(id, config);
+                          return true;
+                        },
+                        ok -> {
+                          toast("配置已保存");
+                          workspace();
+                        })));
+  }
+
+  private void showSettings(
+      String title,
+      JSONObject document,
+      Set<String> readOnly,
+      Runnable back,
+      SettingsEditor.Save save)
+      throws Exception {
+    JSONObject config = document.optJSONObject("config");
+    if (config == null) throw new IllegalArgumentException("此项没有可编辑配置，请检查服务器版本或插件配置声明");
+    new SettingsEditor(
+            this,
+            title,
+            config,
+            document.optJSONObject("metadata"),
+            asset("settings-labels-zh.json"),
+            readOnly,
+            back,
+            save)
+        .show();
+  }
+
+  private void resources(ManagementApi.Resource type) {
+    screen(type.title, "选择条目，直接编辑现有设置", this::workspace);
+    LinearLayout rows = vertical();
+    content.addView(rows);
+    button(content, "刷新列表", () -> resources(type));
+    if (type == ManagementApi.Resource.PERSONAS || type == ManagementApi.Resource.MCP)
+      primaryButton(
+          content,
+          "＋ 新建" + (type == ManagementApi.Resource.MCP ? "服务" : "人格"),
+          () -> createResource(type));
+    async(
+        () -> new ManagementApi(client).list(type),
+        items -> {
+          if (items.length() == 0) rows.addView(label("还没有条目，可添加新的配置。", 14, MUTED));
+          for (int i = 0; i < items.length(); i++) {
+            JSONObject item = items.getJSONObject(i);
+            String id = ManagementApi.id(type, item),
+                name = item.optString("display_name", item.optString("name", id));
+            LinearLayout group = group(rows);
+            String summary =
+                item.optString(
+                    "desc",
+                    type == ManagementApi.Resource.MCP
+                        ? (item.optBoolean("connected") ? "已连接" : "未连接")
+                        : "点击编辑设置");
+            navRow(group, name, summary, "◇", () -> editResource(type, item));
+            if (type == ManagementApi.Resource.PLUGINS) {
+              JSONArray pages = item.optJSONArray("pages");
+              if (pages != null)
+                for (int n = 0; n < pages.length(); n++) {
+                  String view = pages.optString(n);
+                  navRow(group, "打开 " + view, "插件自定义页面", "▣", () -> openPluginPage(id, view));
+                }
+              Switch toggle = new Switch(this);
+              toggle.setText("启用插件");
+              toggle.setPadding(dp(16), dp(8), dp(16), dp(12));
+              toggle.setTextColor(INK);
+              toggle.setChecked(item.optBoolean("activated"));
+              group.addView(toggle);
+              boolean[] reverting = {false};
+              toggle.setOnCheckedChangeListener(
+                  (b, enabled) -> {
+                    if (reverting[0]) return;
+                    if (busy) {
+                      reverting[0] = true;
+                      toggle.setChecked(!enabled);
+                      reverting[0] = false;
+                      return;
+                    }
+                    toggle.setEnabled(false);
+                    async(
+                        () -> {
+                          new ManagementApi(client).pluginEnabled(id, enabled);
+                          return true;
+                        },
+                        ok -> {
+                          toggle.setEnabled(true);
+                          toast(enabled ? "插件已启用" : "插件已停用");
+                        },
+                        () -> {
+                          reverting[0] = true;
+                          toggle.setChecked(!enabled);
+                          reverting[0] = false;
+                          toggle.setEnabled(true);
+                        });
+                  });
+            }
+          }
+        });
+  }
+
+  private void editResource(ManagementApi.Resource type, JSONObject item) {
+    String id = ManagementApi.id(type, item);
+    screen(type.title, "正在读取现有设置…", () -> resources(type));
+    button(content, "重新读取", () -> editResource(type, item));
+    ManagementApi api = new ManagementApi(client);
+    async(
+        () -> api.detail(type, item),
+        doc ->
+            showSettings(
+                id,
+                doc,
+                Set.of("id", "persona_id"),
+                () -> resources(type),
+                (config, changes) ->
+                    async(
+                        () -> {
+                          api.save(type, id, config, false);
+                          return true;
+                        },
+                        ok -> {
+                          toast("设置已保存");
+                          resources(type);
+                        })));
+  }
+
+  private void createResource(ManagementApi.Resource type) {
+    LinearLayout panel = vertical();
+    panel.setPadding(dp(20), 0, dp(20), 0);
+    EditText name =
+        input(panel, type == ManagementApi.Resource.MCP ? "服务名称" : "人格标识", "", false, false);
+    AlertDialog dialog =
+        new AlertDialog.Builder(this)
+            .setTitle(type == ManagementApi.Resource.MCP ? "新建 MCP 服务" : "新建人格")
+            .setView(panel)
+            .setNegativeButton("取消", null)
+            .setPositiveButton("继续", null)
+            .create();
+    dialog.setOnShowListener(
+        d ->
+            dialog
+                .getButton(-1)
+                .setOnClickListener(
+                    v -> {
+                      String id = name.getText().toString().trim();
+                      if (id.isEmpty()) {
+                        name.setError("名称不能为空");
+                        return;
+                      }
+                      dialog.dismiss();
+                      if (type == ManagementApi.Resource.MCP)
+                        new AlertDialog.Builder(this)
+                            .setTitle("选择连接方式")
+                            .setItems(
+                                new String[] {"远程地址（HTTP / SSE）", "启动命令（stdio）"},
+                                (choice, index) -> newResourceDraft(type, id, index == 0))
+                            .setNegativeButton("取消", null)
+                            .show();
+                      else newResourceDraft(type, id, false);
+                    }));
+    dialog.show();
+  }
+
+  private void newResourceDraft(ManagementApi.Resource type, String id, boolean remote) {
+    try {
+      JSONObject config;
+      if (type == ManagementApi.Resource.PERSONAS)
+        config =
+            new JSONObject()
+                .put("system_prompt", "")
+                .put("begin_dialogs", new JSONArray())
+                .put("tools", new JSONArray())
+                .put("skills", new JSONArray());
+      else if (remote)
+        config =
+            new JSONObject().put("active", true).put("url", "").put("headers", new JSONObject());
+      else
+        config =
+            new JSONObject()
+                .put("active", true)
+                .put("command", "")
+                .put("args", new JSONArray())
+                .put("env", new JSONObject());
+      JSONObject doc = new JSONObject().put("config", config);
+      showSettings(
+          id,
+          doc,
+          Set.of(),
+          () -> resources(type),
+          (draft, changes) ->
+              async(
+                  () -> {
+                    new ManagementApi(client).save(type, id, draft, true);
+                    return true;
+                  },
+                  ok -> {
+                    toast("创建成功");
+                    resources(type);
+                  }));
+    } catch (Exception e) {
+      error(e);
+    }
   }
 
   private void quickRead(String modern, String old) {
@@ -743,7 +1203,7 @@ public final class MainActivity extends Activity {
     }
   }
 
-  private void fullEditor(String title, EditText target, boolean json) {
+  void fullEditor(String title, EditText target, boolean json) {
     Dialog dialog = new Dialog(this);
     LinearLayout panel = vertical();
     panel.setPadding(dp(14), dp(14), dp(14), dp(14));
@@ -1141,51 +1601,46 @@ public final class MainActivity extends Activity {
   }
 
   private void pluginEntry() {
-    screen("插件 HTML 页面", "使用 AstrBot 颁发的插件页面令牌，不把账户密码注入网页", this::workspace);
-    LinearLayout c = card("页面入口", "插件名和 View 名见插件详情返回的 pages / views；不同版本提供的入口不同。");
-    EditText plugin = input(c, "插件名", "", false, false),
-        view = input(c, "View / 页面名", "", false, false);
-    button(
-        c,
-        "打开插件页面",
-        () -> {
-          try {
-            String path =
-                client.modern
-                    ? "/api/v1/plugins/"
-                        + Endpoint.encode(plugin.getText().toString())
-                        + "/views/"
-                        + Endpoint.encode(view.getText().toString())
-                    : "/api/plugin/page/entry?name="
-                        + Endpoint.encode(plugin.getText().toString())
-                        + "&page="
-                        + Endpoint.encode(view.getText().toString());
-            async(
-                () -> ApiClient.json(client.request(path, "GET", null, null)),
-                j -> {
-                  JSONObject data = j.optJSONObject("data");
-                  if (data == null) throw new IllegalArgumentException("缺少页面入口");
-                  String entry = data.optString("content_path", data.optString("url"));
-                  if (entry.isEmpty())
-                    throw new IllegalArgumentException("此版本没有支持的令牌页面入口，请使用 WebUI");
-                  String base = Connection.normalizeUrl(selected.url);
-                  String full =
-                      entry.startsWith("/")
-                          ? base + entry
-                          : java.net.URI.create(base + "/").resolve(entry).toString();
-                  if (!PluginPageActivity.allowed(base, full))
-                    throw new IllegalArgumentException("已拒绝跨实例页面入口");
-                  startActivity(
-                      new Intent(this, PluginPageActivity.class)
-                          .putExtra("base", base)
-                          .putExtra("url", full)
-                          .putExtra("plugin", plugin.getText().toString())
-                          .putExtra("session", PluginSessions.add(client)));
-                });
-          } catch (Exception e) {
-            error(e);
-          }
-        });
+    screen("插件自定义页面", "选择插件与页面", this::workspace);
+    LinearLayout c = card("页面入口", "也可以从插件管理列表直接打开已声明的页面。");
+    EditText plugin = input(c, "插件名称", "", false, false), view = input(c, "页面名称", "", false, false);
+    primaryButton(
+        c, "打开页面", () -> openPluginPage(plugin.getText().toString(), view.getText().toString()));
+  }
+
+  private void openPluginPage(String plugin, String view) {
+    try {
+      String path =
+          client.modern
+              ? "/api/v1/plugins/" + Endpoint.encode(plugin) + "/views/" + Endpoint.encode(view)
+              : "/api/plugin/page/entry?name="
+                  + Endpoint.encode(plugin)
+                  + "&page="
+                  + Endpoint.encode(view);
+      async(
+          () -> ApiClient.json(client.request(path, "GET", null, null)),
+          j -> {
+            JSONObject data = j.optJSONObject("data");
+            if (data == null) throw new IllegalArgumentException("缺少页面入口");
+            String entry = data.optString("content_path", data.optString("url"));
+            if (entry.isEmpty()) throw new IllegalArgumentException("此版本没有支持的页面入口，请使用 WebUI");
+            String base = Connection.normalizeUrl(selected.url);
+            String full =
+                entry.startsWith("/")
+                    ? base + entry
+                    : java.net.URI.create(base + "/").resolve(entry).toString();
+            if (!PluginPageActivity.allowed(base, full))
+              throw new IllegalArgumentException("页面地址超出当前实例");
+            startActivity(
+                new Intent(this, PluginPageActivity.class)
+                    .putExtra("base", base)
+                    .putExtra("url", full)
+                    .putExtra("plugin", plugin)
+                    .putExtra("session", PluginSessions.add(client)));
+          });
+    } catch (Exception e) {
+      error(e);
+    }
   }
 
   @Override

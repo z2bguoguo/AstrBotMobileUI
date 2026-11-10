@@ -7,7 +7,8 @@ Independent native Android AstrBot administration client, Java 17, minSdk 26, ta
 ## Source map
 
 - app/src/main/java/io/github/astrbot/mobile/core: pure Java connection model, HTTP transport, contract parsing, schema, auth, presets.
-- app/src/main/java/io/github/astrbot/mobile/ui: platform-native views, encrypted Vault, plugin WebView.
+- app/src/main/java/io/github/astrbot/mobile/ui: platform-native views, SettingsEditor, encrypted Vault, plugin WebView.
+- core/FormModel and core/ManagementApi: detached typed drafts and native management workflows with explicit legacy payloads.
 - app/src/main/assets: bundled OpenAPI contract and legacy operation catalogue; source revision in docs/reference/upstream.md.
 - app/src/test: JVM behavioral tests.
 - docs: bilingual VitePress documentation, built by Vite.
@@ -24,6 +25,8 @@ Independent native Android AstrBot administration client, Java 17, minSdk 26, ta
 5. URL parameters must be encoded; no remote-origin credentials. WebView gets no global JWT or unrestricted native bridge, no TLS bypass, file access or arbitrary navigation.
 6. Client plugins are versioned declarative JSON, no downloaded DEX execution. Group ID checks remain advisory.
 7. Keep Chinese and English README links and documentation in sync. README presents the product; put build tutorials and release detail in the wiki.
+
+8. Screenshots and screen recording must remain allowed for troubleshooting. Do not set FLAG_SECURE. Ordinary management pages use settings controls; HTTP methods and paths belong only in advanced diagnostic tools.
 
 ## Validation
 

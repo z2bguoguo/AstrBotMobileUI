@@ -12,9 +12,11 @@ OpenAPI is fetched from `/api/v1/openapi.json`. Only a 404/405 selects the legac
 
 Connections are grouped and searchable. Duplicating a connection creates a distinct identity. Credentials and presets are encrypted on-device with Android Keystore; uninstalling loses them.
 
-Select a native API category and operation. Edit path, query and body JSON, or open the field editor. Enum values appear as suggestions. Full-screen editing supports find, replace-all, formatting and restoring the original text. Input validation warns about potentially incomplete group IDs or URLs without blocking submission.
+Open Manage and select general configuration, profiles, personas, model providers, MCP, bot platforms or plugins. Settings load existing values into native switches, choices, numeric inputs and nested lists. Changes remain in a draft until Save is confirmed. The full API browser is available under Tools → Advanced tools. Full-screen editing supports find, replace-all, formatting and restoring the original text. Input validation warns about potentially incomplete group IDs or URLs without blocking submission.
 
 Save a request as a preset, connect to the destination instance, then load it from the preset library. Review resource identifiers and version-dependent fields. Secret-like fields are blanked unless explicitly retained. Cross-version request conversion and unattended group writes are not implemented.
+
+Screenshots and screen recording are allowed for troubleshooting. Error dialogs can copy diagnostic details.
 
 ## Limits
 
