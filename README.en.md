@@ -18,6 +18,8 @@ AstrBot Mobile UI is an independent, native Android management workspace for Ast
 
 ### Made for mobile administration
 
+- **Bilingual and personal** — Chinese/English UI, light/dark appearance, custom accent colors and field help.
+- **Script core** — Every APK embeds the current business scripts. Compatible signed core updates avoid reinstalling; native architecture changes require an APK.
 - **Stay up to date** — Automatic startup checks, optional automatic downloads, stable and preview channels, and verified APKs with system installation confirmation.
 - **Multiple workspaces** — Locally saved credentials, groups, duplication and fast switching.
 - **Capability-aware operations** — Server OpenAPI discovery with a separate legacy WebUI route catalogue, native parameter pages and enum suggestions.
@@ -29,7 +31,7 @@ AstrBot Mobile UI is an independent, native Android management workspace for Ast
 
 ### Status
 
-**0.1 developer preview.** Native API operations and connection management are available. This release does **not** claim complete WebUI parity or end-to-end validation of every catalogued operation. Dedicated streaming chat, complex file/backup workflows, plugin file/stream bridge actions and an old-server device matrix remain under development. See the [guide](https://z2bguoguo.github.io/AstrBotMobileUI/en/guide).
+**0.2 developer preview.** Native API operations and connection management are available. This release does **not** claim complete WebUI parity or end-to-end validation of every catalogued operation. Dedicated streaming chat, complex file/backup workflows, plugin file/stream bridge actions and an old-server device matrix remain under development. See the [guide](https://z2bguoguo.github.io/AstrBotMobileUI/en/guide).
 
 Requires Android 8.0+ and an accessible AstrBot instance. HTTPS is recommended. Release packages require the maintainer's persistent signing key; automatic releases default to pre-release.
 

@@ -31,3 +31,9 @@ HTML plugin views require a token-scoped server entry. Only same-instance `/api/
 Open Settings → App updates from the connection home. Check manually, choose stable or preview releases, enable daily startup checks, or opt into automatic downloads. Startup checks are enabled by default. Preview/development builds initially include previews; stable builds initially use stable releases only. Automatic downloading is off by default and runs only while the app is open, with no persistent service.
 
 Updates come from this project's public GitHub Releases. The app verifies SHA-256, package identity, increasing Android version code and matching signing certificates before opening Android's installation confirmation. Allow this app to install unknown apps in system settings when prompted, then return to continue. Connections and settings are retained by an in-place update. Different signing keys block installation; early local test APKs may use a different key from signed Actions releases. Releases without updater metadata are ignored. Manual checks explain network or private-repository access failures.
+
+## Language, appearance and help
+
+Settings → Appearance offers system/Chinese/English language, system/light/dark themes, preset accent colors and custom `#RRGGBB` colors. Applying a preference reloads the home screen while retaining connections and presets. Editor values are never translated. The `ⓘ` next to settings shows identifiers, types, server hints, defaults, ranges and choices. API parameter help includes required scopes and write behavior. Unknown server fields and third-party HTML retain their server/plugin-provided text.
+
+Install the 0.2 architecture APK once to enable script updates. Later compatible core releases download signed scripts and reload the UI; native architecture changes still require APK installation. App updates displays the core version and architecture fingerprint and offers core rollback.

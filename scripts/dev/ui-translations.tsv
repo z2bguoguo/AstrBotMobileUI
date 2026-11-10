@@ -1,0 +1,352 @@
+设置|Settings
+保存|Save
+取消|Cancel
+关闭|Close
+继续|Continue
+确认|Confirm
+删除|Delete
+添加|Add
+应用|Apply
+撤销|Undo
+稍后|Later
+知道了|OK
+默认|Default
+名称|Name
+值|Value
+标识|Identifier
+版本|Version
+启用|Enabled
+已连接|Connected
+未连接|Disconnected
+未设置|Not set
+未填写|Empty
+已保存|Saved
+已修改|Modified
+未修改|Unchanged
+没有更改|No changes
+其他|Other
+参数|Parameters
+响应|Response
+请求|Request
+对话|Chat
+管理|Manage
+工具|Tools
+连接|Connections
+预设|Presets
+分组|Group
+人格|Persona
+服务|Service
+端口|Port
+温度|Temperature
+时区|Time zone
+查找|Find
+替换为|Replace with
+替换全部|Replace all
+格式化|Format
+总览|Overview
+管理员|Administrators
+关键词|Keywords
+日志级别|Log level
+系统提示词|System prompt
+开场对话|Opening dialogs
+人格标识|Persona ID
+模型名称|Model name
+模型提供商|Model provider
+模型与对话|Models and conversations
+机器人平台|Bot platforms
+管理面板|Dashboard
+管理面板版本|Dashboard version
+服务地址|Service URL
+API 密钥|API key
+访问密钥|Access key
+最大输出长度|Maximum output tokens
+启动命令|Launch command
+启动参数|Launch arguments
+环境变量|Environment variables
+请求头|Request headers
+连接方式|Transport
+超时时间|Timeout
+工具列表|Tool list
+技能列表|Skill list
+监听地址|Listening address
+启用服务|Enable service
+我的连接|My connections
+应用设置|App settings
+应用更新|App updates
+使用指南|User guide
+关于与诊断|About and diagnostics
+截图与录屏|Screenshots and recording
+输入体验|Input assistance
+输入辅助与自动补全|Input suggestions and autocomplete
+预设库|Preset library
+客户端插件|Client plugins
+插件管理|Plugins
+插件自定义页面|Custom plugin pages
+通用设置|General settings
+配置文件|Configuration profiles
+模型服务|Model providers
+人格与提示词|Personas and prompts
+MCP 服务|MCP servers
+AstrBot 插件|AstrBot plugins
+工具与 MCP|Tools and MCP
+知识库|Knowledge bases
+会话管理|Conversations
+备份与恢复|Backup and restore
+扩展管理|Extensions
+配置与路由|Configuration and routing
+概览与运行状态|Overview and runtime status
+运行概览|Runtime overview
+运行数据|Runtime statistics
+运行时长|Uptime
+启动时间|Start time
+平台数量|Platform count
+插件数量|Plugin count
+消息数量|Messages
+累计消息|Total messages
+默认配置|Default profile
+场景配置|Scenario profile
+基本信息|Basic information
+账户与认证|Account and authentication
+账户密码|Account password
+WebUI 用户名|WebUI username
+WebUI 密码|WebUI password
+API Key（可选，填写后优先使用）|API key (optional, takes precedence)
+原文密码（新版默认）|Plain password (current versions)
+MD5 密码（部分旧版）|MD5 password (some old versions)
+验证码|Verification code
+两步验证|Two-factor authentication
+未启用两步验证时留空|Leave empty if two-factor authentication is disabled
+连接并登录|Connect and sign in
+保存连接|Save connection
+新建连接|New connection
+删除连接|Delete connection
+连接设置|Connection settings
+保存副本|Save a copy
+复制已保存的连接|Duplicate a saved connection
+复制错误详情|Copy error details
+错误详情|Error details
+错误详情已复制|Error details copied
+连接你的机器人工作空间|Connect your bot workspaces
+随时连接，轻松管理|Stay connected, manage with ease
+在不同实例间切换，让配置、提示词和工具井井有条。|Switch instances and organize configuration, prompts and tools.
+还没有连接。添加你的第一台 AstrBot。|No connections yet. Add your first AstrBot instance.
+搜索名称、分组或地址|Search name, group or address
+可填写反向代理子路径，例如 https://bot.example.com/astrbot|Reverse proxy subpaths are supported, e.g. https://bot.example.com/astrbot
+HTTP 会明文传输凭据，建议使用 HTTPS 或可信局域网。API Key 权限不足时可改用 WebUI 账户。|HTTP sends credentials in plain text. Use HTTPS or a trusted LAN. If your API key lacks permissions, use a WebUI account.
+配置与运行|Configuration and runtime
+对话与智能|Conversations and intelligence
+平台与扩展|Platforms and extensions
+基础配置、管理员与运行选项|General configuration, administrators and runtime options
+不同场景使用不同配置|Use separate configurations for different scenarios
+编辑系统提示词与开场对话|Edit system prompts and opening dialogs
+查看与编辑模型连接|View and edit model connections
+连接地址、启动参数与环境变量|Connection URL, arguments and environment variables
+编辑平台连接与运行设置|Edit platform connections and runtime settings
+启停插件、配置与自定义页面|Enable plugins, edit configuration and open custom pages
+高级工具|Advanced tools
+用于未适配的功能及开发诊断|Diagnostics and operations without a dedicated interface
+接口浏览器|API browser
+搜索全部接口操作|Browse all API operations
+自定义请求|Custom request
+手动指定接口和参数|Specify an endpoint and parameters
+预设与配置传递|Presets and configuration transfer
+保存常用设置，在实例间复用|Reuse settings across instances
+复用配置与长文本|Reuse configuration and long text
+管理扩展操作|Manage extension operations
+管理本机偏好与诊断|Local preferences and diagnostics
+连接、配置与插件说明|Connections, configuration and plugin documentation
+允许，用于反馈与排查问题|Allowed, for feedback and troubleshooting
+选择要编辑的配置|Choose a configuration to edit
+刷新列表|Refresh list
+选择条目，直接编辑现有设置|Select an entry to edit its settings
+还没有条目，可添加新的配置。|No entries yet. Add a new configuration.
+点击编辑设置|Tap to edit settings
+打开 HTML 配置页面|Open HTML configuration pages
+插件名称|Plugin name
+页面名称|Page name
+页面入口|Page entry
+打开页面|Open page
+选择插件与页面|Select a plugin and page
+也可以从插件管理列表直接打开已声明的页面。|Declared pages are also available from the plugin list.
+缺少页面入口|Missing page entry
+此版本没有支持的页面入口，请使用 WebUI|This version has no supported page entry. Use the WebUI.
+页面地址超出当前实例|Page URL is outside the current instance
+启用插件|Enable plugin
+插件已启用|Plugin enabled
+插件已停用|Plugin disabled
+新建 MCP 服务|New MCP server
+新建人格|New persona
+服务名称|Service name
+选择连接方式|Choose a transport
+远程地址（HTTP / SSE）|Remote URL (HTTP / SSE)
+启动命令（stdio）|Launch command (stdio)
+创建成功|Created
+名称不能为空|Name is required
+名称不能为空或重复|Name is required and must be unique
+重新读取|Reload
+设置已保存|Settings saved
+读取数据|Read data
+执行写入|Execute write
+预览并执行|Preview and execute
+全部操作|All operations
+查找操作|Find operation
+搜索功能名称、HTTP 方法或接口路径|Search operation, HTTP method or path
+请求说明|Request information
+参数说明|Parameter information
+查看参数说明|View parameter information
+参数来自服务器 OpenAPI 契约。|Parameters are defined by the server OpenAPI contract.
+请求内容|Request body
+路径参数|Path parameters
+查询参数|Query parameters
+路径（/api/ 开头）|Path (starting with /api/)
+手动 API|Manual API
+路径参数与查询参数使用 JSON 对象。所有字段均可进入全屏编辑。|Use JSON objects for path and query parameters. All fields support full-screen editing.
+用于服务器新增或旧版未收录接口；凭据只发送至当前实例|For new or uncatalogued endpoints. Credentials only go to the selected instance.
+旧接口字段依服务器版本而异，请参考现有配置或手动填写。|Legacy fields vary by server version. Inspect existing configuration or enter them manually.
+上传字段名|Upload field name
+选择文件（可选）|Choose file (optional)
+未选择文件|No file selected
+上传上限 8 MiB，响应上限 16 MiB；大文件请使用 WebUI。流式/二进制专用协议尚需对应扩展。|Upload limit: 8 MiB; response limit: 16 MiB. Use WebUI for larger files. Streaming/binary protocols need dedicated support.
+文件与结果|Files and results
+服务器结果|Server response
+保存原始响应文件|Save raw response file
+保存原始数据|Save raw data
+展示内容已按字段名称隐藏常见密钥；保存原始响应仍可能包含敏感信息。|Common credential fields are hidden. Saved raw responses may contain sensitive information.
+用响应 data 填充新请求|Use response data in a new request
+编辑请求|Edit request
+保存请求预设|Save request preset
+预设名称|Preset name
+保存为预设 / 传递到其他实例|Save as preset / transfer to another instance
+保留请求中的密钥（加密存于本机）|Include request credentials (encrypted locally)
+已保存，可在预设库选择目标实例后加载|Saved. Select a target instance in the preset library to load it.
+暂无预设|No presets yet
+在任意请求页点击“保存为预设”。切换到另一连接后即可加载。|Save a preset from any request page, then load it after switching connections.
+写入前会展示确认。不同实例的标识、插件及版本可能不同，传递预设前请检查。|Writes require confirmation. Check identifiers, plugins and versions before transferring a preset.
+加载到当前实例|Load into current instance
+复制并编辑预设|Duplicate and edit preset
+复制预设|Duplicate preset
+删除预设|Delete preset
+保存参数、提示词和 MCP 配置；传递前逐项复核，绝不自动批量写入|Save parameters, prompts and MCP configuration. Review each transfer; no automatic bulk writes.
+请先连接目标实例，再打开预设库|Connect to the target instance before opening presets
+请先连接实例|Connect to an instance first
+目标版本没有同一路径，请根据目标接口手动迁移参数|This version has no matching path. Migrate parameters to the target endpoint manually.
+此服务器没有对应接口，请从操作列表选择|This server has no matching endpoint. Choose one from the operations list.
+安装客户端插件|Install client plugin
+导入插件 JSON|Import plugin JSON
+管理客户端扩展|Manage client extensions
+安装声明式 JSON 扩展，增加原生 API 操作；不运行下载的 Android 代码|Install declarative JSON extensions for native API operations, without downloaded Android code.
+插件只声明本站 /api/ 路径、方法和参数。执行时仍需确认写入。|Plugins declare local /api/ paths, methods and parameters. Writes still require confirmation.
+卸载插件|Uninstall plugin
+卸载|Uninstall
+插件需要 apiVersion:1 和 name|Plugins require apiVersion:1 and name
+插件最多 50 个操作|A plugin supports at most 50 operations
+插件路径必须位于本站 /api/|Plugin paths must remain under the current /api/
+按字段调整配置，确认保存后生效|Edit fields and confirm to apply changes
+更改暂存于当前草稿|Changes are held in the current draft
+当前草稿尚未写入服务器。|The current draft has not been sent to the server.
+搜索设置|Search settings
+保存更改|Save changes
+没有待保存的更改|No pending changes
+没有匹配的设置|No matching settings
+此处没有可编辑设置|No editable settings here
+此项没有可编辑配置，请检查服务器版本或插件配置声明|No editable configuration. Check the server version or plugin configuration declaration.
+放弃修改|Discard changes
+放弃未保存的更改？|Discard unsaved changes?
+未保存的修改已放弃|Unsaved changes discarded
+字段编辑|Field editor
+保存到当前表单|Apply to current form
+辅助表单 · 按字段编辑|Assisted form · edit by field
+选择建议值…|Choose a suggestion…
+删除此项|Delete this item
+删除列表项|Delete list item
+删除仅修改当前草稿，保存后生效。|Deletion only changes the draft until you save.
+添加条目|Add entry
+保存配置|Save configuration
+请输入符合类型的数字|Enter a valid number of the expected type
+请选择开关状态|Choose an on/off state
+需要 JSON 对象或数组|A JSON object or array is required
+data 不是 JSON 对象|data is not a JSON object
+正在处理，请稍候|Working, please wait
+正在处理，请稍候或取消|Working, please wait or cancel
+已有任务正在处理|Another task is in progress
+正在检测接口能力|Discovering server capabilities
+正在连接服务器…|Connecting to the server…
+正在读取现有设置…|Loading current settings…
+正在读取…|Loading…
+操作完成|Completed
+操作未完成|Operation incomplete
+操作失败|Operation failed
+取消当前请求|Cancel current request
+取消后请刷新确认服务器状态，写入可能已经完成。|Refresh server state after cancellation; a write may already have completed.
+配置保存失败|Failed to save configuration
+配置已保存|Configuration saved
+配置存储损坏|Configuration storage is damaged
+无法读取本地配置|Cannot read local configuration
+密钥或存储异常。配置未被覆盖。可在系统设置清除应用数据后重新配置。|The key or storage is unavailable. Configuration was retained. Clear app data in system settings to reconfigure.
+文件可能含敏感信息，请妥善保管。|The file may contain sensitive information. Store it securely.
+不能写入文件|Cannot write the file
+不能替换根节点|Cannot replace the root node
+内容超过大小限制，请使用服务器 WebUI 下载大文件|Content exceeds the size limit. Download large files through the WebUI.
+只允许本站 /api/ 接口|Only this instance's /api/ endpoints are allowed
+接口越界|Endpoint is outside the allowed boundary
+无效文件字段名|Invalid file field name
+无效表单字段名|Invalid form field name
+无效方法|Invalid method
+需要 http(s) 地址，不能含账户、查询或片段|Use an HTTP(S) URL without credentials, query or fragment
+服务器未返回 OpenAPI；请检查地址或反向代理|The server did not return OpenAPI. Check the URL or reverse proxy.
+服务器版本不提供此接口|This server version does not provide this endpoint
+权限不足，请检查 API Key scope|Permission denied. Check the API key scopes.
+登录已过期或凭据无效，请重新连接|Session expired or credentials invalid. Reconnect.
+登录未完成：可能需要两步验证码或密码升级，请查看服务器返回及 WebUI|Sign-in incomplete. Two-factor verification or a password upgrade may be needed. Check the WebUI.
+运行统计需要 API Key 的 system 权限。请在 AstrBot WebUI 编辑该 Key 的授权范围，再重新连接；其他已授权功能仍可使用。|Runtime statistics require the API key's system scope. Edit its permissions in AstrBot WebUI and reconnect. Other authorized features remain available.
+此服务器未提供运行统计接口，连接仍然可用。|This server provides no runtime statistics endpoint. The connection is still usable.
+插件端点不合法|Invalid plugin endpoint
+插件端点不能包含路径穿越或预编码片段|Plugin endpoints cannot contain traversal or pre-encoded segments
+插件桥接初始化失败|Plugin bridge initialization failed
+此移动版本的 HTML bridge 仅支持 apiGet/apiPost；文件和流式操作请使用 WebUI|The mobile HTML bridge supports apiGet/apiPost only. Use WebUI for file and streaming actions.
+立即检查更新|Check for updates now
+当前渠道已是最新版本|You are up to date on this channel
+仅正式版|Stable releases only
+正式版与预发布|Stable and preview releases
+更新渠道|Update channel
+启动时自动检查（每天一次）|Check at startup (once daily)
+发现更新后自动下载|Automatically download updates
+自动下载仅在应用打开时进行，安装前仍需确认。|Downloads run while the app is open. Installation still requires confirmation.
+正在检查或下载更新|An update check or download is in progress
+正在检查更新…|Checking for updates…
+下载更新|Download update
+后台下载|Continue downloading
+安装更新|Install update
+更新已就绪|Update ready
+已验证安装包与当前应用使用相同签名，安装后保留本地配置。|The package matches the installed app's signing certificate. Local configuration is retained.
+允许安装应用更新|Allow app update installation
+请在接下来的系统页面允许此应用安装更新，返回后继续安装。|Allow this app to install updates in the next system screen, then return to continue.
+前往设置|Open settings
+未授权安装，可稍后重新检查更新|Installation permission was not granted. Check again later.
+更新未完成|Update incomplete
+下载已取消|Download cancelled
+安装包大小不匹配|Package size mismatch
+安装包校验失败，请重新下载|Package checksum failed. Download it again.
+安装包缺少签名|The package has no signing certificate
+安装包包名或版本不匹配|Package identity or version mismatch
+无法清理旧安装包|Cannot remove the old package
+无法保存安装包|Cannot save the package
+签名不同，无法覆盖安装。测试 APK 与正式签名版本可能使用不同密钥；请使用相同签名的版本更新。|Signing certificates differ. Test and release APKs may use different keys. Update within the same signing series.
+更新响应过大|Update response is too large
+更新需要 HTTPS|Updates require HTTPS
+无效下载重定向|Invalid download redirect
+更新不可访问：请确认仓库和 Release 已公开|Update unavailable. Check that the repository and release are public.
+更新重定向次数过多|Too many update redirects
+更新元数据不完整或不匹配|Update metadata is incomplete or inconsistent
+脚本核心签名与当前 APK 不匹配|Core signing certificate does not match the installed APK
+架构已变化，需要安装完整 APK|Architecture update requires APK installation
+脚本核心版本不高于当前 APK|Core bundle is older than the APK
+脚本核心文件过大|Core bundle too large
+核心版本未递增|Core version does not increase
+脚本执行超时|Script execution timed out
+缺少脚本入口|Missing script dispatch
+不兼容的脚本接口版本|Incompatible script ABI
+部分接口需要平台前缀、group: 或完整 UMO；请以本服务器字段说明为准|Some endpoints require a platform prefix, group: or a complete UMO. Follow your server's field documentation.
+此字段可能需要完整 http(s) 地址|This field may require a complete HTTP(S) URL.
+服务器返回的列表格式暂不支持，请使用高级工具并反馈版本|Unsupported list response. Use advanced tools and report the server version.
+此旧版接口需要 WebUI 账户登录，API Key 无法访问；请切换连接的认证方式或升级服务器。|This legacy endpoint requires a WebUI account and cannot use an API key. Switch authentication or upgrade the server.

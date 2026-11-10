@@ -15,6 +15,34 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class DeviceTest {
+  @org.junit.Before
+  public void localTestPreferences() {
+    Context context = ApplicationProvider.getApplicationContext();
+    context
+        .getSharedPreferences("appearance", 0)
+        .edit()
+        .putString("language", "zh")
+        .putString("theme", "light")
+        .commit();
+    context.getSharedPreferences("updates", 0).edit().putBoolean("check", false).commit();
+  }
+
+  @Test
+  public void localeAndThemeDoNotChangeUserDraft() throws Exception {
+    Context context = ApplicationProvider.getApplicationContext();
+    assertEquals("保存", Appearance.text("Save"));
+    context
+        .getSharedPreferences("appearance", 0)
+        .edit()
+        .putString("language", "en")
+        .putString("theme", "dark")
+        .commit();
+    assertEquals("Save", Appearance.text("保存"));
+    assertTrue(Appearance.dark());
+    assertEquals("用户的提示词 original", Appearance.text("用户的提示词 original"));
+    assertFalse(Appearance.labels().optString("ai_group.name").isEmpty());
+  }
+
   @Test
   public void updateProviderRestrictsPathsAndWriteAccess() throws Exception {
     Context context = ApplicationProvider.getApplicationContext();

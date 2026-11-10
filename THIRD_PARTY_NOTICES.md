@@ -8,3 +8,7 @@ AGPL-3.0 as well. No AstrBot server implementation is embedded.
 
 Gradle wrapper is distributed under Apache-2.0; Android build tools, JUnit,
 org.json, Google Java Format and VitePress retain their respective licenses.
+
+## Rhino
+
+The Android architecture embeds Mozilla Rhino 1.7.15 (MPL-2.0) as an interpreted JavaScript engine. No Java packages or unrestricted host bridge are exposed to script cores. Source and license: https://github.com/mozilla/rhino/tree/Rhino1_7_15_Release . Core bundles remain part of this project's source release.

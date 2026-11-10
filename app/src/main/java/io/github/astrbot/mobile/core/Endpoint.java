@@ -31,45 +31,17 @@ public final class Endpoint {
   }
 
   public String resolve(JSONObject values, JSONObject query) throws Exception {
-    Matcher m = Pattern.compile("\\{([^}:]+)(?::[^}]+)?}").matcher(path);
-    StringBuffer b = new StringBuffer();
-    while (m.find()) {
-      String name = m.group(1), value = values.optString(name, "");
-      if (value.isBlank()) throw new IllegalArgumentException("缺少路径参数：" + name);
-      if (value.equals(".") || value.equals(".."))
-        throw new IllegalArgumentException("路径参数不能是 . 或 ..");
-      m.appendReplacement(b, Matcher.quoteReplacement(encode(value)));
-    }
-    m.appendTail(b);
-    StringJoiner q = new StringJoiner("&");
-    for (Iterator<String> i = query.keys(); i.hasNext(); ) {
-      String key = i.next();
-      Object value = query.get(key);
-      if (value == JSONObject.NULL) continue;
-      if (value instanceof JSONArray) {
-        JSONArray a = (JSONArray) value;
-        for (int j = 0; j < a.length(); j++) q.add(encode(key) + "=" + encode(a.get(j).toString()));
-      } else q.add(encode(key) + "=" + encode(value.toString()));
-    }
-    return b + (q.length() == 0 ? "" : "?" + q);
+    return CoreRuntime.text(
+        "endpoint.resolve", CoreRuntime.args("path", path, "values", values, "query", query));
   }
 
   public static List<Endpoint> fromSpec(JSONObject spec) throws Exception {
     List<Endpoint> result = new ArrayList<>();
-    JSONObject paths = spec.getJSONObject("paths");
-    for (Iterator<String> it = paths.keys(); it.hasNext(); ) {
-      String path = it.next();
-      JSONObject methods = paths.getJSONObject(path);
-      for (String method : List.of("get", "post", "put", "patch", "delete", "head"))
-        if (methods.has(method)) {
-          JSONObject d = new JSONObject(methods.getJSONObject(method).toString());
-          JSONArray params = new JSONArray();
-          for (JSONArray a :
-              Arrays.asList(methods.optJSONArray("parameters"), d.optJSONArray("parameters")))
-            if (a != null) for (int k = 0; k < a.length(); k++) params.put(a.get(k));
-          d.put("parameters", params);
-          result.add(new Endpoint(path, method, d));
-        }
+    JSONArray entries = CoreRuntime.array("endpoint.spec", CoreRuntime.args("spec", spec));
+    for (int i = 0; i < entries.length(); i++) {
+      JSONObject e = entries.getJSONObject(i);
+      result.add(
+          new Endpoint(e.getString("path"), e.getString("method"), e.getJSONObject("definition")));
     }
     result.sort(
         Comparator.comparing((Endpoint e) -> e.category)

@@ -11,55 +11,24 @@ public final class Helpers {
       Pattern.compile("(?i).*(password|passwd|token|secret|api.?key|authorization|cookie).*");
 
   public static Object redact(Object value) throws Exception {
-    if (value instanceof JSONObject) {
-      JSONObject j = (JSONObject) value, o = new JSONObject();
-      for (Iterator<String> it = j.keys(); it.hasNext(); ) {
-        String k = it.next();
-        o.put(k, SECRET.matcher(k).matches() ? "" : redact(j.get(k)));
-      }
-      return o;
-    }
-    if (value instanceof JSONArray) {
-      JSONArray a = (JSONArray) value, b = new JSONArray();
-      for (int i = 0; i < a.length(); i++) b.put(redact(a.get(i)));
-      return b;
-    }
-    return value;
+    return CoreRuntime.call("helpers.redact", CoreRuntime.args("value", value));
   }
 
   public static List<String> warnings(String name, String value) {
+    JSONArray a =
+        CoreRuntime.array("helpers.warnings", CoreRuntime.args("name", name, "value", value));
     List<String> result = new ArrayList<>();
-    String k = name.toLowerCase(Locale.ROOT);
-    if ((k.contains("group") || k.contains("umo") || k.contains("session"))
-        && value.matches("[0-9]+")) result.add("部分接口需要平台前缀、group: 或完整 UMO；请以本服务器字段说明为准");
-    if (k.contains("url") && !value.isBlank() && !value.matches("https?://.+"))
-      result.add("此字段可能需要完整 http(s) 地址");
+    for (int i = 0; i < a.length(); i++) result.add(a.optString(i));
     return result;
   }
 
   public static void collectSuggestions(Object data, Set<String> output, int depth)
       throws Exception {
-    if (depth > 8 || output.size() > 300) return;
-    if (data instanceof JSONObject) {
-      JSONObject o = (JSONObject) data;
-      for (Iterator<String> it = o.keys(); it.hasNext(); ) {
-        String k = it.next();
-        Object v = o.get(k);
-        if (SECRET.matcher(k).matches()) continue;
-        if ((k.equals("id")
-                || k.equals("name")
-                || k.contains("group_id")
-                || k.contains("umo")
-                || k.contains("model"))
-            && v instanceof String
-            && !((String) v).isBlank()) output.add((String) v);
-        if (v instanceof JSONObject || v instanceof JSONArray)
-          collectSuggestions(v, output, depth + 1);
-      }
-    } else if (data instanceof JSONArray) {
-      JSONArray a = (JSONArray) data;
-      for (int i = 0; i < a.length(); i++) collectSuggestions(a.get(i), output, depth + 1);
-    }
+    JSONArray a =
+        CoreRuntime.array(
+            "helpers.suggestions",
+            CoreRuntime.args("value", data, "current", new JSONArray(output), "depth", depth));
+    for (int i = 0; i < a.length(); i++) output.add(a.getString(i));
   }
 
   public static JSONObject preset(

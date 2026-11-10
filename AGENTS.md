@@ -23,7 +23,7 @@ Independent native Android AstrBot administration client, Java 17, minSdk 26, ta
 3. Do not auto-retry writes on a different API. Capability downgrade only follows read-only OpenAPI 404/405, never 401/403/500.
 4. Keep tokens and cookies scoped to one connection. Switching clears suggestion candidates. Network calls stay off the main thread, responses cannot update stale pages.
 5. URL parameters must be encoded; no remote-origin credentials. WebView gets no global JWT or unrestricted native bridge, no TLS bypass, file access or arbitrary navigation.
-6. Client plugins are versioned declarative JSON, no downloaded DEX execution. Group ID checks remain advisory.
+6. Client plugins are versioned declarative JSON. Only maintainer-signed core scripts may replace business logic; never allow downloaded DEX or untrusted Java access. Group ID checks remain advisory.
 7. Keep Chinese and English README links and documentation in sync. README presents the product; put build tutorials and release detail in the wiki.
 
 8. Screenshots and screen recording must remain allowed for troubleshooting. Do not set FLAG_SECURE. Ordinary management pages use settings controls; HTTP methods and paths belong only in advanced diagnostic tools.
@@ -46,3 +46,9 @@ Work only in z2bguoguo/AstrBotMobileUI. Preserve user changes. Use standard AGEN
 ## App updater
 
 `core/AppUpdate` selects release manifests by strictly increasing Android version code and channel. `ui/AppUpdater` performs foreground checks/downloads, SHA-256 and package/signature verification, then hands installation to Android with an explicit user confirmation. `ui/UpdateProvider` exposes only the fixed verified APK through temporary read grants. Never attach AstrBot credentials to updater requests. Startup checks are throttled to once per day; auto-download is opt-in. `scripts/create_update_manifest.py` publishes metadata from the final signed release APK. Public GitHub access is required; do not embed a repository token in the app. Keep download bounds and HTTPS enforcement. Screenshots stay enabled.
+
+## Script core and presentation
+
+`assets/core/main.js` is the primary business logic for management route plans, response adaptation, schema generation, draft comparisons and suggestions. Preserve its JSON ABI. `CoreRuntime` is an interpreted JSON-only boundary; `ScriptJson` protects exact numbers. Android widgets/transport/storage/trust remain native. `SignedCore` verifies exact signed payload bytes using the installed APK public key. `CoreStore` handles atomic staging, bootstrap confirmation and rollback. Native source/resource/build changes automatically change the architecture hash; compatible scripts alone may update without an APK. Every commit still builds a complete APK with current scripts. Never run unsigned scripts from a branch URL.
+
+`Appearance` applies local language/theme/accent choices; `core/locales.json` and `core/fields.json` ship bilingual copy and metadata. `scripts/build_locales.py` regenerates UI and bundled-operation labels from committed TSV sources. Never translate input values, config JSON or user prompts. Unknown external metadata must retain original identifiers and server text. Run Node script tests, Python manifest/core tests, JVM tests, formatter/lint/build and device tests for changes. Keep docs bilingual and describe server permission limits explicitly.

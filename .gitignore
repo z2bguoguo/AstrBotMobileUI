@@ -11,3 +11,6 @@ docs/.vitepress/cache/
 docs/.vitepress/dist/
 *.apk
 *.aab
+
+__pycache__/
+*.pyc

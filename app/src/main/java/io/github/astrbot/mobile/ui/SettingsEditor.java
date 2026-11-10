@@ -92,9 +92,9 @@ final class SettingsEditor {
     String k = at.get(at.size() - 1);
     Object description = translated(meta.opt("description"));
     if (description instanceof String && !((String) description).isBlank())
-      return (String) description;
+      return Appearance.text((String) description);
     if (k.matches("[0-9]+")) return "第 " + (Integer.parseInt(k) + 1) + " 项";
-    return NAMES.getOrDefault(k, k.replace('_', ' '));
+    return Appearance.text(NAMES.getOrDefault(k, k.replace('_', ' ')));
   }
 
   private String hint(JSONObject meta) {
@@ -114,7 +114,7 @@ final class SettingsEditor {
       if (saveButton != null) {
         saveButton.setEnabled(count > 0);
         saveButton.setAlpha(count > 0 ? 1f : 0.45f);
-        saveButton.setText(count == 0 ? "没有待保存的更改" : "保存更改（" + count + "）");
+        saveButton.setText(Appearance.text(count == 0 ? "没有待保存的更改" : "保存更改（" + count + "）"));
       }
     } catch (Exception e) {
       host.error(e);
@@ -222,13 +222,21 @@ final class SettingsEditor {
       Object value = model.get(at);
       JSONObject meta = FormModel.metadata(metadata, at);
       String name = title(at, meta), hint = hint(meta);
+      String info = FieldInfo.describe(key, value, meta, hint);
       if (!(name + key + hint).toLowerCase(Locale.ROOT).contains(needle)) continue;
       count++;
       LinearLayout group = host.group(rows);
+      group.setTooltipText(info);
+      group.setOnLongClickListener(
+          v -> {
+            Appearance.explain(host, name, info);
+            return true;
+          });
+      host.textAction(group, "ⓘ", () -> Appearance.explain(host, name, info));
       boolean locked = path.isEmpty() && readOnly.contains(key);
       if (value instanceof Boolean) {
         Switch toggle = new Switch(host);
-        toggle.setText(name);
+        toggle.setText(Appearance.text(name));
         toggle.setTextSize(16);
         toggle.setTextColor(MainActivity.INK);
         toggle.setChecked((Boolean) value);
@@ -305,7 +313,7 @@ final class SettingsEditor {
                   : friendly.optString(i, choices.get(i).toString());
           if (choices.get(i).toString().equals(before.toString())) selected = i;
         }
-        new AlertDialog.Builder(host)
+        new LocalizedDialogBuilder(host)
             .setTitle(title)
             .setSingleChoiceItems(
                 names,
@@ -366,7 +374,7 @@ final class SettingsEditor {
                           "\n",
                           Helpers.warnings(at.get(at.size() - 1), input.getText().toString())))));
       AlertDialog dialog =
-          new AlertDialog.Builder(host)
+          new LocalizedDialogBuilder(host)
               .setTitle(title)
               .setView(panel)
               .setNegativeButton("取消", null)
@@ -398,7 +406,7 @@ final class SettingsEditor {
     EditText key = host.input(panel, "名称", "", false, false),
         value = host.input(panel, "值", "", false, false);
     AlertDialog dialog =
-        new AlertDialog.Builder(host)
+        new LocalizedDialogBuilder(host)
             .setTitle("添加条目")
             .setView(panel)
             .setNegativeButton("取消", null)

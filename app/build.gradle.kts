@@ -1,3 +1,5 @@
+import java.security.MessageDigest
+
 plugins {
     id("com.android.application")
     id("com.diffplug.spotless")
@@ -9,8 +11,8 @@ android {
         applicationId = "io.github.astrbot.mobile"
         minSdk = 26
         targetSdk = 35
-        versionCode = (System.getenv("BUILD_NUMBER") ?: "2").toInt()
-        versionName = System.getenv("VERSION_NAME") ?: "0.1.1-dev"
+        versionCode = (System.getenv("BUILD_NUMBER") ?: "3").toInt()
+        versionName = System.getenv("VERSION_NAME") ?: "0.2.0-dev"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -29,9 +31,11 @@ android {
     }
     compileOptions { isCoreLibraryDesugaringEnabled = true; sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
     lint { abortOnError = true; checkReleaseBuilds = true }
+    sourceSets.getByName("test").resources.srcDir("src/main/assets")
     testOptions { unitTests.isReturnDefaultValues = false }
 }
 dependencies {
+    implementation("org.mozilla:rhino:1.7.15")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test:runner:1.6.2")
@@ -48,3 +52,30 @@ tasks.register("verifyReleaseSigning") {
     }
 }
 tasks.matching { it.name == "packageRelease" }.configureEach { dependsOn("verifyReleaseSigning") }
+
+// Every native/bridge change produces a new architecture identity. Script/data edits do not.
+val architectureDigest = MessageDigest.getInstance("SHA-256")
+val architectureFiles = fileTree("src/main") {
+    include("java/**", "res/**", "AndroidManifest.xml")
+}.files.sortedBy { it.relativeTo(projectDir).invariantSeparatorsPath } +
+    listOf(file("build.gradle.kts"), rootProject.file("build.gradle.kts"), rootProject.file("gradle/libs.versions.toml"), rootProject.file("settings.gradle.kts"), rootProject.file("gradle/wrapper/gradle-wrapper.properties")).filter { it.exists() }
+architectureFiles.forEach {
+    architectureDigest.update(it.relativeTo(rootProject.projectDir).invariantSeparatorsPath.toByteArray())
+    architectureDigest.update(it.readBytes())
+}
+val architectureId = architectureDigest.digest().joinToString("") { "%02x".format(it) }
+android {
+    bundle { language { enableSplit = false } }
+    buildFeatures { buildConfig = true }
+    defaultConfig {
+        buildConfigField("String", "ARCHITECTURE", "\"$architectureId\"")
+        buildConfigField("long", "CORE_VERSION", "${System.getenv("BUILD_NUMBER") ?: "3"}L")
+    }
+}
+tasks.register("writeCoreMetadata") {
+    doLast {
+        val target = layout.buildDirectory.file("core/metadata.json").get().asFile
+        target.parentFile.mkdirs()
+        target.writeText("""{"abi":1,"architecture":"$architectureId","version":${System.getenv("BUILD_NUMBER") ?: "3"}}""")
+    }
+}

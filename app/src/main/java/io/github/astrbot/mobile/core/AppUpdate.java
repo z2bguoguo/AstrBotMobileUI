@@ -13,6 +13,26 @@ public final class AppUpdate {
 
   public record Candidate(long code, String manifest, String notes, boolean preview) {}
 
+  public record ScriptPackage(long code, String architecture, String url, String hash, long size) {}
+
+  public static ScriptPackage parseScript(JSONObject manifest, Candidate candidate)
+      throws JSONException {
+    JSONObject c = manifest.optJSONObject("core");
+    if (c == null) return null;
+    long version = c.getLong("version"), size = c.getLong("size");
+    String architecture = c.getString("architecture"),
+        url = c.getString("url"),
+        hash = c.getString("sha256");
+    if (version != candidate.code()
+        || !architecture.matches("[a-f0-9]{64}")
+        || !releaseUrl(url)
+        || !hash.matches("[a-f0-9]{64}")
+        || size <= 0
+        || size > 8 * 1024 * 1024)
+      throw new IllegalArgumentException("Invalid script update metadata");
+    return new ScriptPackage(version, architecture, url, hash, size);
+  }
+
   public record Package(long code, String version, String url, String sha256, long size) {}
 
   public static Candidate select(JSONArray releases, long installed, boolean previews)

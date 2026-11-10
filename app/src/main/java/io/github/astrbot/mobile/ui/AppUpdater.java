@@ -53,7 +53,7 @@ final class AppUpdater {
         preview ? "正式版与预发布" : "仅正式版",
         "↻",
         () ->
-            new AlertDialog.Builder(activity)
+            new LocalizedDialogBuilder(activity)
                 .setTitle("更新渠道")
                 .setSingleChoiceItems(
                     new String[] {"仅正式版", "正式版与预发布"},
@@ -65,7 +65,35 @@ final class AppUpdater {
                     })
                 .setNegativeButton("取消", null)
                 .show());
+    parent.addView(
+        activity.label("Core / 核心: " + CoreStore.version() + " · ABI 1", 14, MainActivity.MUTED));
+    parent.addView(
+        activity.label(
+            "Architecture / 架构: "
+                + io.github.astrbot.mobile.BuildConfig.ARCHITECTURE.substring(0, 12),
+            12,
+            MainActivity.MUTED));
     activity.button(parent, "立即检查更新", () -> check(true));
+    if (pending != null) activity.button(parent, "安装更新", this::install);
+    activity.button(
+        parent,
+        "Rollback core / 回退核心",
+        () ->
+            new LocalizedDialogBuilder(activity)
+                .setTitle("Rollback core / 回退核心")
+                .setMessage("Restart to apply / 重新启动后生效")
+                .setPositiveButton(
+                    "确认",
+                    (d, w) -> {
+                      try {
+                        CoreStore.rollback();
+                        restart();
+                      } catch (Exception e) {
+                        failure(e);
+                      }
+                    })
+                .setNegativeButton("取消", null)
+                .show());
   }
 
   private boolean previews() {
@@ -81,7 +109,7 @@ final class AppUpdater {
 
   private void toggle(LinearLayout parent, String title, String key, boolean fallback) {
     Switch view = new Switch(activity);
-    view.setText(title);
+    view.setText(Appearance.text(title));
     view.setTextColor(MainActivity.INK);
     view.setChecked(prefs.getBoolean(key, fallback));
     view.setPadding(0, activity.dp(12), 0, activity.dp(12));
@@ -118,15 +146,19 @@ final class AppUpdater {
                                 + "/releases?per_page=100",
                             4 * 1024 * 1024),
                         StandardCharsets.UTF_8));
-            AppUpdate.Candidate candidate = AppUpdate.select(releases, installed, includePreview);
-            AppUpdate.Package update =
+            AppUpdate.Candidate candidate =
+                AppUpdate.select(
+                    releases, Math.max(installed, CoreStore.version()), includePreview);
+            JSONObject manifest =
                 candidate == null
                     ? null
-                    : AppUpdate.parse(
-                        new JSONObject(
-                            new String(
-                                read(candidate.manifest(), 64 * 1024), StandardCharsets.UTF_8)),
-                        candidate);
+                    : new JSONObject(
+                        new String(read(candidate.manifest(), 64 * 1024), StandardCharsets.UTF_8));
+            AppUpdate.Package update =
+                manifest == null ? null : AppUpdate.parse(manifest, candidate);
+            AppUpdate.ScriptPackage script =
+                manifest == null ? null : AppUpdate.parseScript(manifest, candidate);
+            boolean scriptOnly = script != null && CoreStore.compatible(script.architecture());
             ui(
                 () -> {
                   busy = false;
@@ -135,14 +167,21 @@ final class AppUpdater {
                     if (manual) toast("当前渠道已是最新版本");
                     return;
                   }
-                  if (prefs.getBoolean("download", false)) download(update);
-                  else
-                    new AlertDialog.Builder(activity)
-                        .setTitle("发现新版本 " + update.version())
+                  if (prefs.getBoolean("download", false)) {
+                    if (scriptOnly) downloadScript(script);
+                    else download(update);
+                  } else
+                    new LocalizedDialogBuilder(activity)
+                        .setTitle((scriptOnly ? "Core / 核心 " : "APK / 架构 ") + update.version())
                         .setMessage(
                             (candidate.preview() ? "预发布版本\n\n" : "正式版本\n\n")
                                 + truncate(candidate.notes()))
-                        .setPositiveButton("下载更新", (d, w) -> download(update))
+                        .setPositiveButton(
+                            "下载更新",
+                            (d, w) -> {
+                              if (scriptOnly) downloadScript(script);
+                              else download(update);
+                            })
                         .setNegativeButton("稍后", null)
                         .show();
                 });
@@ -160,12 +199,61 @@ final class AppUpdater {
     return s.length() > 6000 ? s.substring(0, 6000) + "…" : s;
   }
 
+  private void restart() {
+    CoreStore.initialize(activity);
+    Appearance.initialize(activity);
+    activity.recreate();
+  }
+
+  private void downloadScript(AppUpdate.ScriptPackage script) {
+    if (busy) return;
+    busy = true;
+    progress =
+        new LocalizedDialogBuilder(activity)
+            .setTitle("Core update / 核心更新")
+            .setMessage("正在连接…")
+            .setCancelable(false)
+            .show();
+    worker.execute(
+        () -> {
+          try {
+            byte[] bytes = read(script.url(), 8 * 1024 * 1024);
+            AppUpdate.copyVerified(
+                new ByteArrayInputStream(bytes),
+                new ByteArrayOutputStream(),
+                new AppUpdate.Package(
+                    script.code(), "core", script.url(), script.hash(), script.size()),
+                p -> {},
+                () -> closed);
+            CoreStore.stage(new String(bytes, StandardCharsets.UTF_8), script.code());
+            ui(
+                () -> {
+                  busy = false;
+                  progress.dismiss();
+                  new LocalizedDialogBuilder(activity)
+                      .setTitle("Core ready / 核心已就绪")
+                      .setMessage("Restart to apply / 重新启动后生效")
+                      .setPositiveButton("Restart / 重启", (d, w) -> restart())
+                      .setNegativeButton("稍后", null)
+                      .show();
+                });
+          } catch (Exception e) {
+            ui(
+                () -> {
+                  busy = false;
+                  progress.dismiss();
+                  failure(e);
+                });
+          }
+        });
+  }
+
   private void download(AppUpdate.Package update) {
     if (busy) return;
     busy = true;
     pending = null;
     progress =
-        new AlertDialog.Builder(activity)
+        new LocalizedDialogBuilder(activity)
             .setTitle("下载更新 " + update.version())
             .setMessage("正在连接…")
             .setCancelable(false)
@@ -196,7 +284,7 @@ final class AppUpdater {
                   busy = false;
                   progress.dismiss();
                   pending = update;
-                  new AlertDialog.Builder(activity)
+                  new LocalizedDialogBuilder(activity)
                       .setTitle("更新已就绪")
                       .setMessage("已验证安装包与当前应用使用相同签名，安装后保留本地配置。")
                       .setPositiveButton("安装更新", (d, w) -> install())
@@ -253,7 +341,7 @@ final class AppUpdater {
     try {
       if (!activity.getPackageManager().canRequestPackageInstalls()) {
         awaitingPermission = true;
-        new AlertDialog.Builder(activity)
+        new LocalizedDialogBuilder(activity)
             .setTitle("允许安装应用更新")
             .setMessage("请在接下来的系统页面允许此应用安装更新，返回后继续安装。")
             .setPositiveButton(
@@ -301,11 +389,11 @@ final class AppUpdater {
   }
 
   private void toast(String message) {
-    Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+    Toast.makeText(activity, Appearance.text(message), Toast.LENGTH_LONG).show();
   }
 
   private void failure(Exception e) {
-    new AlertDialog.Builder(activity)
+    new LocalizedDialogBuilder(activity)
         .setTitle("更新未完成")
         .setMessage(e.getMessage())
         .setPositiveButton("知道了", null)

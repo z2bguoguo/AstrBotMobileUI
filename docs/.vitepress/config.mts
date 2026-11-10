@@ -7,7 +7,7 @@ export default defineConfig({
       nav: [{ text: '指南', link: '/guide/start' }, { text: '插件开发', link: '/development/plugins' }],
       sidebar: [
         { text: '使用指南', items: [ {text:'开始使用',link:'/guide/start'}, {text:'连接与兼容性',link:'/guide/connections'}, {text:'功能与编辑器',link:'/guide/features'}, {text:'集群与预设',link:'/guide/cluster'}, {text:'自定义 HTML',link:'/guide/html'}, {text:'排错',link:'/guide/troubleshooting'} ]},
-        { text: '开发者', items: [{text:'架构与构建',link:'/development/architecture'},{text:'客户端插件',link:'/development/plugins'},{text:'签名与发布',link:'/development/releases'},{text:'测试与安全',link:'/development/testing'},{text:'接口基线',link:'/reference/upstream'}] }
+        { text: '开发者', items: [{text:'架构与构建',link:'/development/architecture'},{text:'脚本核心',link:'/development/script-core'},{text:'客户端插件',link:'/development/plugins'},{text:'签名与发布',link:'/development/releases'},{text:'测试与安全',link:'/development/testing'},{text:'接口基线',link:'/reference/upstream'}] }
       ]
     }},
     en: { label:'English',lang:'en-US',link:'/en/',themeConfig:{

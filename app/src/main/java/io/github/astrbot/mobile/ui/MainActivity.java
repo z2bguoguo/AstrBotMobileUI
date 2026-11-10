@@ -39,20 +39,33 @@ public final class MainActivity extends Activity {
   private Endpoint editing;
   private EditText paths, query, body, fileField;
   private JSONObject applyPreset;
-  static final int ACCENT = 0xff526da9, INK = 0xff252d3e, MUTED = 0xff667086;
+  static int ACCENT = 0xff526da9, INK = 0xff252d3e, MUTED = 0xff667086;
+
+  @Override
+  protected void attachBaseContext(android.content.Context base) {
+    super.attachBaseContext(Appearance.localized(base));
+  }
 
   @Override
   public void onCreate(Bundle saved) {
+    setTheme(
+        Appearance.dark()
+            ? io.github.astrbot.mobile.R.style.AppThemeDark
+            : io.github.astrbot.mobile.R.style.AppTheme);
     super.onCreate(saved);
+    ACCENT = Appearance.accent();
+    INK = Appearance.ink();
+    MUTED = Appearance.muted();
     vault = new Vault(this);
     try {
       state = vault.load();
       autofill = state.optBoolean("autofill", true);
       home();
+      CoreStore.healthy();
       updater = new AppUpdater(this);
       updater.startup();
     } catch (Exception e) {
-      new AlertDialog.Builder(this)
+      new LocalizedDialogBuilder(this)
           .setTitle("无法读取本地配置")
           .setMessage("密钥或存储异常。配置未被覆盖。可在系统设置清除应用数据后重新配置。")
           .setPositiveButton("关闭", (d, w) -> finish())
@@ -73,16 +86,17 @@ public final class MainActivity extends Activity {
 
   TextView label(String s, int size, int color) {
     TextView t = new TextView(this);
-    t.setText(s);
+    t.setText(Appearance.text(s));
+    t.setTooltipText(Appearance.text(s));
     t.setTextSize(size);
-    t.setTextColor(color);
+    t.setTextColor(Appearance.color(color));
     t.setPadding(0, dp(5), 0, dp(5));
     return t;
   }
 
   GradientDrawable background(int color, int radius) {
     GradientDrawable b = new GradientDrawable();
-    b.setColor(color);
+    b.setColor(Appearance.color(color));
     b.setCornerRadius(dp(radius));
     return b;
   }
@@ -92,8 +106,7 @@ public final class MainActivity extends Activity {
     backAction = back;
     page = vertical();
     page.setBackground(
-        new GradientDrawable(
-            GradientDrawable.Orientation.TL_BR, new int[] {0xffdce7fc, 0xfff1f5fd, 0xffeeeaf6}));
+        new GradientDrawable(GradientDrawable.Orientation.TL_BR, Appearance.gradient()));
     // Target SDK 35 draws edge-to-edge: apply the actual system insets.
     page.setOnApplyWindowInsetsListener(
         (v, insets) -> {
@@ -148,7 +161,8 @@ public final class MainActivity extends Activity {
 
   Button button(LinearLayout parent, String title, Runnable action) {
     Button b = new Button(this);
-    b.setText(title);
+    b.setText(Appearance.text(title));
+    b.setTooltipText(Appearance.text(title));
     b.setTextSize(14);
     b.setTextColor(ACCENT);
     b.setAllCaps(false);
@@ -172,7 +186,7 @@ public final class MainActivity extends Activity {
 
   Button primaryButton(LinearLayout parent, String title, Runnable action) {
     Button b = button(parent, title, action);
-    b.setTextColor(Color.WHITE);
+    b.setTextColor(Appearance.onAccent());
     b.setTypeface(null, Typeface.BOLD);
     b.setBackground(
         new android.graphics.drawable.RippleDrawable(
@@ -273,6 +287,8 @@ public final class MainActivity extends Activity {
     AutoCompleteTextView e = new AutoCompleteTextView(this);
     e.setTag(caption);
     e.setText(value);
+    e.setTextColor(INK);
+    e.setHintTextColor(MUTED);
     e.setTextSize(15);
     e.setTextColor(INK);
     e.setSingleLine(!multiline);
@@ -301,7 +317,7 @@ public final class MainActivity extends Activity {
   }
 
   void toast(String text) {
-    Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+    Toast.makeText(this, Appearance.text(text), Toast.LENGTH_LONG).show();
   }
 
   private void attempt(Runnable action) {
@@ -314,7 +330,7 @@ public final class MainActivity extends Activity {
 
   void error(Throwable e) {
     if (!isFinishing())
-      new AlertDialog.Builder(this)
+      new LocalizedDialogBuilder(this)
           .setTitle("操作未完成")
           .setMessage(e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage())
           .setPositiveButton("知道了", null)
@@ -361,7 +377,7 @@ public final class MainActivity extends Activity {
     }
     busy = true;
     int view = generation;
-    subtitle.setText("正在连接服务器…");
+    subtitle.setText(Appearance.text("正在连接服务器…"));
     worker.submit(
         () -> {
           try {
@@ -371,7 +387,7 @@ public final class MainActivity extends Activity {
                   busy = false;
                   if (view == generation && !isFinishing())
                     try {
-                      subtitle.setText("操作完成");
+                      subtitle.setText(Appearance.text("操作完成"));
                       done.accept(result);
                     } catch (Exception e) {
                       error(e);
@@ -382,7 +398,7 @@ public final class MainActivity extends Activity {
                 () -> {
                   busy = false;
                   if (view == generation && !isFinishing()) {
-                    subtitle.setText("操作未完成");
+                    subtitle.setText(Appearance.text("操作未完成"));
                     if (failed != null) failed.run();
                     error(e);
                   }
@@ -400,7 +416,7 @@ public final class MainActivity extends Activity {
   }
 
   void confirm(String title, String message, Runnable yes) {
-    new AlertDialog.Builder(this)
+    new LocalizedDialogBuilder(this)
         .setTitle(title)
         .setMessage(message)
         .setNegativeButton("取消", null)
@@ -431,9 +447,11 @@ public final class MainActivity extends Activity {
 
   private void appSettings() {
     screen("应用设置", "管理本机偏好与诊断", this::home);
+    LinearLayout appearance = card("Appearance / 外观", "Language · Theme · Accent / 语言 · 主题 · 配色");
+    Appearance.settings(this, appearance);
     LinearLayout preferences = card("输入体验", "");
     Switch assist = new Switch(this);
-    assist.setText("输入辅助与自动补全");
+    assist.setText(Appearance.text("输入辅助与自动补全"));
     assist.setTextColor(INK);
     assist.setTextSize(16);
     assist.setPadding(dp(4), dp(12), dp(4), dp(12));
@@ -530,7 +548,7 @@ public final class MainActivity extends Activity {
     authentication.setOrientation(RadioGroup.HORIZONTAL);
     RadioButton accountMode = new RadioButton(this);
     accountMode.setId(View.generateViewId());
-    accountMode.setText("账户密码");
+    accountMode.setText(Appearance.text("账户密码"));
     RadioButton keyMode = new RadioButton(this);
     keyMode.setId(View.generateViewId());
     keyMode.setText(io.github.astrbot.mobile.R.string.authentication_key);
@@ -806,7 +824,7 @@ public final class MainActivity extends Activity {
             title,
             config,
             document.optJSONObject("metadata"),
-            asset("settings-labels-zh.json"),
+            Appearance.labels(),
             readOnly,
             back,
             save)
@@ -840,14 +858,21 @@ public final class MainActivity extends Activity {
                         : "点击编辑设置");
             navRow(group, name, summary, "◇", () -> editResource(type, item));
             if (type == ManagementApi.Resource.PLUGINS) {
-              JSONArray pages = item.optJSONArray("pages");
+              JSONArray pages = item.optJSONArray("views");
+              if (pages == null) pages = item.optJSONArray("pages");
               if (pages != null)
                 for (int n = 0; n < pages.length(); n++) {
-                  String view = pages.optString(n);
+                  JSONObject viewInfo = pages.optJSONObject(n);
+                  String view =
+                      viewInfo == null
+                          ? pages.optString(n)
+                          : viewInfo.optString(
+                              "name",
+                              viewInfo.optString("pageName", viewInfo.optString("view_name")));
                   navRow(group, "打开 " + view, "插件自定义页面", "▣", () -> openPluginPage(id, view));
                 }
               Switch toggle = new Switch(this);
-              toggle.setText("启用插件");
+              toggle.setText(Appearance.text("启用插件"));
               toggle.setPadding(dp(16), dp(8), dp(16), dp(12));
               toggle.setTextColor(INK);
               toggle.setChecked(item.optBoolean("activated"));
@@ -915,7 +940,7 @@ public final class MainActivity extends Activity {
     EditText name =
         input(panel, type == ManagementApi.Resource.MCP ? "服务名称" : "人格标识", "", false, false);
     AlertDialog dialog =
-        new AlertDialog.Builder(this)
+        new LocalizedDialogBuilder(this)
             .setTitle(type == ManagementApi.Resource.MCP ? "新建 MCP 服务" : "新建人格")
             .setView(panel)
             .setNegativeButton("取消", null)
@@ -934,7 +959,7 @@ public final class MainActivity extends Activity {
                       }
                       dialog.dismiss();
                       if (type == ManagementApi.Resource.MCP)
-                        new AlertDialog.Builder(this)
+                        new LocalizedDialogBuilder(this)
                             .setTitle("选择连接方式")
                             .setItems(
                                 new String[] {"远程地址（HTTP / SSE）", "启动命令（stdio）"},
@@ -1093,7 +1118,16 @@ public final class MainActivity extends Activity {
       body = jsonField(form, "请求内容", preset == null ? bodyDefault : preset.optJSONObject("body"));
       button(form, "辅助表单 · 按字段编辑", () -> structured(body, schema));
       if (params != null && params.length() > 0)
-        button(form, "查看参数说明", () -> textViewer("参数说明", params.toString()));
+        button(
+            form,
+            "查看参数说明",
+            () -> {
+              try {
+                textViewer("参数说明", OperationInfo.describe(e, client.spec));
+              } catch (Exception x) {
+                error(x);
+              }
+            });
       LinearLayout files = card("文件与结果", "上传上限 8 MiB，响应上限 16 MiB；大文件请使用 WebUI。流式/二进制专用协议尚需对应扩展。");
       fileField = input(files, "上传字段名", "file", false, false);
       uploadLabel = label("未选择文件", 13, MUTED);
@@ -1179,7 +1213,7 @@ public final class MainActivity extends Activity {
       ScrollView scroll = new ScrollView(this);
       scroll.addView(panel);
       AlertDialog dialog =
-          new AlertDialog.Builder(this)
+          new LocalizedDialogBuilder(this)
               .setTitle("字段编辑")
               .setView(scroll)
               .setNegativeButton("取消", null)
@@ -1308,7 +1342,7 @@ public final class MainActivity extends Activity {
 
   private void smallButton(LinearLayout row, String text, Runnable action) {
     Button b = new Button(this);
-    b.setText(text);
+    b.setText(Appearance.text(text));
     b.setTextSize(11);
     b.setOnClickListener(v -> attempt(action));
     row.addView(b, new LinearLayout.LayoutParams(0, dp(50), 1));
@@ -1409,9 +1443,9 @@ public final class MainActivity extends Activity {
     panel.setPadding(dp(18), 0, dp(18), 0);
     EditText title = input(panel, "预设名称", e.title, false, false);
     CheckBox secrets = new CheckBox(this);
-    secrets.setText("保留请求中的密钥（加密存于本机）");
+    secrets.setText(Appearance.text("保留请求中的密钥（加密存于本机）"));
     panel.addView(secrets);
-    new AlertDialog.Builder(this)
+    new LocalizedDialogBuilder(this)
         .setTitle("保存请求预设")
         .setView(panel)
         .setNegativeButton("取消", null)
@@ -1474,7 +1508,7 @@ public final class MainActivity extends Activity {
               JSONObject copy = new JSONObject(p.toString());
               EditText editor = new EditText(this);
               editor.setText(copy.toString(2));
-              new AlertDialog.Builder(this)
+              new LocalizedDialogBuilder(this)
                   .setTitle("复制预设")
                   .setView(editor)
                   .setNegativeButton("取消", null)
@@ -1633,7 +1667,7 @@ public final class MainActivity extends Activity {
                   + "&page="
                   + Endpoint.encode(view);
       async(
-          () -> ApiClient.json(client.request(path, "GET", null, null)),
+          () -> new ManagementApi(client).pluginPage(plugin, view),
           j -> {
             JSONObject data = j.optJSONObject("data");
             if (data == null) throw new IllegalArgumentException("缺少页面入口");

@@ -8,6 +8,11 @@ import java.net.URI;
 
 /** No native bridge, no credential injection, no TLS bypass, same-instance navigation only. */
 public final class PluginPageActivity extends Activity {
+  @Override
+  protected void attachBaseContext(android.content.Context base) {
+    super.attachBaseContext(Appearance.localized(base));
+  }
+
   private WebView web;
   private String sessionId;
   private final java.util.concurrent.ExecutorService worker =
@@ -29,6 +34,7 @@ public final class PluginPageActivity extends Activity {
             channel = ports[0];
             channel.setWebMessageCallback(
                 new WebMessagePort.WebMessageCallback() {
+
                   @Override
                   public void onMessage(WebMessagePort port, WebMessage message) {
                     String raw = message.getData();
@@ -118,6 +124,10 @@ public final class PluginPageActivity extends Activity {
   // plugin-scoped.
   @Override
   public void onCreate(Bundle saved) {
+    setTheme(
+        Appearance.dark()
+            ? io.github.astrbot.mobile.R.style.AppThemeDark
+            : io.github.astrbot.mobile.R.style.AppTheme);
     super.onCreate(saved);
     String base = getIntent().getStringExtra("base"), url = getIntent().getStringExtra("url");
     sessionId = getIntent().getStringExtra("session");
@@ -139,7 +149,7 @@ public final class PluginPageActivity extends Activity {
           return i;
         });
     Button close = new Button(this);
-    close.setText("‹ 返回原生客户端");
+    close.setText(Appearance.text("‹ 返回原生客户端"));
     close.setOnClickListener(v -> finish());
     root.addView(close);
     web = new WebView(this);

@@ -13,6 +13,7 @@ public final class ApiClient {
   private String token = "";
   public JSONObject spec = new JSONObject();
   public boolean modern;
+  public final Set<String> legacyFeatures = new HashSet<>();
 
   public ApiClient(Connection c, Transport t) {
     connection = c;

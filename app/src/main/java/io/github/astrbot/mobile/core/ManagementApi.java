@@ -1,9 +1,10 @@
 package io.github.astrbot.mobile.core;
 
 import java.nio.charset.StandardCharsets;
+import java.util.*;
 import org.json.*;
 
-/** User-facing management workflows with explicit, tested legacy request shapes. */
+/** Native transport facade over the replaceable JSON script core. */
 public final class ManagementApi {
   public enum Resource {
     PERSONAS("人格与提示词", "personas", "/api/persona/list"),
@@ -26,174 +27,136 @@ public final class ManagementApi {
     this.client = client;
   }
 
-  private Object call(String path, String method, JSONObject body) throws Exception {
-    JSONObject reply =
-        ApiClient.json(
-            client.request(
-                path,
-                method,
-                body == null ? null : body.toString().getBytes(StandardCharsets.UTF_8),
-                body == null ? null : "application/json"));
-    Object data = reply.opt("data");
+  private Object call(
+      String op, Resource type, String id, JSONObject config, boolean create, boolean enabled)
+      throws Exception {
+    String family =
+        type == null ? (op.equals("saveConfiguration") ? "configuration" : op) : type.name();
+    boolean modern = client.modern && !client.legacyFeatures.contains(family);
+    JSONObject args =
+        CoreRuntime.args(
+            "op",
+            op,
+            "modern",
+            modern,
+            "resource",
+            type == null ? "" : type.name(),
+            "id",
+            id,
+            "config",
+            config == null ? new JSONObject() : config,
+            "create",
+            create,
+            "enabled",
+            enabled);
+    JSONObject plan = CoreRuntime.object("management.plan", args);
+    String path = plan.getString("path"), method = plan.getString("method");
+    Transport.Reply reply = request(plan);
+    // Only read-only 404/405 can establish a legacy family. Never replay a mutation.
+    if (modern
+        && method.equals("GET")
+        && (reply.status == 404 || reply.status == 405)
+        && !plan.isNull("legacy")) {
+      args.put("modern", false);
+      plan = CoreRuntime.object("management.plan", args);
+      reply = request(plan);
+      ApiClient.checkHttp(reply);
+      client.legacyFeatures.add(family);
+    }
+    if (!client.connection.apiKey.isBlank()
+        && !plan.getString("path").startsWith("/api/v1/")
+        && reply.status == 401)
+      throw new ApiClient.ApiException(401, "此旧版接口需要 WebUI 账户登录，API Key 无法访问；请切换连接的认证方式或升级服务器。");
+    JSONObject envelope = ApiClient.json(reply);
+    Object data = envelope.opt("data");
     return data == null || data == JSONObject.NULL ? new JSONObject() : data;
   }
 
-  private String choose(String modern, String old) {
-    return client.modern ? modern : old;
+  private Transport.Reply request(JSONObject plan) throws Exception {
+    Object body = plan.opt("body");
+    return client.request(
+        plan.getString("path"),
+        plan.getString("method"),
+        body == null || body == JSONObject.NULL
+            ? null
+            : body.toString().getBytes(StandardCharsets.UTF_8),
+        body == null || body == JSONObject.NULL ? null : "application/json");
   }
 
   public Object overview() throws Exception {
-    return call(choose("/api/v1/stats", "/api/stat/get"), "GET", null);
+    try {
+      return call("overview", null, "", null, false, false);
+    } catch (ApiClient.ApiException e) {
+      if (e.status == 403)
+        return new JSONObject()
+            .put(
+                "notice",
+                "运行统计需要 API Key 的 system 权限。请在 AstrBot WebUI 编辑该 Key 的授权范围，再重新连接；其他已授权功能仍可使用。");
+      if (e.status == 404 || e.status == 405)
+        return new JSONObject().put("notice", "此服务器未提供运行统计接口，连接仍然可用。");
+      throw e;
+    }
+  }
+
+  public JSONObject pluginPage(String plugin, String view) throws Exception {
+    String modern =
+        "/api/v1/plugins/" + Endpoint.encode(plugin) + "/views/" + Endpoint.encode(view);
+    String old =
+        "/api/plugin/page/entry?name=" + Endpoint.encode(plugin) + "&page=" + Endpoint.encode(view);
+    Transport.Reply reply = client.request(client.modern ? modern : old, "GET", null, null);
+    if (client.modern && (reply.status == 404 || reply.status == 405)) {
+      reply = client.request(modern.replace("/views/", "/pages/"), "GET", null, null);
+      if (reply.status == 404 || reply.status == 405)
+        reply = client.request(old, "GET", null, null);
+    }
+    return ApiClient.json(reply);
   }
 
   public JSONObject configuration(String id) throws Exception {
-    return (JSONObject)
-        call(
-            choose(
-                id.equals("system")
-                    ? "/api/v1/system-config"
-                    : "/api/v1/config-profiles/" + Endpoint.encode(id),
-                id.equals("system")
-                    ? "/api/config/get"
-                    : "/api/config/abconf?id=" + Endpoint.encode(id)),
-            "GET",
-            null);
+    return (JSONObject) call("configuration", null, id, null, false, false);
   }
 
   public void saveConfiguration(String id, JSONObject config) throws Exception {
-    call(
-        choose(
-            id.equals("system")
-                ? "/api/v1/system-config"
-                : "/api/v1/config-profiles/" + Endpoint.encode(id),
-            "/api/config/astrbot/update"),
-        client.modern ? "PUT" : "POST",
-        client.modern
-            ? config
-            : new JSONObject()
-                .put("conf_id", id.equals("system") ? "default" : id)
-                .put("config", config));
+    call("saveConfiguration", null, id, config, false, false);
   }
 
   public JSONArray profiles() throws Exception {
-    Object o = call(choose("/api/v1/config-profiles", "/api/config/abconfs"), "GET", null);
-    return array(o, "info_list");
+    return array(call("profiles", null, "", null, false, false), "info_list");
   }
 
-  public JSONArray list(Resource resource) throws Exception {
-    Object data = call(choose("/api/v1/" + resource.path, resource.legacy), "GET", null);
+  public JSONArray list(Resource r) throws Exception {
     return array(
-        data,
-        resource == Resource.PROVIDERS
-            ? "providers"
-            : resource == Resource.BOTS ? "bots" : "plugins");
+        call("list", r, "", null, false, false),
+        r == Resource.PROVIDERS ? "providers" : r == Resource.BOTS ? "bots" : "plugins");
   }
 
-  public static JSONArray array(Object data, String key) throws Exception {
-    if (data instanceof JSONArray) return (JSONArray) data;
-    if (data instanceof JSONObject) {
-      JSONObject o = (JSONObject) data;
-      JSONArray list = o.optJSONArray(key);
-      if (list != null) return list;
-      if (key.equals("bots") && o.optJSONArray("platforms") != null)
-        return o.getJSONArray("platforms");
-    }
-    throw new IllegalArgumentException("服务器返回的列表格式暂不支持，请使用高级工具并反馈版本");
+  public static JSONArray array(Object data, String key) {
+    return CoreRuntime.array("management.array", CoreRuntime.args("data", data, "key", key));
   }
 
   public static String id(Resource resource, JSONObject item) {
-    return item.optString(
-        resource == Resource.PERSONAS
-            ? "persona_id"
-            : resource == Resource.MCP || resource == Resource.PLUGINS ? "name" : "id");
+    return CoreRuntime.text(
+        "management.id", CoreRuntime.args("resource", resource.name(), "item", item));
   }
 
-  public JSONObject detail(Resource resource, JSONObject item) throws Exception {
-    String id = id(resource, item), encoded = Endpoint.encode(id);
-    if (resource == Resource.PLUGINS)
-      return (JSONObject)
-          call(
-              choose(
-                  "/api/v1/plugins/" + encoded + "/config",
-                  "/api/config/get?plugin_name=" + encoded),
-              "GET",
-              null);
-    JSONObject config = new JSONObject(item.toString());
-    if (resource == Resource.PERSONAS) {
-      Object data =
-          call(
-              choose("/api/v1/personas/by-id?persona_id=" + encoded, "/api/persona/detail"),
-              client.modern ? "GET" : "POST",
-              client.modern ? null : new JSONObject().put("persona_id", id));
-      config = (JSONObject) data;
-    }
-    if (resource == Resource.PROVIDERS && client.modern) {
-      JSONObject data =
-          (JSONObject) call("/api/v1/providers/by-id?provider_id=" + encoded, "GET", null);
-      config = data.getJSONObject("provider");
-    }
-    if (resource == Resource.BOTS && client.modern) {
-      JSONObject data = (JSONObject) call("/api/v1/bots/by-id?bot_id=" + encoded, "GET", null);
-      config = data.getJSONObject("bot");
-    }
-    if (resource == Resource.MCP)
-      for (String key : new String[] {"name", "connected", "tools", "errlogs"}) config.remove(key);
+  public JSONObject detail(Resource r, JSONObject item) throws Exception {
+    if (r == Resource.MCP || ((r == Resource.BOTS || r == Resource.PROVIDERS) && !client.modern))
+      return CoreRuntime.object(
+          "management.detail", CoreRuntime.args("resource", r.name(), "item", item));
+    JSONObject data = (JSONObject) call("detail", r, id(r, item), null, false, false);
+    if (r == Resource.PLUGINS) return data;
+    JSONObject config =
+        r == Resource.PROVIDERS
+            ? data.getJSONObject("provider")
+            : r == Resource.BOTS ? data.getJSONObject("bot") : data;
     return new JSONObject().put("config", config).put("metadata", new JSONObject());
   }
 
-  public void save(Resource type, String id, JSONObject config, boolean create) throws Exception {
-    if (type == Resource.PERSONAS) {
-      JSONObject b = new JSONObject(config.toString()).put("persona_id", id);
-      call(
-          choose(
-              create ? "/api/v1/personas" : "/api/v1/personas/by-id",
-              create ? "/api/persona/create" : "/api/persona/update"),
-          client.modern ? (create ? "POST" : "PUT") : "POST",
-          b);
-      return;
-    }
-    if (type == Resource.PLUGINS) {
-      call(
-          choose(
-              "/api/v1/plugins/" + Endpoint.encode(id) + "/config",
-              "/api/config/plugin/update?plugin_name=" + Endpoint.encode(id)),
-          client.modern ? "PUT" : "POST",
-          client.modern ? new JSONObject().put("config", config) : config);
-      return;
-    }
-    if (type == Resource.MCP) {
-      JSONObject b =
-          create
-              ? new JSONObject(config.toString()).put("name", id)
-              : new JSONObject()
-                  .put(client.modern ? "server_name" : "name", id)
-                  .put("config", config);
-      call(
-          choose(
-              create ? "/api/v1/mcp/servers" : "/api/v1/mcp/servers/by-name",
-              create ? "/api/tools/mcp/add" : "/api/tools/mcp/update"),
-          client.modern && !create ? "PUT" : "POST",
-          b);
-      return;
-    }
-    String name = type == Resource.BOTS ? "bots" : "providers",
-        old = type == Resource.BOTS ? "platform" : "provider";
-    call(
-        choose("/api/v1/" + name + "/by-id", "/api/config/" + old + "/update"),
-        client.modern ? "PUT" : "POST",
-        new JSONObject()
-            .put(client.modern ? (type == Resource.BOTS ? "bot_id" : "provider_id") : "id", id)
-            .put("config", config));
+  public void save(Resource r, String id, JSONObject config, boolean create) throws Exception {
+    call("save", r, id, config, create, false);
   }
 
   public void pluginEnabled(String id, boolean enabled) throws Exception {
-    call(
-        choose(
-            "/api/v1/plugins/" + Endpoint.encode(id) + "/enabled",
-            "/api/plugin/" + (enabled ? "on" : "off")),
-        client.modern ? "PATCH" : "POST",
-        client.modern
-            ? new JSONObject().put("enabled", enabled)
-            : new JSONObject().put("name", id));
+    call("pluginEnabled", Resource.PLUGINS, id, null, false, enabled);
   }
 }

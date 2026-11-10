@@ -16,6 +16,46 @@ public class ManagementApiTest {
   }
 
   @Test
+  public void missingStatsScopeReturnsUsefulNoticeWithoutRetry() throws Exception {
+    ApiClientTest.Fake f = new ApiClientTest.Fake().reply(403, "{}");
+    JSONObject result = (JSONObject) new ManagementApi(client(f, true)).overview();
+    assertTrue(result.getString("notice").contains("system"));
+    assertEquals(1, f.urls.size());
+  }
+
+  @Test
+  public void missingPluginReadUsesLegacyAndRemembersItForWrites() throws Exception {
+    ApiClientTest.Fake f =
+        new ApiClientTest.Fake().reply(404, "{}").reply(200, "{\"data\":[]} ").reply(200, "{}");
+    ManagementApi api = new ManagementApi(client(f, true));
+    assertEquals(0, api.list(ManagementApi.Resource.PLUGINS).length());
+    api.pluginEnabled("test", true);
+    assertTrue(f.urls.get(1).endsWith("/api/plugin/get"));
+    assertTrue(f.urls.get(2).endsWith("/api/plugin/on"));
+    assertEquals(3, f.urls.size());
+  }
+
+  @Test
+  public void pluginPermissionFailureNeverTriesLegacy() throws Exception {
+    ApiClientTest.Fake f = new ApiClientTest.Fake().reply(403, "{}");
+    assertThrows(
+        ApiClient.ApiException.class,
+        () -> new ManagementApi(client(f, true)).list(ManagementApi.Resource.PLUGINS));
+    assertEquals(1, f.urls.size());
+  }
+
+  @Test
+  public void pluginViewUsesDeprecatedPageAliasOnlyAfter404() throws Exception {
+    ApiClientTest.Fake f =
+        new ApiClientTest.Fake()
+            .reply(404, "{}")
+            .reply(200, "{\"data\":{\"content_path\":\"/api/test\"}}");
+    new ManagementApi(client(f, true)).pluginPage("plug", "main");
+    assertTrue(f.urls.get(1).endsWith("/plugins/plug/pages/main"));
+    assertEquals(2, f.urls.size());
+  }
+
+  @Test
   public void modernConfigSavesFullDraftNotMetadata() throws Exception {
     ApiClientTest.Fake f = new ApiClientTest.Fake().reply(200, "{}");
     new ManagementApi(client(f, true))
