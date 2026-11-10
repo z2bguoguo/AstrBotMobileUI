@@ -14,7 +14,13 @@ public static class FakeGh {
     if (args.Length == 2 && args[0] == "auth" && args[1] == "status") return 0;
     if (args.Length != 5 || args[0] != "secret" || args[1] != "set" || args[3] != "--repo" || args[4] != "example/testing") return 3;
     if (args[2] == Environment.GetEnvironmentVariable("SIGNING_MOCK_FAIL_SECRET")) return 2;
-    File.WriteAllText(Path.Combine(Environment.GetEnvironmentVariable("SIGNING_MOCK_RECORD"), args[2]), Console.In.ReadToEnd());
+    using (var input = Console.OpenStandardInput())
+    using (var buffer = new MemoryStream()) {
+      input.CopyTo(buffer);
+      byte[] bytes = buffer.ToArray();
+      if (bytes.Length >= 3 && bytes[0] == 239 && bytes[1] == 187 && bytes[2] == 191) return 4;
+      File.WriteAllBytes(Path.Combine(Environment.GetEnvironmentVariable("SIGNING_MOCK_RECORD"), args[2]), bytes);
+    }
     return 0;
   }
 }

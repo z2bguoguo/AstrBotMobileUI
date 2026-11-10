@@ -30,7 +30,13 @@ function Invoke-QuietNative([string] $Executable, [string[]] $ArgumentValues, [s
     $process = New-Object System.Diagnostics.Process
     $process.StartInfo = $info
     try {
-        if (-not $process.Start()) { throw 'Cannot start the required command.' }
+        # Windows PowerShell 5.1 uses Console.InputEncoding for redirected stdin.
+        $previousEncoding = [Console]::InputEncoding
+        try {
+            [Console]::InputEncoding = New-Object Text.UTF8Encoding($false)
+            $started = $process.Start()
+        } finally { [Console]::InputEncoding = $previousEncoding }
+        if (-not $started) { throw 'Cannot start the required command.' }
         $stdout = $process.StandardOutput.ReadToEndAsync()
         $stderr = $process.StandardError.ReadToEndAsync()
         if ($null -ne $InputText) { $process.StandardInput.Write($InputText) }
@@ -64,7 +70,7 @@ try {
             (Join-Path $env:ProgramFiles 'Android\Android Studio\jbr\bin\keytool.exe'),
             (Join-Path $env:LOCALAPPDATA 'Programs\Android Studio\jbr\bin\keytool.exe')
         )
-        $keytoolPath = $candidates | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
+        $keytoolPath = $candidates | Where-Object { $_ -and (Test-Path -LiteralPath $_ -PathType Leaf) } | Select-Object -First 1
     }
     if (-not $keytoolPath) { throw 'JDK keytool is missing. Install JDK 17+ or set JAVA_HOME to Android Studio jbr.' }
     if ((Invoke-QuietNative $gh.Source @('auth', 'status')) -ne 0) {
