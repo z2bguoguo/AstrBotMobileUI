@@ -16,6 +16,15 @@
     // Preserve newer/custom server documentation instead of replacing it with a
     // snapshot. Schema type/default/options/constraints are always authoritative.
     var serverHint=meta.hint;
+    // A reused field name is not evidence that a plugin shares built-in behavior.
+    // Respect a custom description even when its author omitted a hint.
+    if(!serverHint&&meta.description){
+      var descriptionKnown=meta.description===entry.sourceDescription;
+      ['zh','en'].forEach(function(language){
+        if(resolve(meta.description,language)===entry.sourceDescription)descriptionKnown=true;
+      });
+      if(!descriptionKnown){meta.hint='mobile_help.unknown.hint';return meta;}
+    }
     if(serverHint){
       var known=serverHint===entry.hint||serverHint===entry.sourceHint;
       ['zh','en'].forEach(function(language){if(resolve(serverHint,language)===entry.sourceHint)known=true;});

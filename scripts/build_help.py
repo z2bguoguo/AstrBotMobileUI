@@ -50,12 +50,12 @@ def generate():
         if example is None or example == '' or example == [] or example == {}:
             options = meta.get('options', [])
             if options:
-                example = options[0]
-            elif re.search(r'key|token|secret|password', key, re.I):
+                example = [options[0]] if meta.get('type') in ('list','array') else options[0]
+            elif re.search(r'(?:api_?key|access_token|secret|password)$', key, re.I) and meta.get('type') not in ('int','float','number','bool','list','array'):
                 example = 'YOUR_SERVICE_CREDENTIAL'
             elif re.search(r'url|endpoint|base', key, re.I):
                 example = 'https://service.example.com'
-            elif re.search(r'path|file', key, re.I):
+            elif re.search(r'path|file', key, re.I) and meta.get('type') not in ('list','array'):
                 example = '/srv/astrbot/data/example'
             elif meta.get('type') in ('list','array'):
                 example = ['example-item']
@@ -71,14 +71,31 @@ def generate():
         # Examples must never contain a filled credential or a live source default
         # object with a credential embedded inside it.
         def safe(value, field=key):
-            if re.search(r'password|token|secret|api.?key|authorization',field,re.I):
+            if isinstance(value,(bool,int,float)) or value is None:return value
+            if re.search(r'(?:^|_)(?:password|passwd|secret|api_?key|access_token|auth_token|bot_token|token|authorization)(?:$|_)',field,re.I):
                 return ['YOUR_API_KEY'] if isinstance(value,list) else 'YOUR_CREDENTIAL'
             if isinstance(value,dict):return {k:safe(v,k) for k,v in value.items()}
             if isinstance(value,list):return [safe(v,'item') for v in value]
             return value
+        # Normalize illustrative values to the stored JSON shape. Metadata for
+        # special UI selectors can disagree with real defaults (plugin_set).
+        example_type = 'list' if key == 'plugin_set' else meta.get('type')
+        if example_type in ('list','array','template_list') and not isinstance(example,list):
+            example = [example]
+        if example_type in ('int','integer','float','number') and not isinstance(example,(int,float)):
+            raise ValueError(f'Non-numeric example for {key}')
+        if example_type in ('bool','boolean') and not isinstance(example,bool):
+            raise ValueError(f'Non-boolean example for {key}')
+        if example_type in ('dict','object') and not isinstance(example,dict):
+            raise ValueError(f'Non-object example for {key}')
+        options = meta.get('options', []) if key != 'type' else []
+        if options and not isinstance(example,(list,dict)) and example not in options:
+            matching = [v for v in options if str(v).lower() == str(example).lower()]
+            if matching:example = matching[0]
+            else:raise ValueError(f'Example outside options for {key}')
         example = safe(example)
         prefix = 'mobile_help.' + key
-        catalogue['entries'][key] = {'hint':prefix+'.hint','summary':prefix+'.summary', 'sources':refs, 'example':example, 'type':meta.get('type'), 'sourceHint':hint, 'sourceDescription':meta.get('description','')}
+        catalogue['entries'][key] = {'hint':prefix+'.hint','summary':prefix+'.summary', 'sources':refs, 'example':example, 'type':example_type, 'options':meta.get('options',[]) if key!='type' else [], 'sourceHint':hint, 'sourceDescription':meta.get('description','')}
         for language in ('zh','en'):
             title = names.get(key,{}).get(language) or meta.get('description' if language=='zh' else 'description_en') or key
             purpose = editorial[language] if editorial else meta.get('hint' if language=='zh' else 'hint_en', hint)

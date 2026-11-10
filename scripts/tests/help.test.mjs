@@ -43,3 +43,24 @@ test('help stays detailed while field cards use a short localized summary',()=>{
  const english=call('ui.field',{data:{path:['config_version'],value:2,meta},language:'en'});
  assert.ok(english.hint.includes('migration'));
 });
+test('examples retain JSON types, valid enum choices and numeric token budgets',()=>{
+ const entries=JSON.parse(fs.readFileSync(new URL('help.json',assets))).entries;
+ for(const [key,entry] of Object.entries(entries)){
+  const example=entry.example,type=entry.type;
+  if(['int','integer','float','number'].includes(type))assert.equal(typeof example,'number',key);
+  if(['bool','boolean'].includes(type))assert.equal(typeof example,'boolean',key);
+  if(['list','array','template_list'].includes(type))assert.ok(Array.isArray(example),key);
+  if(['object','dict'].includes(type))assert.ok(example&&typeof example==='object'&&!Array.isArray(example),key);
+  if(entry.options?.length)for(const value of Array.isArray(example)?example:[example])assert.ok(entry.options.includes(value),key);
+ }
+ assert.equal(typeof entries.max_tokens.example,'number');
+ assert.deepEqual(entries.key.example,['YOUR_API_KEY']);
+ assert.equal(entries['agent.runtime'].example,'astrbot');
+ assert.equal(entries['provider_ltm_settings.active_reply.method'].example,'possibility_reply');
+ assert.equal(entries.identifier.example,true);
+});
+test('a plugin reusing a built-in key with different semantics never receives the built-in explanation',()=>{
+ const meta=call('form.metadata',{root:{time:{type:'int',description:'Animation frame index',default:1}},path:['time']});
+ assert.equal(meta.hint,'mobile_help.unknown.hint');
+ assert.equal(meta.description,'Animation frame index');assert.equal(meta.default,1);
+});

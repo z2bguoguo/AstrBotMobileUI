@@ -7,9 +7,12 @@
   "platform": {
     "zh": "管理消息适配器与消息处理规则。连接地址、机器人账号属于适配器；白名单、限流和分段回复属于处理规则。先展开子项再修改，保留其他平台的配置。",
     "en": "Configure messaging adapters and message handling. Adapter addresses/accounts are separate from allowlists, rate limits and segmented replies. Edit individual children without replacing other adapters.",
-    "example": {
-      "enable": true
-    }
+    "example": [
+      {
+        "id": "my-bot",
+        "enable": true
+      }
+    ]
   },
   "platform_settings": {
     "zh": "管理消息适配器与消息处理规则。连接地址、机器人账号属于适配器；白名单、限流和分段回复属于处理规则。先展开子项再修改，保留其他平台的配置。",
@@ -98,7 +101,9 @@
   "persona": {
     "zh": "选择已创建的人格标识，用其系统提示词和预置对话约束模型回复。填写人格 ID 而不是整段提示词，编辑提示词请进入人格详情。",
     "en": "Select an existing persona by ID to apply its system prompt and preset dialogs. Enter the persona ID, not the prompt text; edit prompts in persona details.",
-    "example": "helpful_assistant"
+    "example": {
+      "persona_id": "helpful_assistant"
+    }
   },
   "agent.config.persona.persona_id": {
     "zh": "选择已创建的人格标识，用其系统提示词和预置对话约束模型回复。填写人格 ID 而不是整段提示词，编辑提示词请进入人格详情。",
@@ -179,30 +184,31 @@
   "admins": {
     "zh": "设置管理员用户标识；管理员可调用高权限命令。请使用平台实际用户 ID，可通过 /sid 查询，不要用昵称替代。",
     "en": "Set administrator user identifiers granting privileged commands. Use actual platform user IDs (query with /sid), not display names.",
-    "example": [
-      "123456789"
-    ]
+    "example": {
+      "admins_id": [
+        "123456789"
+      ]
+    }
   },
   "whitelist": {
     "zh": "控制哪些会话允许机器人响应。当前源码在白名单关闭或列表为空时不拦截，WebChat 也豁免；管理员可由群聊/私聊开关绕过。列表可匹配群号或完整会话来源，通过 /sid 获取，例如 aiocqhttp:GroupMessage:123456789；不要给所有平台强加 group: 前缀。",
     "en": "Control which sessions may receive replies. In this source baseline, disabled or empty allowlists do not filter; WebChat is exempt. Separate group/private switches can exempt admins. Match a group ID or full unified origin from /sid, e.g. aiocqhttp:GroupMessage:123456789. Do not add group: universally.",
-    "example": [
-      "aiocqhttp:GroupMessage:123456789"
-    ]
+    "example": {
+      "enable_id_white_list": true,
+      "id_whitelist": [
+        "aiocqhttp:GroupMessage:123456789"
+      ]
+    }
   },
   "platform_settings.enable_id_white_list": {
     "zh": "控制哪些会话允许机器人响应。当前源码在白名单关闭或列表为空时不拦截，WebChat 也豁免；管理员可由群聊/私聊开关绕过。列表可匹配群号或完整会话来源，通过 /sid 获取，例如 aiocqhttp:GroupMessage:123456789；不要给所有平台强加 group: 前缀。",
     "en": "Control which sessions may receive replies. In this source baseline, disabled or empty allowlists do not filter; WebChat is exempt. Separate group/private switches can exempt admins. Match a group ID or full unified origin from /sid, e.g. aiocqhttp:GroupMessage:123456789. Do not add group: universally.",
-    "example": [
-      "aiocqhttp:GroupMessage:123456789"
-    ]
+    "example": true
   },
   "enable_id_white_list": {
     "zh": "控制哪些会话允许机器人响应。当前源码在白名单关闭或列表为空时不拦截，WebChat 也豁免；管理员可由群聊/私聊开关绕过。列表可匹配群号或完整会话来源，通过 /sid 获取，例如 aiocqhttp:GroupMessage:123456789；不要给所有平台强加 group: 前缀。",
     "en": "Control which sessions may receive replies. In this source baseline, disabled or empty allowlists do not filter; WebChat is exempt. Separate group/private switches can exempt admins. Match a group ID or full unified origin from /sid, e.g. aiocqhttp:GroupMessage:123456789. Do not add group: universally.",
-    "example": [
-      "aiocqhttp:GroupMessage:123456789"
-    ]
+    "example": true
   },
   "platform_settings.wl_ignore_admin_on_group": {
     "zh": "开启后，管理员的群聊消息跳过会话白名单；不改变普通群成员的白名单规则，也不等于授予所有群成员管理员权限。",
@@ -386,9 +392,9 @@
     "example": "my-resource"
   },
   "identifier": {
-    "zh": "当前资源的名称或唯一标识。名称用于区分条目；作为引用的标识需与其他配置精确一致，重命名前检查模型、人格或平台的引用。",
-    "en": "Resource name or unique identifier. Referenced IDs must match other settings exactly. Check model, persona and platform references before renaming.",
-    "example": "my-resource"
+    "zh": "在发送给模型的用户提示词前附加用户 ID，帮助区分群成员；开启后会把该标识提供给模型服务，不会更改平台中的用户 ID。",
+    "en": "Prefix model user prompts with the sender ID to distinguish participants. Enabling shares this identifier with the model service; it does not change the platform user ID.",
+    "example": true
   },
   "type": {
     "zh": "指定当前条目的实现或能力类型，含义取决于所在平台、模型或子配置。优先从服务器返回的可选项选择，不要把展示名称当作类型标识。",
@@ -483,7 +489,7 @@
   "lark_connection_mode": {
     "zh": "飞书事件接收方式，按适配器选项选择 WebSocket 长连接或回调方式；回调方式需要飞书能够访问服务器配置的地址。",
     "en": "Lark event subscription mode: select the adapter-supported WebSocket or callback option. Callbacks require a server address reachable by Lark.",
-    "example": "websocket"
+    "example": "socket"
   },
   "is_sandbox": {
     "zh": "启用当前平台适配器的沙箱环境，用于测试账号和接口；生产与沙箱的账号、凭据及地址可能不同，需配套配置。",
@@ -503,7 +509,7 @@
   "genie_language": {
     "zh": "发送给 Genie 语音合成服务的语言标识；应与文本语言及服务支持的代码匹配，选错可能影响发音。",
     "en": "Language code sent to Genie TTS. Match the text and codes supported by that service; a mismatch can affect pronunciation.",
-    "example": "zh"
+    "example": "Chinese"
   },
   "rerank_model": {
     "zh": "用于重排检索候选的模型名称，需与重排序提供商支持的模型标识精确一致；不是聊天模型的展示名称。",
@@ -526,14 +532,14 @@
     "example": {}
   },
   "agent.runtime": {
-    "zh": "选择智能体执行器；local 使用本地智能体流程，Dify、Coze、百炼、DeerFlow 则使用各自服务。切换后需在对应配置组填写完整凭据与应用参数。",
-    "en": "Select agent runner. local uses the local flow; Dify, Coze, DashScope and DeerFlow use their respective services. Fill the matching service configuration when switching.",
-    "example": "local"
+    "zh": "选择智能体执行器；astrbot 使用本地智能体流程，Dify、Coze、百炼、DeerFlow 则使用各自服务。切换后需在对应配置组填写完整凭据与应用参数。",
+    "en": "Select agent runner. astrbot uses the local flow; Dify, Coze, DashScope and DeerFlow use their respective services. Fill the matching service configuration when switching.",
+    "example": "astrbot"
   },
   "runtime": {
-    "zh": "选择智能体执行器；local 使用本地智能体流程，Dify、Coze、百炼、DeerFlow 则使用各自服务。切换后需在对应配置组填写完整凭据与应用参数。",
-    "en": "Select agent runner. local uses the local flow; Dify, Coze, DashScope and DeerFlow use their respective services. Fill the matching service configuration when switching.",
-    "example": "local"
+    "zh": "选择智能体执行器；astrbot 使用本地智能体流程，Dify、Coze、百炼、DeerFlow 则使用各自服务。切换后需在对应配置组填写完整凭据与应用参数。",
+    "en": "Select agent runner. astrbot uses the local flow; Dify, Coze, DashScope and DeerFlow use their respective services. Fill the matching service configuration when switching.",
+    "example": "astrbot"
   },
   "dify_runner": {
     "zh": "配置对应远程智能体执行器；仅在选用该执行器时读取其配置。服务地址、应用标识和密钥需要来自同一个服务环境。",
@@ -754,17 +760,29 @@
   "provider_settings.computer_use_local_permissions": {
     "zh": "控制本机计算机操作或文件访问范围；修改前确认授权目录和可执行操作，避免把整个宿主机范围授予不需要的任务。",
     "en": "Control local computer-use or filesystem access scope. Check permitted directories and operations before expanding access to the host.",
-    "example": "read_only"
+    "example": {
+      "member": {
+        "allow_execution": false,
+        "allow_network": false,
+        "filesystem_scope": "workspace"
+      }
+    }
   },
   "computer_use_local_permissions": {
     "zh": "控制本机计算机操作或文件访问范围；修改前确认授权目录和可执行操作，避免把整个宿主机范围授予不需要的任务。",
     "en": "Control local computer-use or filesystem access scope. Check permitted directories and operations before expanding access to the host.",
-    "example": "read_only"
+    "example": {
+      "member": {
+        "allow_execution": false,
+        "allow_network": false,
+        "filesystem_scope": "workspace"
+      }
+    }
   },
   "filesystem_scope": {
     "zh": "控制本机计算机操作或文件访问范围；修改前确认授权目录和可执行操作，避免把整个宿主机范围授予不需要的任务。",
     "en": "Control local computer-use or filesystem access scope. Check permitted directories and operations before expanding access to the host.",
-    "example": "read_only"
+    "example": "workspace"
   },
   "provider_settings.sandbox.booter": {
     "zh": "选择远程沙箱环境的启动驱动；对应的端点、认证和生命周期参数应与该驱动一起配置。",
@@ -849,12 +867,12 @@
   "provider_ltm_settings.active_reply.method": {
     "zh": "选择当前功能的实现策略，取值由所在对象和服务器可选项决定。群聊主动回复策略会影响触发条件；不要把其他配置组的同名 method 值直接复制过来。",
     "en": "Select implementation strategy from this object server options. Proactive group-reply strategy affects triggering; a method value from another group may have a different meaning.",
-    "example": "possibility"
+    "example": "possibility_reply"
   },
   "method": {
     "zh": "选择当前功能的实现策略，取值由所在对象和服务器可选项决定。群聊主动回复策略会影响触发条件；不要把其他配置组的同名 method 值直接复制过来。",
     "en": "Select implementation strategy from this object server options. Proactive group-reply strategy affects triggering; a method value from another group may have a different meaning.",
-    "example": "possibility"
+    "example": "possibility_reply"
   },
   "interval_method": {
     "zh": "分段发送间隔的计算方式，配合 interval、log_base 等选项控制节奏；请使用当前服务器返回的可选值。",
@@ -1186,5 +1204,19 @@
     "zh": "通过 AstrBot 文件服务 URL 提供合成语音，需要消息平台能访问 callback_api_base 指定的地址，否则可能无法获取音频。",
     "en": "Provide synthesized audio through AstrBot file-service URLs. The platform must reach callback_api_base or audio retrieval may fail.",
     "example": false
+  },
+  "plugin_set": {
+    "zh": "控制此配置允许使用的插件列表，星号 * 表示全部可用插件，空列表表示不使用任何插件；不能重新启用已在插件页面禁用的插件。上游 UI 元数据虽然标记为 bool，实际保存值为列表，应保留当前服务器返回的列表结构。",
+    "en": "Allowed plugin list for this configuration. * means all available plugins; an empty list means none. This cannot re-enable plugins disabled on the plugin page. Upstream UI metadata says bool, but the actual stored value is an array: preserve the server structure.",
+    "example": [
+      "*"
+    ]
+  },
+  "path_mapping": {
+    "zh": "旧版文件路径映射列表，格式为 原路径:映射路径，供机器人协议端与 AstrBot 文件系统不同的部署使用；文档从 v4.0.0 起已标记废弃。仅在旧服务器确实读取此字段时使用，不应为新部署照搬。",
+    "en": "Legacy path mappings in original:mapped form for messaging adapters and AstrBot using different filesystems. Documented as deprecated since v4.0.0; use only where an older server actually reads this field.",
+    "example": [
+      "/app/.config/QQ:/shared/QQ"
+    ]
   }
 }

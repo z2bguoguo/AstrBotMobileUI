@@ -153,8 +153,9 @@ public class DeviceTest {
               assertTrue(button.getWidth() >= 44 * a.getResources().getDisplayMetrics().density);
               touch(a, xy[0] + button.getWidth() / 2f, xy[1] + button.getHeight() / 2f);
             }
-            assertEquals(java.util.List.of("help", "help"), events);
           });
+      androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+      scenario.onActivity(a -> assertEquals(java.util.List.of("help", "help"), events));
       capture("settings-help-left.png");
     }
   }
