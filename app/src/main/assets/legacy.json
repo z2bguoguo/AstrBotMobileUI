@@ -1,0 +1,2239 @@
+[
+  {
+    "path": "/api/apikey/list",
+    "method": "GET",
+    "summary": "list dashboard api keys",
+    "tags": [
+      "api_keys"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/apikey/create",
+    "method": "POST",
+    "summary": "create dashboard api key",
+    "tags": [
+      "api_keys"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/apikey/revoke",
+    "method": "POST",
+    "summary": "revoke dashboard api key",
+    "tags": [
+      "api_keys"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/apikey/delete",
+    "method": "POST",
+    "summary": "delete dashboard api key",
+    "tags": [
+      "api_keys"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/auth/login",
+    "method": "POST",
+    "summary": "login",
+    "tags": [
+      "auth"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/auth/logout",
+    "method": "POST",
+    "summary": "logout",
+    "tags": [
+      "auth"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/auth/setup-status",
+    "method": "GET",
+    "summary": "setup status",
+    "tags": [
+      "auth"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/auth/setup",
+    "method": "POST",
+    "summary": "setup",
+    "tags": [
+      "auth"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/auth/setup-authenticated",
+    "method": "POST",
+    "summary": "setup authenticated",
+    "tags": [
+      "auth"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/auth/totp/setup",
+    "method": "POST",
+    "summary": "totp setup",
+    "tags": [
+      "auth"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/auth/totp/recovery",
+    "method": "POST",
+    "summary": "totp recovery",
+    "tags": [
+      "auth"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/auth/account/edit",
+    "method": "POST",
+    "summary": "update account",
+    "tags": [
+      "auth"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/list",
+    "method": "GET",
+    "summary": "list dashboard backups",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/export",
+    "method": "POST",
+    "summary": "export dashboard backup",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/upload",
+    "method": "POST",
+    "summary": "upload dashboard backup",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/upload/init",
+    "method": "POST",
+    "summary": "init dashboard backup upload",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/upload/chunk",
+    "method": "POST",
+    "summary": "upload dashboard backup chunk",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/upload/complete",
+    "method": "POST",
+    "summary": "complete dashboard backup upload",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/upload/abort",
+    "method": "POST",
+    "summary": "abort dashboard backup upload",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/upload/status",
+    "method": "POST",
+    "summary": "status dashboard backup upload",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/progress",
+    "method": "GET",
+    "summary": "get dashboard backup progress",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/download",
+    "method": "GET",
+    "summary": "download dashboard backup",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/rename",
+    "method": "POST",
+    "summary": "rename dashboard backup",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/delete",
+    "method": "POST",
+    "summary": "delete dashboard backup",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/check",
+    "method": "POST",
+    "summary": "check dashboard backup",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/backup/import",
+    "method": "POST",
+    "summary": "import dashboard backup",
+    "tags": [
+      "backups"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/platform/list",
+    "method": "GET",
+    "summary": "list dashboard alias platforms",
+    "tags": [
+      "bots"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/platform/new",
+    "method": "POST",
+    "summary": "create dashboard alias platform",
+    "tags": [
+      "bots"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/platform/update",
+    "method": "POST",
+    "summary": "update dashboard alias platform",
+    "tags": [
+      "bots"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/platform/delete",
+    "method": "POST",
+    "summary": "delete dashboard alias platform",
+    "tags": [
+      "bots"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chat/send",
+    "method": "POST",
+    "summary": "send chat",
+    "tags": [
+      "chat"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chat/new_session",
+    "method": "GET",
+    "summary": "new session",
+    "tags": [
+      "chat"
+    ],
+    "parameters": [
+      {
+        "name": "platform_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/chat/sessions",
+    "method": "GET",
+    "summary": "get sessions",
+    "tags": [
+      "chat"
+    ],
+    "parameters": [
+      {
+        "name": "platform_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/chat/get_session",
+    "method": "GET",
+    "summary": "get session",
+    "tags": [
+      "chat"
+    ],
+    "parameters": [
+      {
+        "name": "session_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/chat/stop",
+    "method": "POST",
+    "summary": "stop session",
+    "tags": [
+      "chat"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chat/delete_session",
+    "method": "GET",
+    "summary": "delete session",
+    "tags": [
+      "chat"
+    ],
+    "parameters": [
+      {
+        "name": "session_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/chat/batch_delete_sessions",
+    "method": "POST",
+    "summary": "batch delete sessions",
+    "tags": [
+      "chat"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chat/update_session_display_name",
+    "method": "POST",
+    "summary": "update session display name",
+    "tags": [
+      "chat"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chat/message/edit",
+    "method": "POST",
+    "summary": "update message",
+    "tags": [
+      "chat"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chat/message/regenerate",
+    "method": "POST",
+    "summary": "regenerate message",
+    "tags": [
+      "chat"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chat/thread/create",
+    "method": "POST",
+    "summary": "create thread",
+    "tags": [
+      "chat"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chat/thread/get",
+    "method": "GET",
+    "summary": "get thread",
+    "tags": [
+      "chat"
+    ],
+    "parameters": [
+      {
+        "name": "thread_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/chat/thread/send",
+    "method": "POST",
+    "summary": "send thread message",
+    "tags": [
+      "chat"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chat/thread/delete",
+    "method": "POST",
+    "summary": "delete thread",
+    "tags": [
+      "chat"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chat/get_file",
+    "method": "GET",
+    "summary": "get file",
+    "tags": [
+      "chat"
+    ],
+    "parameters": [
+      {
+        "name": "filename",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/chat/get_attachment",
+    "method": "GET",
+    "summary": "get attachment",
+    "tags": [
+      "chat"
+    ],
+    "parameters": [
+      {
+        "name": "attachment_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/chat/post_file",
+    "method": "POST",
+    "summary": "post file",
+    "tags": [
+      "chat"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chatui_project/list",
+    "method": "GET",
+    "summary": "list dashboard chat projects",
+    "tags": [
+      "chat_projects"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chatui_project/create",
+    "method": "POST",
+    "summary": "create dashboard chat project",
+    "tags": [
+      "chat_projects"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chatui_project/get",
+    "method": "GET",
+    "summary": "get dashboard chat project",
+    "tags": [
+      "chat_projects"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chatui_project/update",
+    "method": "POST",
+    "summary": "update dashboard chat project",
+    "tags": [
+      "chat_projects"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chatui_project/delete",
+    "method": "GET",
+    "summary": "delete dashboard chat project",
+    "tags": [
+      "chat_projects"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chatui_project/get_sessions",
+    "method": "GET",
+    "summary": "list dashboard chat project sessions",
+    "tags": [
+      "chat_projects"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chatui_project/add_session",
+    "method": "POST",
+    "summary": "add dashboard chat project session",
+    "tags": [
+      "chat_projects"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/chatui_project/remove_session",
+    "method": "POST",
+    "summary": "remove dashboard chat project session",
+    "tags": [
+      "chat_projects"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/default",
+    "method": "GET",
+    "summary": "get dashboard alias default config",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/abconfs",
+    "method": "GET",
+    "summary": "list dashboard alias config profiles",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/abconf/new",
+    "method": "POST",
+    "summary": "create dashboard alias config profile",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/abconf",
+    "method": "GET",
+    "summary": "get dashboard alias config profile",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/abconf/delete",
+    "method": "POST",
+    "summary": "delete dashboard alias config profile",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/abconf/update",
+    "method": "POST",
+    "summary": "rename dashboard alias config profile",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/astrbot/update",
+    "method": "POST",
+    "summary": "update dashboard alias astrbot config",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/get",
+    "method": "GET",
+    "summary": "get dashboard alias configs",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/plugin/update",
+    "method": "POST",
+    "summary": "update dashboard alias plugin configs",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/file/upload",
+    "method": "POST",
+    "summary": "upload dashboard alias config file",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/file/delete",
+    "method": "POST",
+    "summary": "delete dashboard alias config file",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/file/get",
+    "method": "GET",
+    "summary": "list dashboard alias config files",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/umo_abconf_routes",
+    "method": "GET",
+    "summary": "get dashboard alias config routes",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/umo_abconf_route/update_all",
+    "method": "POST",
+    "summary": "update dashboard alias config routes",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/umo_abconf_route/update",
+    "method": "POST",
+    "summary": "upsert dashboard alias config route",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/umo_abconf_route/delete",
+    "method": "POST",
+    "summary": "delete dashboard alias config route",
+    "tags": [
+      "config_profiles"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/conversation/list",
+    "method": "GET",
+    "summary": "list dashboard conversations",
+    "tags": [
+      "conversations"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/conversation/detail",
+    "method": "POST",
+    "summary": "get dashboard conversation detail",
+    "tags": [
+      "conversations"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/conversation/update",
+    "method": "POST",
+    "summary": "update dashboard conversation",
+    "tags": [
+      "conversations"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/conversation/delete",
+    "method": "POST",
+    "summary": "delete dashboard conversation",
+    "tags": [
+      "conversations"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/conversation/update_history",
+    "method": "POST",
+    "summary": "update dashboard conversation history",
+    "tags": [
+      "conversations"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/conversation/export",
+    "method": "POST",
+    "summary": "export dashboard conversations",
+    "tags": [
+      "conversations"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/cron/jobs",
+    "method": "GET",
+    "summary": "list dashboard cron jobs",
+    "tags": [
+      "cron"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/cron/jobs",
+    "method": "POST",
+    "summary": "create dashboard cron job",
+    "tags": [
+      "cron"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/cron/jobs/{job_id}",
+    "method": "PATCH",
+    "summary": "update dashboard cron job",
+    "tags": [
+      "cron"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/cron/jobs/{job_id}",
+    "method": "DELETE",
+    "summary": "delete dashboard cron job",
+    "tags": [
+      "cron"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/cron/jobs/{job_id}/run",
+    "method": "POST",
+    "summary": "run dashboard cron job",
+    "tags": [
+      "cron"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/commands",
+    "method": "GET",
+    "summary": "list dashboard commands",
+    "tags": [
+      "extensions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/commands/conflicts",
+    "method": "GET",
+    "summary": "list dashboard command conflicts",
+    "tags": [
+      "extensions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/commands/toggle",
+    "method": "POST",
+    "summary": "toggle dashboard command",
+    "tags": [
+      "extensions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/commands/rename",
+    "method": "POST",
+    "summary": "rename dashboard command",
+    "tags": [
+      "extensions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/commands/permission",
+    "method": "POST",
+    "summary": "update dashboard command permission",
+    "tags": [
+      "extensions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/file/{file_token}",
+    "method": "GET",
+    "summary": "get dashboard token file",
+    "tags": [
+      "files"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/kb/list",
+    "method": "GET",
+    "summary": "list kbs",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "page_size",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/kb/create",
+    "method": "POST",
+    "summary": "create kb",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/kb/get",
+    "method": "GET",
+    "summary": "get kb",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": [
+      {
+        "name": "kb_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/kb/update",
+    "method": "POST",
+    "summary": "update kb",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/kb/delete",
+    "method": "POST",
+    "summary": "delete kb",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/kb/stats",
+    "method": "GET",
+    "summary": "get kb stats",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": [
+      {
+        "name": "kb_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/kb/document/list",
+    "method": "GET",
+    "summary": "list documents",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": [
+      {
+        "name": "kb_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "page_size",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/kb/document/upload",
+    "method": "POST",
+    "summary": "upload document",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/kb/document/import",
+    "method": "POST",
+    "summary": "import documents",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/kb/document/upload/url",
+    "method": "POST",
+    "summary": "upload document from url",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/kb/document/upload/progress",
+    "method": "GET",
+    "summary": "get upload progress",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": [
+      {
+        "name": "task_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/kb/document/get",
+    "method": "GET",
+    "summary": "get document",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": [
+      {
+        "name": "kb_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "doc_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/kb/document/delete",
+    "method": "POST",
+    "summary": "delete document",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/kb/chunk/list",
+    "method": "GET",
+    "summary": "list chunks",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": [
+      {
+        "name": "kb_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "doc_id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "page_size",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/kb/chunk/delete",
+    "method": "POST",
+    "summary": "delete chunk",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/kb/retrieve",
+    "method": "POST",
+    "summary": "retrieve",
+    "tags": [
+      "knowledge_bases"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/log-history",
+    "method": "GET",
+    "summary": "get dashboard log history",
+    "tags": [
+      "logs"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/live-log",
+    "method": "GET",
+    "summary": "get dashboard live logs",
+    "tags": [
+      "logs"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/trace/settings",
+    "method": "GET",
+    "summary": "get dashboard trace settings",
+    "tags": [
+      "logs"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/trace/settings",
+    "method": "POST",
+    "summary": "update dashboard trace settings",
+    "tags": [
+      "logs"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/list",
+    "method": "GET",
+    "summary": "list dashboard personas",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/detail",
+    "method": "POST",
+    "summary": "get dashboard persona detail",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/create",
+    "method": "POST",
+    "summary": "create dashboard persona",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/update",
+    "method": "POST",
+    "summary": "update dashboard persona",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/delete",
+    "method": "POST",
+    "summary": "delete dashboard persona",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/move",
+    "method": "POST",
+    "summary": "move dashboard persona",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/reorder",
+    "method": "POST",
+    "summary": "reorder dashboard personas",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/folder/list",
+    "method": "GET",
+    "summary": "list dashboard persona folders",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/folder/tree",
+    "method": "GET",
+    "summary": "get dashboard persona folder tree",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/folder/detail",
+    "method": "POST",
+    "summary": "get dashboard persona folder detail",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/folder/create",
+    "method": "POST",
+    "summary": "create dashboard persona folder",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/folder/update",
+    "method": "POST",
+    "summary": "update dashboard persona folder",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/persona/folder/delete",
+    "method": "POST",
+    "summary": "delete dashboard persona folder",
+    "tags": [
+      "personas"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/platform/webhook/{webhook_uuid}",
+    "method": "GET",
+    "summary": "platform webhook",
+    "tags": [
+      "platform"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/platform/webhook/{webhook_uuid}",
+    "method": "POST",
+    "summary": "platform webhook",
+    "tags": [
+      "platform"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/platform/stats",
+    "method": "GET",
+    "summary": "get dashboard platform stats",
+    "tags": [
+      "platform"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/platform/registration/{platform_type}",
+    "method": "POST",
+    "summary": "handle dashboard platform registration",
+    "tags": [
+      "platform"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/get",
+    "method": "GET",
+    "summary": "list plugins",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/detail",
+    "method": "GET",
+    "summary": "get plugin detail",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": [
+      {
+        "name": "name",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/plugin/check-compat",
+    "method": "POST",
+    "summary": "check plugin version support",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/page/entry",
+    "method": "GET",
+    "summary": "get plugin page entry config",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": [
+      {
+        "name": "name",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/plugin/install",
+    "method": "POST",
+    "summary": "install plugin",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/install-upload",
+    "method": "POST",
+    "summary": "install plugin upload",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/update",
+    "method": "POST",
+    "summary": "update plugin",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/update-all",
+    "method": "POST",
+    "summary": "update all plugins",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/uninstall",
+    "method": "POST",
+    "summary": "uninstall plugin",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/uninstall-failed",
+    "method": "POST",
+    "summary": "uninstall failed plugin",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/market_list",
+    "method": "GET",
+    "summary": "list plugin market",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": [
+      {
+        "name": "custom_registry",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "force_refresh",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/plugin/off",
+    "method": "POST",
+    "summary": "disable plugin",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/on",
+    "method": "POST",
+    "summary": "enable plugin",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/reload-failed",
+    "method": "POST",
+    "summary": "reload failed plugin",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/reload",
+    "method": "POST",
+    "summary": "reload plugin",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/readme",
+    "method": "GET",
+    "summary": "get plugin readme",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": [
+      {
+        "name": "name",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/plugin/changelog",
+    "method": "GET",
+    "summary": "get plugin changelog",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": [
+      {
+        "name": "name",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/plugin/source/get",
+    "method": "GET",
+    "summary": "get custom source",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/source/save",
+    "method": "POST",
+    "summary": "save custom source",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plugin/source/get-failed-plugins",
+    "method": "GET",
+    "summary": "get failed plugins",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plug/{plugin_path:path}",
+    "method": "GET",
+    "summary": "plugin extension route",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/plug/{plugin_path:path}",
+    "method": "POST",
+    "summary": "plugin extension route",
+    "tags": [
+      "plugins"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider/template",
+    "method": "GET",
+    "summary": "get dashboard alias provider template",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider/list",
+    "method": "GET",
+    "summary": "list dashboard alias providers",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider/new",
+    "method": "POST",
+    "summary": "create dashboard alias provider",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider/update",
+    "method": "POST",
+    "summary": "update dashboard alias provider",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider/delete",
+    "method": "POST",
+    "summary": "delete dashboard alias provider",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider/check_one",
+    "method": "GET",
+    "summary": "check dashboard alias provider",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider/model_list",
+    "method": "GET",
+    "summary": "list dashboard alias provider models",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider/get_embedding_dim",
+    "method": "POST",
+    "summary": "get dashboard alias provider embedding dimension",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider_sources/models",
+    "method": "GET",
+    "summary": "list dashboard alias provider source models",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider_sources/update",
+    "method": "POST",
+    "summary": "update dashboard alias provider source",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/config/provider_sources/delete",
+    "method": "POST",
+    "summary": "delete dashboard alias provider source",
+    "tags": [
+      "providers"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/list-rule",
+    "method": "GET",
+    "summary": "list dashboard session rules",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/update-rule",
+    "method": "POST",
+    "summary": "update dashboard session rule",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/delete-rule",
+    "method": "POST",
+    "summary": "delete dashboard session rule",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/batch-delete-rule",
+    "method": "POST",
+    "summary": "batch delete dashboard session rule",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/active-umos",
+    "method": "GET",
+    "summary": "list dashboard active umos",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/list-all-with-status",
+    "method": "GET",
+    "summary": "list dashboard umos with status",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/batch-update-service",
+    "method": "POST",
+    "summary": "batch update dashboard session service",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/batch-update-provider",
+    "method": "POST",
+    "summary": "batch update dashboard session provider",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/groups",
+    "method": "GET",
+    "summary": "list dashboard session groups",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/group/create",
+    "method": "POST",
+    "summary": "create dashboard session group",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/group/update",
+    "method": "POST",
+    "summary": "update dashboard session group",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/session/group/delete",
+    "method": "POST",
+    "summary": "delete dashboard session group",
+    "tags": [
+      "sessions"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills",
+    "method": "GET",
+    "summary": "list dashboard skills",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/upload",
+    "method": "POST",
+    "summary": "upload dashboard skill",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/batch-upload",
+    "method": "POST",
+    "summary": "batch upload dashboard skills",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/download",
+    "method": "GET",
+    "summary": "download dashboard skill",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/files",
+    "method": "GET",
+    "summary": "list dashboard skill files",
+    "tags": [
+      "skills"
+    ],
+    "parameters": [
+      {
+        "name": "path",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/skills/file",
+    "method": "GET",
+    "summary": "get dashboard skill file",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/file",
+    "method": "POST",
+    "summary": "update dashboard skill file",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/update",
+    "method": "POST",
+    "summary": "update dashboard skill",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/delete",
+    "method": "POST",
+    "summary": "delete dashboard skill",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/neo/candidates",
+    "method": "GET",
+    "summary": "list dashboard neo skill candidates",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/neo/releases",
+    "method": "GET",
+    "summary": "list dashboard neo skill releases",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/neo/payload",
+    "method": "GET",
+    "summary": "get dashboard neo skill payload",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/neo/evaluate",
+    "method": "POST",
+    "summary": "evaluate dashboard neo skill candidate",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/neo/promote",
+    "method": "POST",
+    "summary": "promote dashboard neo skill candidate",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/neo/rollback",
+    "method": "POST",
+    "summary": "rollback dashboard neo skill release",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/neo/sync",
+    "method": "POST",
+    "summary": "sync dashboard neo skill release",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/neo/delete-candidate",
+    "method": "POST",
+    "summary": "delete dashboard neo skill candidate",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/skills/neo/delete-release",
+    "method": "POST",
+    "summary": "delete dashboard neo skill release",
+    "tags": [
+      "skills"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/get",
+    "method": "GET",
+    "summary": "get dashboard stats",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/provider-tokens",
+    "method": "GET",
+    "summary": "get dashboard provider token stats",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/version",
+    "method": "GET",
+    "summary": "get dashboard version",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/versions",
+    "method": "GET",
+    "summary": "get dashboard public versions",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/start-time",
+    "method": "GET",
+    "summary": "get dashboard start time",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/restart-core",
+    "method": "POST",
+    "summary": "restart dashboard core",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/test-ghproxy-connection",
+    "method": "POST",
+    "summary": "test dashboard ghproxy connection",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/changelog",
+    "method": "GET",
+    "summary": "get dashboard changelog",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/changelog/list",
+    "method": "GET",
+    "summary": "list dashboard changelog versions",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/first-notice",
+    "method": "GET",
+    "summary": "get dashboard first notice",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/storage",
+    "method": "GET",
+    "summary": "get dashboard storage status",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/stat/storage/cleanup",
+    "method": "POST",
+    "summary": "cleanup dashboard storage",
+    "tags": [
+      "stats"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/t2i/templates",
+    "method": "GET",
+    "summary": "list dashboard t2i templates",
+    "tags": [
+      "t2i"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/t2i/templates/active",
+    "method": "GET",
+    "summary": "get dashboard active t2i template",
+    "tags": [
+      "t2i"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/t2i/templates/create",
+    "method": "POST",
+    "summary": "create dashboard t2i template",
+    "tags": [
+      "t2i"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/t2i/templates/reset_default",
+    "method": "POST",
+    "summary": "reset dashboard default t2i template",
+    "tags": [
+      "t2i"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/t2i/templates/set_active",
+    "method": "POST",
+    "summary": "set dashboard active t2i template",
+    "tags": [
+      "t2i"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/t2i/templates/{name:path}",
+    "method": "GET",
+    "summary": "get dashboard t2i template",
+    "tags": [
+      "t2i"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/t2i/templates/{name:path}",
+    "method": "PUT",
+    "summary": "update dashboard t2i template",
+    "tags": [
+      "t2i"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/t2i/templates/{name:path}",
+    "method": "DELETE",
+    "summary": "delete dashboard t2i template",
+    "tags": [
+      "t2i"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/tools/list",
+    "method": "GET",
+    "summary": "list dashboard tools",
+    "tags": [
+      "tools"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/tools/toggle-tool",
+    "method": "POST",
+    "summary": "toggle dashboard tool",
+    "tags": [
+      "tools"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/tools/permission",
+    "method": "POST",
+    "summary": "update dashboard tool permission",
+    "tags": [
+      "tools"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/tools/mcp/servers",
+    "method": "GET",
+    "summary": "list dashboard mcp servers",
+    "tags": [
+      "tools"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/tools/mcp/add",
+    "method": "POST",
+    "summary": "add dashboard mcp server",
+    "tags": [
+      "tools"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/tools/mcp/update",
+    "method": "POST",
+    "summary": "update dashboard mcp server",
+    "tags": [
+      "tools"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/tools/mcp/delete",
+    "method": "POST",
+    "summary": "delete dashboard mcp server",
+    "tags": [
+      "tools"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/tools/mcp/test",
+    "method": "POST",
+    "summary": "test dashboard mcp connection",
+    "tags": [
+      "tools"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/tools/mcp/sync-provider",
+    "method": "POST",
+    "summary": "sync dashboard mcp provider",
+    "tags": [
+      "tools"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/update/check",
+    "method": "GET",
+    "summary": "check dashboard updates",
+    "tags": [
+      "updates"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/update/releases",
+    "method": "GET",
+    "summary": "update releases",
+    "tags": [
+      "updates"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/update/progress",
+    "method": "GET",
+    "summary": "update progress",
+    "tags": [
+      "updates"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/update/do",
+    "method": "POST",
+    "summary": "update dashboard core",
+    "tags": [
+      "updates"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/update/dashboard",
+    "method": "POST",
+    "summary": "update dashboard assets",
+    "tags": [
+      "updates"
+    ],
+    "parameters": []
+  },
+  {
+    "path": "/api/update/pip-install",
+    "method": "POST",
+    "summary": "install dashboard pip package",
+    "tags": [
+      "updates"
+    ],
+    "parameters": []
+  }
+]

@@ -1,0 +1,4 @@
+{
+  "apiVersion":1,"name":"Runtime Inspector","description":"Read-only native runtime action",
+  "operations":[{"title":"Runtime information","description":"Requires a server exposing this route.","method":"GET","path":"/api/v1/stats/version","pathParams":{},"query":{},"body":{}}]
+}
