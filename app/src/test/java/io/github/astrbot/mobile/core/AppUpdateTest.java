@@ -12,7 +12,7 @@ public class AppUpdateTest {
   private static final String BASE =
       "https://github.com/" + AppUpdate.REPO + "/releases/download/v1/";
 
-  private JSONObject release(long code, boolean preview, boolean draft) {
+  private JSONObject release(long code, boolean preview, boolean draft) throws Exception {
     return new JSONObject()
         .put("prerelease", preview)
         .put("draft", draft)
@@ -26,7 +26,7 @@ public class AppUpdateTest {
                         .put("browser_download_url", BASE + "update-" + code + ".json")));
   }
 
-  private JSONObject manifest() {
+  private JSONObject manifest() throws Exception {
     return new JSONObject()
         .put("versionCode", 12)
         .put("versionName", "0.1.2")
@@ -40,7 +40,7 @@ public class AppUpdateTest {
   }
 
   @Test
-  public void choosesHighestCodeRegardlessOfReleaseOrder() {
+  public void choosesHighestCodeRegardlessOfReleaseOrder() throws Exception {
     JSONArray releases =
         new JSONArray()
             .put(release(10, false, false))
@@ -50,7 +50,7 @@ public class AppUpdateTest {
   }
 
   @Test
-  public void stableExcludesDraftAndPreviews() {
+  public void stableExcludesDraftAndPreviews() throws Exception {
     JSONArray releases =
         new JSONArray()
             .put(release(12, true, false))
@@ -61,20 +61,20 @@ public class AppUpdateTest {
   }
 
   @Test
-  public void neverDowngradesOrReoffersInstalledCode() {
+  public void neverDowngradesOrReoffersInstalledCode() throws Exception {
     assertNull(AppUpdate.select(new JSONArray().put(release(12, false, false)), 12, true));
     assertNull(AppUpdate.select(new JSONArray().put(release(12, false, false)), 13, true));
   }
 
   @Test
-  public void ignoresOlderReleasesWithoutMetadata() {
+  public void ignoresOlderReleasesWithoutMetadata() throws Exception {
     assertNull(
         AppUpdate.select(
             new JSONArray().put(new JSONObject().put("assets", new JSONArray())), 1, true));
   }
 
   @Test
-  public void refusesForeignAndInsecureUrls() {
+  public void refusesForeignAndInsecureUrls() throws Exception {
     for (String bad :
         new String[] {
           "http://github.com/" + AppUpdate.REPO + "/releases/download/v/a.apk",
@@ -88,7 +88,7 @@ public class AppUpdateTest {
   }
 
   @Test
-  public void ignoresForeignManifestEvenWithNewerCode() {
+  public void ignoresForeignManifestEvenWithNewerCode() throws Exception {
     JSONObject r = release(99, false, false);
     r.getJSONArray("assets")
         .getJSONObject(0)
@@ -97,7 +97,7 @@ public class AppUpdateTest {
   }
 
   @Test
-  public void validManifestPreservesFields() {
+  public void validManifestPreservesFields() throws Exception {
     AppUpdate.Package p = AppUpdate.parse(manifest(), candidate());
     assertEquals(12, p.code());
     assertEquals(1024, p.size());
@@ -105,7 +105,7 @@ public class AppUpdateTest {
   }
 
   @Test
-  public void rejectsMismatchedCodeHashSizeAndDownload() {
+  public void rejectsMismatchedCodeHashSizeAndDownload() throws Exception {
     Object[][] cases = {
       {"versionCode", 13},
       {"size", 0},
