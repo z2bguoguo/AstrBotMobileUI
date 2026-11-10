@@ -15,3 +15,7 @@ Enable GitHub Actions as the repository Pages source. The VitePress/Vite site de
 ## Validation scope
 
 CI runs JVM tests, Spotless, Android Lint, debug builds, docs, repository consistency checks and a full-history Gitleaks scan. These do not establish full WebUI parity or replace testing on representative AstrBot versions and Android devices. Test login, scopes, two-factor flow, server failures, cancellation, subpath proxies, plugin views, presets and signed upgrade installation before promoting a release.
+
+## Update release metadata
+
+The release job generates `update-<versionCode>.json` from the final signed APK and uploads it alongside the APK. It contains the Android version code, display version, download URL, byte size and SHA-256. The app selects higher version codes, filters drafts/previews, verifies metadata against the archive and compares current signing certificates. Keep version codes increasing and never replace a published APK. Built-in updates require public repository/releases access; no GitHub token is embedded in the client.

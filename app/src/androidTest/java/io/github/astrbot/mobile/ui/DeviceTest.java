@@ -15,6 +15,30 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class DeviceTest {
+  @Test
+  public void updateProviderRestrictsPathsAndWriteAccess() throws Exception {
+    Context context = ApplicationProvider.getApplicationContext();
+    UpdateProvider provider = new UpdateProvider();
+    android.content.pm.ProviderInfo info = new android.content.pm.ProviderInfo();
+    info.authority = context.getPackageName() + ".updates";
+    provider.attachInfo(context, info);
+    android.net.Uri valid = android.net.Uri.parse("content://" + info.authority + "/update.apk");
+    assertEquals("application/vnd.android.package-archive", provider.getType(valid));
+    assertThrows(SecurityException.class, () -> provider.openFile(valid, "w"));
+    assertThrows(
+        SecurityException.class,
+        () -> provider.getType(android.net.Uri.parse("content://" + info.authority + "/../vault")));
+    assertThrows(
+        SecurityException.class,
+        () -> provider.getType(android.net.Uri.parse("content://foreign/update.apk")));
+    android.content.pm.ProviderInfo registered =
+        context
+            .getPackageManager()
+            .getProviderInfo(new android.content.ComponentName(context, UpdateProvider.class), 0);
+    assertFalse(registered.exported);
+    assertTrue(registered.grantUriPermissions);
+  }
+
   private TextView find(View root, String text) {
     if (root instanceof TextView && ((TextView) root).getText().toString().equals(text))
       return (TextView) root;

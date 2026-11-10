@@ -25,3 +25,9 @@ The developer preview provides a generic native API workspace, not complete dedi
 HTML plugin views require a token-scoped server entry. Only same-instance `/api/` resources are loaded; external scripts and file access are blocked. The scoped bridge supports apiGet/apiPost; file and SSE bridge actions are not implemented yet.
 
 401 means reconnect or check credentials; 403 means check scopes; 404 means the target server may not expose that route. After a timed-out mutation, read the server state before repeating it. Never include secrets in issue reports.
+
+## App updates
+
+Open Settings → App updates from the connection home. Check manually, choose stable or preview releases, enable daily startup checks, or opt into automatic downloads. Startup checks are enabled by default. Preview/development builds initially include previews; stable builds initially use stable releases only. Automatic downloading is off by default and runs only while the app is open, with no persistent service.
+
+Updates come from this project's public GitHub Releases. The app verifies SHA-256, package identity, increasing Android version code and matching signing certificates before opening Android's installation confirmation. Allow this app to install unknown apps in system settings when prompted, then return to continue. Connections and settings are retained by an in-place update. Different signing keys block installation; early local test APKs may use a different key from signed Actions releases. Releases without updater metadata are ignored. Manual checks explain network or private-repository access failures.

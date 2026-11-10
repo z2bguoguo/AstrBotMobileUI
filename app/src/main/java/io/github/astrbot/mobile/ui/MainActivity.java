@@ -22,6 +22,7 @@ public final class MainActivity extends Activity {
   LinearLayout page, content, toolbar;
   private TextView subtitle;
   private Vault vault;
+  private AppUpdater updater;
   private JSONObject state;
   private Connection selected;
   private ApiClient client;
@@ -48,6 +49,8 @@ public final class MainActivity extends Activity {
       state = vault.load();
       autofill = state.optBoolean("autofill", true);
       home();
+      updater = new AppUpdater(this);
+      updater.startup();
     } catch (Exception e) {
       new AlertDialog.Builder(this)
           .setTitle("无法读取本地配置")
@@ -449,6 +452,8 @@ public final class MainActivity extends Activity {
     LinearLayout tools = group(content);
     navRow(tools, "预设库", "复用配置与长文本", "≡", this::presets);
     navRow(tools, "客户端插件", "管理扩展操作", "◇", this::extensions);
+    LinearLayout updates = card("应用更新", "");
+    if (updater != null) updater.settings(updates);
     LinearLayout about = card("关于与诊断", "");
     navRow(about, "截图与录屏", "允许，用于反馈与排查问题", "◎", null);
     navRow(
@@ -462,6 +467,16 @@ public final class MainActivity extends Activity {
                     Intent.ACTION_VIEW,
                     Uri.parse("https://z2bguoguo.github.io/AstrBotMobileUI/"))));
     bottomNav(false, "设置");
+  }
+
+  void refreshUpdateSettings() {
+    appSettings();
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (updater != null) updater.resume();
   }
 
   TextWatcher watcher(Runnable r) {
@@ -1692,6 +1707,7 @@ public final class MainActivity extends Activity {
   @Override
   protected void onDestroy() {
     generation++;
+    if (updater != null) updater.close();
     if (transport != null) transport.cancel();
     worker.shutdownNow();
     super.onDestroy();

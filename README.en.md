@@ -18,6 +18,7 @@ AstrBot Mobile UI is an independent, native Android management workspace for Ast
 
 ### Made for mobile administration
 
+- **Stay up to date** — Automatic startup checks, optional automatic downloads, stable and preview channels, and verified APKs with system installation confirmation.
 - **Multiple workspaces** — Locally saved credentials, groups, duplication and fast switching.
 - **Capability-aware operations** — Server OpenAPI discovery with a separate legacy WebUI route catalogue, native parameter pages and enum suggestions.
 - **Interactive settings** — Native switches, choices, grouped fields and editable lists; changes stay in a draft until confirmed.

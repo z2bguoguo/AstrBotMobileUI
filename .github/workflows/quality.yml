@@ -58,6 +58,7 @@ jobs:
         run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7
       - name: Plugin bridge behavior tests
         run: node --test scripts/tests/*.test.mjs
+      - run: python3 -m unittest discover -s scripts/tests -p 'test_*.py'
       - run: python3 scripts/check_repository.py
       - run: npm run docs:build
       - uses: actions/upload-pages-artifact@v3
@@ -168,6 +169,7 @@ jobs:
           mkdir -p release
           cp app/build/outputs/apk/release/app-release.apk "release/AstrBotMobileUI-$VERSION_NAME.apk"
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "release/AstrBotMobileUI-$VERSION_NAME.apk" > release/signature.txt
+          python3 scripts/create_update_manifest.py "release/AstrBotMobileUI-$VERSION_NAME.apk" "$BUILD_NUMBER" "$VERSION_NAME" "$RELEASE_TAG" "release/update-$BUILD_NUMBER.json"
           (cd release && sha256sum ./*.apk > SHA256SUMS)
           flags=()
           if [ "$STABLE" != true ]; then flags+=(--prerelease); fi

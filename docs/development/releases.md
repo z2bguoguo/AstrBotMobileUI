@@ -42,3 +42,7 @@ BAT 是单文件，可下载后双击，默认目标就是本仓库。需要 JDK
 维护者需在仓库 Settings → Pages 选择 **GitHub Actions** 作为 Source。工作流构建 VitePress，上传并部署 `docs/.vitepress/dist`。预期地址为 `https://z2bguoguo.github.io/AstrBotMobileUI/`。
 
 仓库当前是否公开以及账户是否允许私有仓库 Pages，取决于仓库设置与 GitHub 套餐。工作流不能绕过这些限制。
+
+## 应用内更新清单
+
+发布流程从最终签名 APK 生成 `update-<versionCode>.json`，与 APK 一起上传 Release，包含版本号、版本名称、下载 URL、字节大小与 SHA-256。客户端按 Android versionCode 选取比本机高的版本，排除草稿，并按用户渠道过滤预发布。清单版本号必须与安装包一致。不要替换已发布的 APK 或重置版本号。应用不保存 GitHub Token；内置更新需要仓库和 Release 公开。手动安装旧版仍可行，但更新器不会推荐降级。

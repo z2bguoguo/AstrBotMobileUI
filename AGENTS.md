@@ -42,3 +42,7 @@ Dedicated native chat and streaming protocol, complex uploads/backup workflows, 
 ## Repository workflow
 
 Work only in z2bguoguo/AstrBotMobileUI. Preserve user changes. Use standard AGENTS.md spelling; agent.md points here. No upstream AstrBot writes are authorized. Contributions may use repository-local PRs when explicitly requested; normal authorized delivery can commit directly.
+
+## App updater
+
+`core/AppUpdate` selects release manifests by strictly increasing Android version code and channel. `ui/AppUpdater` performs foreground checks/downloads, SHA-256 and package/signature verification, then hands installation to Android with an explicit user confirmation. `ui/UpdateProvider` exposes only the fixed verified APK through temporary read grants. Never attach AstrBot credentials to updater requests. Startup checks are throttled to once per day; auto-download is opt-in. `scripts/create_update_manifest.py` publishes metadata from the final signed release APK. Public GitHub access is required; do not embed a repository token in the app. Keep download bounds and HTTPS enforcement. Screenshots stay enabled.
