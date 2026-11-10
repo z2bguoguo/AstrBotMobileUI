@@ -6,7 +6,7 @@ The `core` package contains connection validation, transport, authentication, co
 
 ## Persistent signing
 
-Run `./scripts/setup-signing.sh z2bguoguo/AstrBotMobileUI` once on a trusted machine with JDK and authenticated GitHub CLI. Back up the generated JKS and passwords offline. The script uploads `ANDROID_KEYSTORE_BASE64`, `ANDROID_STORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` as repository secrets without printing values. Never regenerate the key after publishing.
+Run `./scripts/setup-signing.sh z2bguoguo/AstrBotMobileUI` once on a trusted machine with JDK and authenticated GitHub CLI. On Windows, use `scripts\setup-signing.bat z2bguoguo/AstrBotMobileUI` (standalone BAT; no OpenSSL or Git Bash required). It uses `%USERPROFILE%\.astrbot-mobile-signing` by default, also finds Android Studio jbr, and supports `--reuse` to retry uploading the same verified key after a partial failure. Back up the generated JKS and passwords offline. The script uploads `ANDROID_KEYSTORE_BASE64`, `ANDROID_STORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` as repository secrets without printing values. Never regenerate the key after publishing.
 
 Successful main-branch runs publish pre-releases by default. To publish a stable release, dispatch `Quality` with `stable=true` and a semantic version. Signing is mandatory, the package ID stays fixed and the workflow run number is the version code. Missing secrets stop publishing instead of using a temporary key.
 

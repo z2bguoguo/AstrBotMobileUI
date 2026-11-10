@@ -8,6 +8,16 @@
 ./scripts/setup-signing.sh z2bguoguo/AstrBotMobileUI
 ```
 
+Windows 可直接运行：
+
+```bat
+scripts\setup-signing.bat z2bguoguo/AstrBotMobileUI
+```
+
+BAT 是单文件，可下载后双击，默认目标就是本仓库。需要 JDK 17+（也支持 Android Studio 自带的 jbr）和 GitHub CLI；先执行 `gh auth login` 登录有仓库管理权限的账户。无需 OpenSSL 或 Git Bash。
+
+默认密钥目录为 `%USERPROFILE%\.astrbot-mobile-signing`，可用 `ASTRBOT_SIGNING_DIR` 覆盖。首次成功后不要重新生成；网络或权限导致上传中断时，使用 `scripts\setup-signing.bat z2bguoguo/AstrBotMobileUI --reuse` 重新上传同一把本地密钥，脚本会先验证密码和别名。
+
 脚本会在仓库外创建密钥，并将以下配置通过标准输入写入 GitHub Actions secrets；不把秘密打印到日志：
 
 | Secret | 内容 |
