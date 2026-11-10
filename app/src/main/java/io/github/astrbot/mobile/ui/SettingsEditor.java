@@ -90,11 +90,21 @@ final class SettingsEditor {
 
   private String title(List<String> at, JSONObject meta) {
     String k = at.get(at.size() - 1);
+    String fallback = Appearance.fieldName(at, NAMES.getOrDefault(k, k.replace('_', ' ')));
     Object description = translated(meta.opt("description"));
-    if (description instanceof String && !((String) description).isBlank())
-      return Appearance.text((String) description);
-    if (k.matches("[0-9]+")) return "第 " + (Integer.parseInt(k) + 1) + " 项";
-    return Appearance.text(NAMES.getOrDefault(k, k.replace('_', ' ')));
+    if (description instanceof String && !((String) description).isBlank()) {
+      String label = (String) description;
+      // Older server metadata can contain a raw English identifier rather than localized copy.
+      if (Appearance.language().equals("zh")
+          && !label.matches("(?s).*[一-鿿].*")
+          && !fallback.equals(k.replace('_', ' '))) return fallback;
+      return Appearance.text(label);
+    }
+    if (k.matches("[0-9]+"))
+      return Appearance.language().equals("zh")
+          ? "第 " + (Integer.parseInt(k) + 1) + " 项"
+          : "Item " + (Integer.parseInt(k) + 1);
+    return fallback;
   }
 
   private String hint(JSONObject meta) {

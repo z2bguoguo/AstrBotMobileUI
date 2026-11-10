@@ -47,7 +47,55 @@ var Core = (function () {
     if(!p && !legacy)throw new Error('Unsupported operation');
     return {path:m?p:legacy,legacy:legacy,method:verb,body:b===undefined?null:b};
   }
+  function statusSections(data) {
+    var sections=[], overview={title:'运行概况',metrics:[]}, resource={title:'资源占用',metrics:[]}, other={title:'其他状态',metrics:[]};
+    function number(v){return typeof v==='number' && isFinite(v);}
+    function metric(target,path,kind,value,label,hint){target.metrics.push({path:path,kind:kind,value:value===undefined?null:value,label:label||'',hint:hint||''});}
+    function duration(v){
+      if(!object(v))return number(v)&&v>=0?v:null;
+      var total=0,found=false,valid=true;
+      [['days',86400],['hours',3600],['minutes',60],['seconds',1]].forEach(function(pair){if(pair[0] in v){found=true;if(!number(v[pair[0]])||v[pair[0]]<0)valid=false;else total+=v[pair[0]]*pair[1];}});
+      return found&&valid?total:null;
+    }
+    function visit(o,path,target,depth){
+      if(depth>6)return;
+      Object.keys(o).forEach(function(k){
+        if(/password|passwd|token|secret|api.?key|authorization|cookie/i.test(k))return;
+        var v=o[k], at=path.concat([k]);
+        if((k==='running'||k==='uptime'||k==='uptime_seconds'||k==='running_time')&&duration(v)!==null){metric(overview,at,'duration',duration(v),'运行时长');return;}
+        if(k==='memory'&&object(v)){
+          Object.keys(v).forEach(function(m){if((m==='process'||m==='system')&&number(v[m])&&v[m]>=0)metric(resource,at.concat([m]),'bytes',v[m]*1048576);else {var rest={};rest[m]=v[m];visit(rest,at,resource,depth+1);}});
+          if(number(v.process)&&number(v.system)&&v.system>0&&v.process>=0)metric(resource,at.concat(['process_share']),'percent',v.process/v.system*100,'进程内存占比','进程内存 / 系统总内存');
+          return;
+        }
+        if(object(v)){visit(v,at,target,depth+1);return;}
+        if(Array.isArray(v)){
+          // Keep large history arrays out of the main screen; full data stays in Raw status.
+          if(k==='plugins'||k==='platform'||k==='message_time_series'){metric(other,at,'count',v.length);return;}
+          metric(target,at,'text',v.length);return;
+        }
+        if(/^(start_time|boot_time|started_at|timestamp)$/.test(k)){
+          metric(overview,at,'timestamp',v,'','按手机时区显示');return;
+        }
+        if(number(v)&&/(_percent|_percentage)$|^(percent|percentage)$/.test(k)){
+          metric(resource,at,'percent',v);return;
+        }
+        if(number(v)&&/_ratio$/.test(k)&&v>=0&&v<=1){metric(resource,at,'percent',v*100);return;}
+        if(number(v)&&/_bytes$/.test(k)){metric(resource,at,'bytes',v);return;}
+        if(number(v)&&/_(mib|mb)$/.test(k)){metric(resource,at,'bytes',v*1048576);return;}
+        if(number(v)&&/_(gib|gb)$/.test(k)){metric(resource,at,'bytes',v*1073741824);return;}
+        if(k==='thread_count'){metric(resource,at,'count',v);return;}
+        if(k==='notice'||/version|count|uptime|running/.test(k)){metric(overview,at,number(v)?'count':'text',v);return;}
+        metric(target,at,number(v)?'count':'text',v);
+      });
+    }
+    if(object(data))visit(data,[],other,0);else metric(other,['status'],'text',data);
+    [overview,resource,other].forEach(function(s){if(s.metrics.length)sections.push(s);});
+    return sections;
+  }
+
   function invoke(name,a){
+    if(name==='status.sections')return statusSections(a.data);
     if(name==='ping')return {abi:1};
     if(name==='management.plan')return plan(a);
     if(name==='management.id')return String(a.item[resources[a.resource][2]]||a.item.plugin_name||a.item.plugin_id||'');

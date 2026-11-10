@@ -134,6 +134,19 @@ final class Appearance {
     return raw;
   }
 
+  static String fieldName(java.util.List<String> path, String fallback) {
+    JSONObject labels = labels(), names = labels == null ? null : labels.optJSONObject("_names");
+    if (names == null || path.isEmpty()) return text(fallback);
+    String full =
+        String.join(
+            ".",
+            path.stream()
+                .filter(k -> !k.matches("[0-9]+"))
+                .collect(java.util.stream.Collectors.toList()));
+    String raw = names.optString(full, names.optString(path.get(path.size() - 1), ""));
+    return raw.isBlank() ? text(fallback) : raw;
+  }
+
   static JSONObject labels() {
     try {
       return new JSONObject(CoreStore.data("fields.json")).optJSONObject(language());

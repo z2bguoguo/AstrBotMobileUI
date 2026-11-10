@@ -34,3 +34,10 @@ for path, methods in spec['paths'].items():
             action = {'get':'读取','post':'执行','put':'保存','patch':'修改','delete':'删除','head':'检查'}.get(method,'操作')
             locales['zh'][operation['summary']] = action + ' · ' + label
 (ROOT/'app/src/main/assets/core/locales.json').write_text(json.dumps(locales,ensure_ascii=False,separators=(',',':'))+'\n')
+# Root configuration fields often have no server metadata (especially older servers).
+field_names=json.loads((ROOT/'scripts/dev/field-names.json').read_text())
+field_file=ROOT/'app/src/main/assets/core/fields.json'
+field_data=json.loads(field_file.read_text())
+for language in ('zh','en'):
+    field_data[language]['_names']={key:value[language] for key,value in field_names.items()}
+field_file.write_text(json.dumps(field_data,ensure_ascii=False,separators=(',',':'))+'\n')

@@ -350,3 +350,11 @@ data 不是 JSON 对象|data is not a JSON object
 此字段可能需要完整 http(s) 地址|This field may require a complete HTTP(S) URL.
 服务器返回的列表格式暂不支持，请使用高级工具并反馈版本|Unsupported list response. Use advanced tools and report the server version.
 此旧版接口需要 WebUI 账户登录，API Key 无法访问；请切换连接的认证方式或升级服务器。|This legacy endpoint requires a WebUI account and cannot use an API key. Switch authentication or upgrade the server.
+运行概况|Runtime summary
+资源占用|Resource usage
+其他状态|Other status
+原始状态|Raw status
+进程内存占比|Process share of system memory
+进程内存 / 系统总内存|Process memory / system memory capacity
+按手机时区显示|Shown in the phone's time zone
+运行时长|Uptime

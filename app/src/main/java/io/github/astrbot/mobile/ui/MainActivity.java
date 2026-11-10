@@ -761,39 +761,26 @@ public final class MainActivity extends Activity {
     screen(selected.name, "运行概览", this::workspace);
     LinearLayout status = card("已连接", selected.group);
     navRow(status, "服务地址", selected.url, "◉", null);
-    LinearLayout stats = card("运行数据", "正在读取…");
+    LinearLayout stats = vertical();
+    content.addView(stats);
+    stats.addView(label("正在读取…", 14, MUTED));
     bottomNav(true, "总览");
     async(
         () -> new ManagementApi(client).overview(),
         data -> {
           stats.removeAllViews();
-          renderInformation(stats, data, 0);
+          StatusDashboard.render(this, stats, data);
+          button(
+              stats,
+              "原始状态",
+              () -> {
+                try {
+                  textViewer("原始状态", Helpers.pretty(Helpers.redact(data)));
+                } catch (Exception e) {
+                  error(e);
+                }
+              });
         });
-  }
-
-  private void renderInformation(LinearLayout target, Object value, int depth) throws Exception {
-    if (value instanceof JSONObject && depth < 3) {
-      JSONObject o = (JSONObject) value;
-      for (Iterator<String> i = o.keys(); i.hasNext(); ) {
-        String key = i.next();
-        Object v = o.get(key);
-        if (v instanceof JSONObject) renderInformation(target, v, depth + 1);
-        else if (!(v instanceof JSONArray)) navRow(target, fieldName(key), v.toString(), "", null);
-      }
-    } else target.addView(label(Helpers.pretty(Helpers.redact(value)), 14, INK));
-  }
-
-  private String fieldName(String key) {
-    return Map.ofEntries(
-            Map.entry("version", "版本"),
-            Map.entry("platform_count", "平台数量"),
-            Map.entry("plugin_count", "插件数量"),
-            Map.entry("message_count", "消息数量"),
-            Map.entry("total_message_count", "累计消息"),
-            Map.entry("uptime", "运行时长"),
-            Map.entry("start_time", "启动时间"),
-            Map.entry("dashboard_version", "管理面板版本"))
-        .getOrDefault(key, key.replace('_', ' '));
   }
 
   private void profiles() {

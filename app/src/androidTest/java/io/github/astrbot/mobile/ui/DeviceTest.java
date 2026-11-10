@@ -126,6 +126,85 @@ public class DeviceTest {
     }
   }
 
+  @Test
+  public void dashboardShowsLocalizedUnitsAndNativeProgress() throws Exception {
+    try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+      scenario.onActivity(
+          a -> {
+            try {
+              a.screen("运行概览", "", null);
+              JSONObject data =
+                  new JSONObject(
+                      "{\"running\":{\"hours\":0,\"minutes\":10,\"seconds\":52},\"memory\":{\"process\":660,\"system\":1699},\"cpu_percent\":3.0,\"thread_count\":22,\"start_time\":1794155493}");
+              StatusDashboard.render(a, a.content, data);
+              View root = a.getWindow().getDecorView();
+              assertNotNull(find(root, "CPU 使用率"));
+              assertNotNull(find(root, "3.0%"));
+              assertNotNull(find(root, "660 MiB"));
+              assertNotNull(find(root, "1.66 GiB"));
+              assertNotNull(find(root, "10 分 52 秒"));
+              assertNull(find(root, "seconds"));
+              assertEquals(2, progressCount(root));
+              assertEquals(
+                  "消息平台设置",
+                  Appearance.fieldName(
+                      java.util.List.of("platform_settings"), "platform settings"));
+              assertEquals(
+                  "配置格式版本",
+                  Appearance.fieldName(java.util.List.of("config_version"), "config version"));
+              assertEquals(
+                  "模型服务来源",
+                  Appearance.fieldName(java.util.List.of("provider_sources"), "provider sources"));
+            } catch (Exception e) {
+              throw new AssertionError(e);
+            }
+          });
+      capture("dashboard.png");
+    }
+  }
+
+  @Test
+  public void legacyRootConfigurationNamesAreChineseWithoutMetadata() throws Exception {
+    try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+      scenario.onActivity(
+          a -> {
+            try {
+              new SettingsEditor(
+                      a,
+                      "通用设置",
+                      new JSONObject(
+                          "{\"config_version\":2,\"platform_settings\":{\"enable\":true},\"provider_sources\":[]}"),
+                      new JSONObject(),
+                      Appearance.labels(),
+                      java.util.Set.of(),
+                      () -> {},
+                      (config, changed) -> fail("Viewing labels must not save"))
+                  .show();
+              View root = a.getWindow().getDecorView();
+              assertNotNull(find(root, "配置格式版本"));
+              assertNotNull(find(root, "消息平台设置"));
+              assertNotNull(find(root, "模型服务来源"));
+              assertNull(find(root, "config version"));
+              assertNull(find(root, "platform settings"));
+              assertNull(find(root, "provider sources"));
+            } catch (Exception e) {
+              throw new AssertionError(e);
+            }
+          });
+      capture("configuration-groups.png");
+    }
+  }
+
+  private int progressCount(View view) {
+    if (view instanceof android.widget.ProgressBar) return 1;
+    int total = 0;
+    if (view instanceof ViewGroup) {
+      ViewGroup group = (ViewGroup) view;
+      for (int i = 0; i < group.getChildCount(); i++) total += progressCount(group.getChildAt(i));
+    }
+    return total;
+  }
+
   private TextView find(View root, String text) {
     if (root instanceof TextView && ((TextView) root).getText().toString().equals(text))
       return (TextView) root;

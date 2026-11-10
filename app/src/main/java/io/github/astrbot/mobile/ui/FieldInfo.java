@@ -19,12 +19,47 @@ final class FieldInfo {
         new StringBuilder(key)
             .append("\n")
             .append(Appearance.language().equals("zh") ? "类型：" : "Type: ")
-            .append(type);
+            .append(
+                Appearance.language().equals("zh")
+                    ? java.util.Map.of(
+                            "boolean", "开关", "bool", "开关", "integer", "整数", "int", "整数", "number",
+                            "数值", "float", "小数", "string", "文本", "array", "列表", "list", "列表",
+                            "object", "对象")
+                        .getOrDefault(type, type)
+                    : type);
     if (!hint.isBlank()) text.append("\n\n").append(hint);
     for (String k :
         new String[] {
           "default", "minimum", "maximum", "enum", "options", "pattern", "example", "description"
-        }) if (meta.has(k)) text.append("\n").append(k).append(": ").append(meta.opt(k));
+        })
+      if (meta.has(k)) {
+        String caption =
+            Appearance.language().equals("zh")
+                ? java.util.Map.of(
+                        "default",
+                        "默认值",
+                        "minimum",
+                        "最小值",
+                        "maximum",
+                        "最大值",
+                        "enum",
+                        "可选值",
+                        "options",
+                        "可选值",
+                        "pattern",
+                        "格式规则",
+                        "example",
+                        "示例",
+                        "description",
+                        "说明")
+                    .getOrDefault(k, k)
+                : k;
+        Object raw = meta.opt(k);
+        JSONObject labels = Appearance.labels();
+        if (raw instanceof String && labels != null)
+          raw = labels.optString((String) raw, (String) raw);
+        text.append("\n").append(caption).append(": ").append(raw);
+      }
     if (key.matches(".*(group|session|umo).*"))
       text.append(
           Appearance.language().equals("zh")
