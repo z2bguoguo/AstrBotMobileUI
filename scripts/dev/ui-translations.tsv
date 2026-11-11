@@ -358,3 +358,7 @@ data 不是 JSON 对象|data is not a JSON object
 进程内存 / 系统总内存|Process memory / system memory capacity
 按手机时区显示|Shown in the phone's time zone
 运行时长|Uptime
+插件市场|Plugin marketplace
+搜索、查看详情并安装服务器插件|Search, inspect and install server plugins
+实时日志|Live logs
+实时查看服务器输出与错误|Watch live server output and errors

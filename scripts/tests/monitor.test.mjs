@@ -70,3 +70,8 @@ test('history exact-number wrappers preserve the resume cursor',()=>{
  const call=runtime();open(call,'logs');const r=call('monitor.logHistory',{data:{kind:'data',data:{logs:[{time:{__astrbot_exact_number__:'1794345678.123456'},data:'precision',level:'INFO'}]}},language:'zh'});
  assert.equal(r.commands.at(-1).lastEventId,'1794345678.123456');assert.ok(text(r.commands[0]).includes('precision'));
 });
+test('new native menu entries have English translations and overview metrics precede settings',()=>{
+ const copy=JSON.parse(fs.readFileSync(new URL('locales.json',dir))).en;
+ for(const key of ['插件市场','搜索、查看详情并安装服务器插件','实时日志','实时查看服务器输出与错误'])assert.ok(copy[key],key);
+ const call=runtime(),page=open(call,'status').commands[0];assert.equal(page.tree.children[0].id,'stats');
+});

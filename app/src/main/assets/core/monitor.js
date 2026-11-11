@@ -26,10 +26,10 @@
  function statusWatch(){return watch('status','monitor.status',{resource:'overview',intervalMs:status.interval*1000});}
  function statusOpen(a){var saved=(a.state.monitor||{})[session.connectionId];status={interval:10,data:null};if(saved)try{status.interval=interval(saved.interval);}catch(ignored){}
   return batch([screen(session.name||'AstrBot',tr('运行概览','Overview'),UI.column([
-   text(tr('自动刷新间隔（秒）','Automatic refresh interval (seconds)'),13,'muted'),
+   slot('stats'),text(tr('自动刷新间隔（秒）','Automatic refresh interval (seconds)'),13,'muted'),
    {type:'input',id:'interval',value:String(status.interval)},text(tr('0 为关闭；5–3600 秒。仅在此页处于前台时刷新。','0 disables; 5–3600 seconds. Refresh runs only while this page is in the foreground.'),12,'muted'),
    button(tr('保存刷新间隔','Save interval'),'monitor.statusAction','save'),button(tr('立即刷新','Refresh now'),'monitor.statusAction','refresh'),
-   button(tr('查看实时日志','Live logs'),'monitor.open','',{page:'logs'}),button(tr('原始状态','Raw status'),'monitor.statusAction','raw'),slot('stats')
+   button(tr('查看实时日志','Live logs'),'monitor.open','',{page:'logs'}),button(tr('原始状态','Raw status'),'monitor.statusAction','raw')
   ])),statusWatch()]);
  }
  CoreModules['monitor.statusAction']=function(a){lang=a.language||lang;
