@@ -674,6 +674,14 @@ public final class MainActivity extends Activity {
         });
   }
 
+  private java.util.function.Consumer<JSONObject> scriptEvents() {
+    int pageGeneration = generation;
+    ApiClient owner = client;
+    return event -> {
+      if (pageGeneration == generation && owner == client) scriptNavigation(event);
+    };
+  }
+
   private void scriptCommand(JSONObject command) {
     try {
       switch (command.optString("kind")) {
@@ -707,7 +715,7 @@ public final class MainActivity extends Activity {
             throw new IllegalArgumentException("Unknown script slot");
           ViewGroup slot = (ViewGroup) target;
           slot.removeAllViews();
-          NativeViews fragment = new NativeViews(this, this::scriptNavigation);
+          NativeViews fragment = new NativeViews(this, scriptEvents());
           fragment.build(command.getJSONObject("tree"), 0);
           fragment.attach(slot, fragment.root, fragment.rootNode);
           break;
@@ -718,7 +726,7 @@ public final class MainActivity extends Activity {
               command.has("back")
                   ? () -> scriptCommand(command.optJSONObject("back"))
                   : this::workspace);
-          scriptView = new NativeViews(this, this::scriptNavigation);
+          scriptView = new NativeViews(this, scriptEvents());
           scriptView.build(command.getJSONObject("tree"), 0);
           scriptView.attach(content, scriptView.root, scriptView.rootNode);
           break;

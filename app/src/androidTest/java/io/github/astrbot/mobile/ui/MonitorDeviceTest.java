@@ -167,7 +167,15 @@ public class MonitorDeviceTest {
       scenario.onActivity(
           a -> {
             try {
+              NativeViews old = (NativeViews) get(a, "scriptView");
+              java.lang.reflect.Field callback = NativeViews.class.getDeclaredField("events");
+              callback.setAccessible(true);
+              @SuppressWarnings("unchecked")
+              java.util.function.Consumer<JSONObject> stale =
+                  (java.util.function.Consumer<JSONObject>) callback.get(old);
               a.screen("离开监控", "", null);
+              stale.accept(
+                  CoreRuntime.args("kind", "event", "handler", "monitor.open", "page", "logs"));
               assertTrue(((Map<?, ?>) get(a, "watches")).isEmpty());
               assertTrue(((Map<?, ?>) get(a, "watchPlans")).isEmpty());
             } catch (Exception e) {
@@ -237,15 +245,22 @@ public class MonitorDeviceTest {
   public void marketplaceRequiresConfirmationBeforeTheOnlyInstallRequest() throws Exception {
     AtomicInteger installs = new AtomicInteger();
     CountDownLatch installed = new CountDownLatch(1);
+    AtomicReference<Throwable> validation = new AtomicReference<>();
     Transport fixture =
         (url, method, headers, body) -> {
           assertTrue(url.startsWith("https://fixture.test/api/"));
           if (method.equals("POST")) {
-            assertTrue(url.endsWith("/plugins/install/github"));
-            String value = new String(body, StandardCharsets.UTF_8);
-            assertTrue(value.contains("https://github.com/example/tool"));
-            installs.incrementAndGet();
-            installed.countDown();
+            try {
+              assertTrue(url.endsWith("/plugins/install/github"));
+              JSONObject value = new JSONObject(new String(body, StandardCharsets.UTF_8));
+              assertEquals("https://github.com/example/tool", value.getString("repository"));
+              assertFalse(value.getBoolean("ignore_version_check"));
+              installs.incrementAndGet();
+            } catch (Throwable failure) {
+              validation.set(failure);
+            } finally {
+              installed.countDown();
+            }
             return json("{}");
           }
           if (url.endsWith("/market"))
@@ -277,13 +292,14 @@ public class MonitorDeviceTest {
       assertFalse(buttons.isEmpty());
       boolean clicked = false;
       for (android.view.accessibility.AccessibilityNodeInfo button : buttons)
-        if (button.isClickable()) {
+        if (button.isClickable() && "确认".contentEquals(button.getText())) {
           clicked =
               button.performAction(android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK);
           break;
         }
       assertTrue(clicked);
-      assertTrue(installed.await(5, TimeUnit.SECONDS));
+      assertTrue("Confirmed install did not reach transport", installed.await(5, TimeUnit.SECONDS));
+      assertNull("Invalid installation request: " + validation.get(), validation.get());
       assertEquals(1, installs.get());
     }
   }
