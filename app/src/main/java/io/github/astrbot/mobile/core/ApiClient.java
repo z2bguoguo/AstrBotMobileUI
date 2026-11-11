@@ -13,7 +13,7 @@ public final class ApiClient {
   private String token = "";
   public JSONObject spec = new JSONObject();
   public boolean modern;
-  public final Set<String> legacyFeatures = new HashSet<>();
+  public final Set<String> legacyFeatures = java.util.concurrent.ConcurrentHashMap.newKeySet();
 
   public ApiClient(Connection c, Transport t) {
     connection = c;
@@ -69,8 +69,23 @@ public final class ApiClient {
     if (token.isBlank()) throw new ApiException(401, "登录未完成：可能需要两步验证码或密码升级，请查看服务器返回及 WebUI");
   }
 
-  public Transport.Reply request(String path, String method, byte[] body, String contentType)
-      throws Exception {
+  ApiClient forkReads() {
+    ApiClient child =
+        new ApiClient(
+            connection,
+            transport instanceof HttpTransport ? ((HttpTransport) transport).fork() : transport);
+    child.token = token;
+    child.modern = modern;
+    child.spec = spec;
+    child.legacyFeatures.addAll(legacyFeatures);
+    return child;
+  }
+
+  void cancelRead() {
+    if (transport instanceof HttpTransport) ((HttpTransport) transport).cancel();
+  }
+
+  private String requestUrl(String path) {
     String base = Connection.normalizeUrl(connection.url);
     if (!path.startsWith("/api/")
         || path.contains("..")
@@ -81,12 +96,36 @@ public final class ApiClient {
     if (uri.getPath().contains("..")
         || !uri.getPath().startsWith(java.net.URI.create(base).getPath() + "/api/"))
       throw new IllegalArgumentException("接口越界");
+    return base + path;
+  }
+
+  private Map<String, String> requestHeaders(String contentType) {
     Map<String, String> headers = new HashMap<>();
     headers.put("Accept", "application/json");
     if (!connection.apiKey.isBlank()) headers.put("X-API-Key", connection.apiKey);
     else if (!token.isBlank()) headers.put("Authorization", "Bearer " + token);
     if (contentType != null) headers.put("Content-Type", contentType);
-    return transport.send(base + path, method, headers, body);
+    return headers;
+  }
+
+  public Transport.Reply request(String path, String method, byte[] body, String contentType)
+      throws Exception {
+    return transport.send(requestUrl(path), method, requestHeaders(contentType), body);
+  }
+
+  public StreamTransport.Stream stream(String path, String lastId) throws Exception {
+    String url = requestUrl(path);
+    Map<String, String> headers = requestHeaders(null);
+    headers.put("Accept", "text/event-stream");
+    headers.put("Cache-Control", "no-cache");
+    if (lastId != null && !lastId.isEmpty()) {
+      if (lastId.length() > 256 || lastId.chars().anyMatch(c -> c < 32 || c == 127))
+        throw new IllegalArgumentException("Invalid event ID");
+      headers.put("Last-Event-ID", lastId);
+    }
+    if (!(transport instanceof StreamTransport))
+      throw new IOException("Streaming transport unavailable");
+    return ((StreamTransport) transport).openStream(url, headers);
   }
 
   public Transport.Reply execute(

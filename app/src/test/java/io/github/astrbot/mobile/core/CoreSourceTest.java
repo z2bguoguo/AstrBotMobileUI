@@ -51,6 +51,55 @@ public class CoreSourceTest {
   }
 
   @Test
+  public void monitoringModulesRunInRhinoAndRetainHistoryCursorPrecision() throws Exception {
+    JSONObject payload =
+        new JSONObject()
+            .put("main.js", resource("main.js"))
+            .put("ui.js", resource("ui.js"))
+            .put("monitor.js", resource("monitor.js"))
+            .put("fields.json", resource("fields.json"));
+    CoreRuntime.configure(CoreSource.script(payload));
+    CoreRuntime.object(
+        "monitor.open",
+        CoreRuntime.args(
+            "data",
+            CoreRuntime.args("page", "logs"),
+            "session",
+            CoreRuntime.args("connectionId", "fixture", "modern", true),
+            "state",
+            new JSONObject(),
+            "language",
+            "zh"));
+    JSONObject response =
+        CoreRuntime.object(
+            "monitor.logHistory",
+            CoreRuntime.args(
+                "data",
+                CoreRuntime.args(
+                    "kind",
+                    "data",
+                    "data",
+                    CoreRuntime.args(
+                        "logs",
+                        new JSONArray()
+                            .put(
+                                CoreRuntime.args(
+                                    "time",
+                                    new java.math.BigDecimal("1794345678.123456"),
+                                    "data",
+                                    "保留原文",
+                                    "level",
+                                    "INFO")))),
+                "language",
+                "zh"));
+    JSONArray commands = response.getJSONArray("commands");
+    assertEquals(
+        "1794345678.123456",
+        commands.getJSONObject(commands.length() - 1).getString("lastEventId"));
+    assertTrue(response.toString().contains("保留原文"));
+  }
+
+  @Test
   public void additionalSignedModuleCanAddScreenWithoutChangingApk() throws Exception {
     JSONObject payload =
         new JSONObject()

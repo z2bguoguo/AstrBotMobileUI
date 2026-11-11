@@ -123,7 +123,7 @@ var UI = (function(){
   var menu={
     workspace:[['配置与运行',[['通用设置','基础配置、管理员与运行选项','⚙',{kind:'settings',id:'system'}],['配置文件','不同场景使用不同配置','▤',{kind:'profiles'}]]],
       ['对话与智能',[['人格与提示词','编辑系统提示词与开场对话','✦',{kind:'resource',resource:'PERSONAS'}],['模型服务','查看与编辑模型连接','◈',{kind:'resource',resource:'PROVIDERS'}],['MCP 服务','连接地址、启动参数与环境变量','⌘',{kind:'resource',resource:'MCP'}]]],
-      ['平台与扩展',[['机器人平台','编辑平台连接与运行设置','◉',{kind:'resource',resource:'BOTS'}],['插件管理','启停插件、配置与自定义页面','◇',{kind:'resource',resource:'PLUGINS'}]]]],
+      ['平台与扩展',[['机器人平台','编辑平台连接与运行设置','◉',{kind:'resource',resource:'BOTS'}],['插件管理','启停插件、配置与自定义页面','◇',{kind:'resource',resource:'PLUGINS'}],['插件市场','搜索、查看详情并安装服务器插件','✦',{kind:'event',handler:'monitor.open',page:'market'}],['实时日志','实时查看服务器输出与错误','≡',{kind:'event',handler:'monitor.open',page:'logs'}]]]],
     advanced:[['预设与配置传递',[['预设与配置传递','保存常用设置，在实例间复用','≡',{kind:'presets'}],['客户端插件','管理客户端扩展','◇',{kind:'extensions'}],['插件自定义页面','打开 HTML 配置页面','▣',{kind:'pluginEntry'}]]],['高级工具',[['接口浏览器','搜索全部接口操作','⌘',{kind:'operations'}],['自定义请求','手动指定接口和参数','↗',{kind:'manual'}]]]]
   };
   ['workspace','advanced'].forEach(function(name){CoreModules['ui.'+name]=function(){return UI.column(menu[name].map(function(section){return card(section[0],section[1].map(function(r){return UI.nav({title:r[0],detail:r[1],icon:r[2],active:true,action:r[3]});}));}));};});

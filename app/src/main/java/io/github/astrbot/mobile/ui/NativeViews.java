@@ -144,7 +144,9 @@ final class NativeViews {
         JSONObject format = node.optJSONObject("format");
         text.setText(
             format == null
-                ? Appearance.text(node.optString("text"))
+                ? (node.optBoolean("literal")
+                    ? node.optString("text")
+                    : Appearance.text(node.optString("text")))
                 : StatusFormat.format(
                     format.optString("kind"),
                     format.opt("value"),

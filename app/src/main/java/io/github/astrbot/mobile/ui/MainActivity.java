@@ -29,6 +29,10 @@ public final class MainActivity extends Activity {
   private List<Endpoint> endpoints = new ArrayList<>();
   private final ExecutorService worker = Executors.newSingleThreadExecutor();
   private final Set<String> suggestions = new LinkedHashSet<>();
+  private final Map<String, ReadWatch> watches = new LinkedHashMap<>();
+  private final Map<String, JSONObject> watchPlans = new LinkedHashMap<>();
+  private NativeViews scriptView;
+  private boolean watchPaused;
   private int generation = 0;
   private boolean busy = false, autofill = true;
   private String filter = "";
@@ -96,6 +100,8 @@ public final class MainActivity extends Activity {
   }
 
   void screen(String title, String hint, Runnable back) {
+    stopWatches(false);
+    scriptView = null;
     generation++;
     backAction = back;
     NativeViews ui =
@@ -383,6 +389,80 @@ public final class MainActivity extends Activity {
   protected void onResume() {
     super.onResume();
     if (updater != null) updater.resume();
+    watchPaused = false;
+    for (JSONObject plan : new ArrayList<>(watchPlans.values())) scriptCommand(plan);
+  }
+
+  @Override
+  protected void onStop() {
+    watchPaused = true;
+    stopWatches(true);
+    super.onStop();
+  }
+
+  private void stopWatches(boolean retain) {
+    for (Map.Entry<String, ReadWatch> entry : watches.entrySet()) {
+      JSONObject plan = watchPlans.get(entry.getKey());
+      if (retain && plan != null)
+        try {
+          plan.put("lastEventId", entry.getValue().lastEventId());
+        } catch (JSONException ignored) {
+        }
+      entry.getValue().close();
+    }
+    watches.clear();
+    if (!retain) watchPlans.clear();
+  }
+
+  private void startWatch(JSONObject command) throws JSONException {
+    if (client == null) throw new IllegalStateException("请先连接实例");
+    String id = command.optString("id", "read");
+    ReadWatch previous = watches.remove(id);
+    if (previous != null) previous.close();
+    if (watchPlans.size() >= 4 && !watchPlans.containsKey(id))
+      throw new IllegalArgumentException("Too many watches");
+    watchPlans.put(id, new JSONObject(command.toString()));
+    if (watchPaused) return;
+    final int pageGeneration = generation;
+    final ApiClient owner = client;
+    final ReadWatch[] holder = new ReadWatch[1];
+    ReadWatch watch =
+        new ReadWatch(
+            owner,
+            command,
+            event ->
+                runOnUiThread(
+                    () -> {
+                      if (watchPaused
+                          || generation != pageGeneration
+                          || client != owner
+                          || watches.get(id) != holder[0]) return;
+                      try {
+                        scriptCommand(
+                            CoreRuntime.object(
+                                command.getString("handler"),
+                                CoreRuntime.args(
+                                    "data",
+                                    event,
+                                    "event",
+                                    command,
+                                    "language",
+                                    Appearance.language())));
+                        if (event.optString("kind").equals("data")
+                            && !command.optString("mode").equals("sse")
+                            && command.optInt("intervalMs") == 0
+                            && watches.get(id) == holder[0]) {
+                          watches.remove(id);
+                          watchPlans.remove(id);
+                          holder[0].close();
+                        }
+                      } catch (Exception e) {
+                        error(e);
+                      }
+                    }));
+    holder[0] = watch;
+    watches.put(id, watch);
+    watch.start();
   }
 
   TextWatcher watcher(Runnable r) {
@@ -597,22 +677,62 @@ public final class MainActivity extends Activity {
   private void scriptCommand(JSONObject command) {
     try {
       switch (command.optString("kind")) {
+        case "batch":
+          JSONArray commands = command.getJSONArray("commands");
+          if (commands.length() > 12) throw new IllegalArgumentException("Command batch too large");
+          for (int i = 0; i < commands.length(); i++) scriptCommand(commands.getJSONObject(i));
+          break;
+        case "none":
+          break;
+        case "viewer":
+          textViewer(
+              command.optString("title"), Helpers.pretty(Helpers.redact(command.get("data"))));
+          break;
+        case "workspace":
+          workspace();
+          break;
+        case "watch":
+          startWatch(command);
+          break;
+        case "cancelWatch":
+          String watchId = command.getString("id");
+          ReadWatch watch = watches.remove(watchId);
+          if (watch != null) watch.close();
+          watchPlans.remove(watchId);
+          break;
+        case "render":
+          if (scriptView == null) break;
+          View target = scriptView.refs.get(command.getString("slot"));
+          if (!(target instanceof ViewGroup))
+            throw new IllegalArgumentException("Unknown script slot");
+          ViewGroup slot = (ViewGroup) target;
+          slot.removeAllViews();
+          NativeViews fragment = new NativeViews(this, this::scriptNavigation);
+          fragment.build(command.getJSONObject("tree"), 0);
+          fragment.attach(slot, fragment.root, fragment.rootNode);
+          break;
         case "screen":
-          screen(command.optString("title"), command.optString("hint"), this::workspace);
-          NativeViews ui = new NativeViews(this, this::scriptNavigation);
-          ui.build(command.getJSONObject("tree"), 0);
-          ui.attach(content, ui.root, ui.rootNode);
+          screen(
+              command.optString("title"),
+              command.optString("hint"),
+              command.has("back")
+                  ? () -> scriptCommand(command.optJSONObject("back"))
+                  : this::workspace);
+          scriptView = new NativeViews(this, this::scriptNavigation);
+          scriptView.build(command.getJSONObject("tree"), 0);
+          scriptView.attach(content, scriptView.root, scriptView.rootNode);
           break;
         case "request":
           if (client == null) throw new IllegalStateException("请先连接实例");
           String path = command.getString("path"), method = command.optString("method", "GET");
           JSONObject body = command.optJSONObject("body");
+          ApiClient requestOwner = client;
           Runnable run =
               () ->
                   async(
                       () ->
                           ApiClient.json(
-                              client.request(
+                              requestOwner.request(
                                   path,
                                   method,
                                   body == null
@@ -633,7 +753,10 @@ public final class MainActivity extends Activity {
                         scriptCommand(response);
                       });
           if (!method.equals("GET") && !method.equals("HEAD"))
-            confirm("执行写入", method + " " + path, run);
+            confirm(
+                command.optString("confirmTitle", "执行写入"),
+                command.optString("confirmMessage", method + " " + path),
+                run);
           else run.run();
           break;
         case "event":
@@ -650,7 +773,11 @@ public final class MainActivity extends Activity {
                           "connectionId",
                           selected == null ? "" : selected.id,
                           "modern",
-                          client != null && client.modern),
+                          client != null && client.modern,
+                          "name",
+                          selected == null ? "" : selected.name,
+                          "group",
+                          selected == null ? "" : selected.group),
                       "language",
                       Appearance.language())));
           break;
@@ -702,29 +829,8 @@ public final class MainActivity extends Activity {
   }
 
   private void overview() {
-    screen(selected.name, "运行概览", this::workspace);
-    LinearLayout status = card("已连接", selected.group);
-    navRow(status, "服务地址", selected.url, "◉", null);
-    LinearLayout stats = vertical();
-    content.addView(stats);
-    stats.addView(label("正在读取…", 14, MUTED));
+    scriptCommand(CoreRuntime.args("kind", "event", "handler", "monitor.open", "page", "status"));
     bottomNav(true, "总览");
-    async(
-        () -> new ManagementApi(client).overview(),
-        data -> {
-          stats.removeAllViews();
-          StatusDashboard.render(this, stats, data);
-          button(
-              stats,
-              "原始状态",
-              () -> {
-                try {
-                  textViewer("原始状态", Helpers.pretty(Helpers.redact(data)));
-                } catch (Exception e) {
-                  error(e);
-                }
-              });
-        });
   }
 
   private void profiles() {
@@ -1676,6 +1782,7 @@ public final class MainActivity extends Activity {
   @Override
   protected void onDestroy() {
     generation++;
+    stopWatches(false);
     if (updater != null) updater.close();
     if (transport != null) transport.cancel();
     worker.shutdownNow();
